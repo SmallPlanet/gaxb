@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:planetCore="http://schema.smallplanet.com/PlanetCore"
+	xmlns:planetCoreShared="http://schema.smallplanet.com/PlanetCoreShared"
+	xmlns:planetTypes="http://schema.smallplanet.com/PlanetTypes"
+	targetNamespace="http://schema.smallplanet.com/PlanetCore">
+    
+	<import namespace="http://schema.smallplanet.com/PlanetTypes" schemaLocation="../PlanetTypes.xsd"/>
+	<import namespace="http://schema.smallplanet.com/PlanetCoreShared" schemaLocation="../PlanetCoreShared.xsd"/>
+
+
+	<!-- Super Classes -->
+
+	<element name="ObservableObject" type="planetCore:ObservableObject" />
+	<complexType name="ObservableObject">
+		<annotation>
+			<appinfo>import java.util.*;|Map&lt;String, Object&gt; bindings = new HashMap&lt;String, Object&gt;();</appinfo>
+			<appinfo>import java.util.*;|Map&lt;String, Object&gt; resolvedRepObjBindings = new HashMap&lt;String, Object&gt;();</appinfo>
+		</annotation>
+		<attribute name="title" type="string" />
+	</complexType>
+
+	<element name="GhostEntity" type="planetCore:GhostEntity"></element>
+	<complexType name="GhostEntity">
+		<complexContent>
+			<extension base="planetCore:ObservableObject">
+				<attribute name="tag" type="string" />
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="Entity" type="planetCore:Entity"></element>
+	<complexType name="Entity">
+		<annotation>
+			<appinfo>import android.view.View;|View view;</appinfo>
+			<appinfo>import com.smallplanet.PlanetCore.Android.PlanetCoreActivity;|PlanetCoreActivity context;</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="planetCore:ObservableObject">
+				<sequence>
+					<any minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
+				<attributeGroup ref="planetCoreShared:EntityShared" />				
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<element name="Scene" type="planetCore:Scene"></element>
+	<complexType name="Scene">
+		<complexContent>
+			<extension base="planetCore:Entity">
+				<attribute name="portrait" type="boolean" />
+				<attribute name="portraitUpsideDown" type="boolean" />
+				<attribute name="landscapeRight" type="boolean" />
+				<attribute name="landscapeLeft" type="boolean" />
+				<attribute name="orientationLocked" type="boolean" />
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<element name="Image">
+		<annotation>
+			<appinfo>import android.widget.ImageView;|ImageView imageView;</appinfo>
+		</annotation>
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attributeGroup ref="planetCoreShared:ImageShared" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<element name="Button" type="planetCore:Button" />
+	<complexType name="Button">
+		<annotation>
+			<appinfo>import android.widget.ImageButton;|ImageButton buttonView;</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="planetCore:Entity">
+				<attributeGroup ref="planetCoreShared:ButtonShared" />
+				<!--
+				<attribute name="labelNormal" type="string" />
+				<attribute name="labelHighlighted" type="string" />
+				<attribute name="labelDisabled" type="string" />
+				<attribute name="labelSelected" type="string" />
+				<attribute name="iconNormal" type="planetTypes:path" />
+				<attribute name="iconHighlighted" type="planetTypes:path" />
+				<attribute name="iconSelectedHighlighted" type="planetTypes:path" />
+				<attribute name="iconDisabled" type="planetTypes:path" />
+				<attribute name="iconSelected" type="planetTypes:path" />
+				<attribute name="backgroundNormal" type="planetTypes:path" />
+				<attribute name="backgroundHighlighted" type="planetTypes:path" />
+				<attribute name="backgroundDisabled" type="planetTypes:path" />
+				<attribute name="backgroundSelected" type="planetTypes:path" />
+				<attribute name="onTouchDown" type="planetTypes:pub" />
+				<attribute name="onTouchUp" type="planetTypes:pub" />
+				<attribute name="onDragExit" type="planetTypes:pub" />
+				<attribute name="onDragInside" type="planetTypes:pub" />
+				<attribute name="onDragging" type="planetTypes:pub" />
+				<attribute name="onDraggingDone" type="planetTypes:pub" />
+				
+				<attribute name="contentMode" type="planetCore:ContentMode" />
+				<attribute name="showHighlightOnTouch" type="boolean" />
+				<attribute name="selected" type="boolean" />
+				<attribute name="intermediateDisableDuration" type="float" />
+				<attribute name="isToggle" type="boolean" />
+				<attribute name="enabled" type="boolean" />
+				-->
+			</extension>
+		</complexContent>
+	</complexType>
+	
+</schema>

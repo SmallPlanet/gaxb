@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:lg="http://schema.smallplanet.com/Logistics"
+	xmlns:foo="http://schema.smallplanet.com/Foo"
+	xmlns:bar="http://schema.smallplanet.com/Bar"
+    targetNamespace="http://schema.smallplanet.com/Logistics">
+	
+	<simpleType name="PackageSize">
+		<annotation>
+			<appinfo>TYPEDEF</appinfo>
+		</annotation>
+        <restriction base="string">
+			<enumeration value = "PACKAGE_TINY"/>
+			<enumeration value = "PACKAGE_SMALL"/>
+			<enumeration value = "PACKAGE_MEDIUM"/>
+			<enumeration value = "PACKAGE_LARGE"/>
+			<enumeration value = "PACKAGE_HUGE"/>
+			<enumeration value = "PACKAGE_MAMMOTH"/>
+		</restriction>
+    </simpleType>
+		
+	<element name="Package" type="lg:Package" />
+	<complexType name="Package" >
+		<sequence>
+			<element name="ElementA" type="string" minOccurs="0" maxOccurs="1"/>
+			<element name="ElementB" type="string" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="title" type="string" use="required" />
+		<attribute name="a" type="boolean" use="required" />
+		<attribute name="b" type="short" use="required" />
+		<attribute name="c" type="int" use="required" />
+		<attribute name="d" type="nonNegativeInteger" use="required" />
+		<attribute name="e" type="positiveInteger" use="required" />
+		<attribute name="f" type="long" use="required" />
+		<attribute name="g" type="base64Binary" use="required" />
+		<attribute name="h" type="decimal" use="required" />
+		<attribute name="i" type="float" use="required" />
+		<attribute name="j" type="double" use="required" />
+		<attribute name="k" type="byte" use="required" />
+		<attribute name="l" type="date" use="required" />
+		<attribute name="m" type="dateTime" use="required" />
+		<attribute name="size" type="lg:PackageSize" use="required" />
+	</complexType>
+	
+	<element name="Container">
+        <complexType>
+			<sequence>
+				<element ref="lg:Package" minOccurs="1" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+	</element>
+	
+</schema>

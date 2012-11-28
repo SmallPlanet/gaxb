@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:planetCoreShared="http://schema.smallplanet.com/PlanetCoreShared"
+	xmlns:planetTypes="http://schema.smallplanet.com/PlanetTypes"
+	targetNamespace="http://schema.smallplanet.com/PlanetCoreShared">
+    
+	<import namespace="http://schema.smallplanet.com/PlanetTypes" schemaLocation="PlanetTypes.xsd"/>
+
+	<attributeGroup name="EntityShared">
+		<attribute name="bounds" type="planetTypes:rect" />
+		<attribute name="color" type="planetTypes:color" />
+		<attribute name="hidden" type="boolean" />
+	</attributeGroup>
+	
+	<attributeGroup name="ImageShared">
+		<attribute name="urlPath" type="planetTypes:path" />
+	</attributeGroup>
+	
+	<attributeGroup name="ButtonShared">
+		<attribute name="iconNormal" type="planetTypes:path" />
+		<attribute name="onTouchUp" type="planetTypes:pub" />
+	</attributeGroup>
+		
+</schema>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:planetTypes="http://schema.smallplanet.com/PlanetTypes"
+	targetNamespace="http://schema.smallplanet.com/PlanetTypes">
+
+	<!-- Type declarations for custom classes -->
+	<simpleType name="color">
+		<!-- A color, represented in #rrggbbaa format. Remember the # is required! -->
+		<annotation>
+			<appinfo>
+				<objc>tColor</objc>
+				<java>tColor</java>
+			</appinfo>
+		</annotation>
+		<restriction base="string" />
+	</simpleType>
+
+	<simpleType name="vec2">
+		<!-- A 2D vector, can represent a point or a size. Use the format "x,y" or "w,h" -->
+		<annotation>
+			<appinfo>
+				<objc>tVector2</objc>
+				<java>tVector2</java>
+			</appinfo>
+		</annotation>
+		<restriction base="string" />
+	</simpleType>
+
+	<simpleType name="vec3">
+		<!-- A 3D vector. Use the format "x,y,z" -->
+		<annotation>
+			<appinfo>
+				<objc>tVector3</objc>
+				<java>tVector3</java>
+			</appinfo>
+		</annotation>
+		<restriction base="string" />
+	</simpleType>
+
+	<simpleType name="vec4">
+		<!-- A 4D Vector. Format:x,y,z,t -->
+		<annotation>
+			<appinfo>
+				<objc>tVector4</objc>
+				<java>tVector4</java>
+			</appinfo>
+		</annotation>
+		<restriction base="string" />
+	</simpleType>
+
+	<simpleType name="rect">
+		<!-- A rectangle. Use the format "x,y,w,h". Similar to vec4 -->
+		<annotation>
+			<appinfo>
+				<objc>tRect</objc>
+				<java>tRect</java>
+			</appinfo>
+		</annotation>
+		<restriction base="string" />
+	</simpleType>
+
+	<simpleType name="json">
+		<!-- A json string. 2 formats are availble: Traditional json (supports nesting): {"src": "Images/Sun.png", "hOffset": 250, } Simplified format (no nesting): src=Images/Sun.png,hOffset=250 -->
+		<annotation>
+			<appinfo>
+				<objc>tJSON</objc>
+				<java>tRect</java>
+			</appinfo>
+		</annotation>
+		<restriction base="string" />
+	</simpleType>
+
+	<simpleType name="pub">
+		<annotation>
+			<appinfo>
+				<objc>NSString</objc>
+				<java>String</java>
+			</appinfo>
+		</annotation>
+		<restriction base="string" />
+	</simpleType>
+
+	<simpleType name="sub">
+		<annotation>
+			<appinfo>
+				<objc>NSString</objc>
+				<java>String</java>
+			</appinfo>
+		</annotation>
+		<restriction base="string" />
+	</simpleType>
+
+	<simpleType name="path">
+		<annotation>
+			<appinfo>
+				<objc>NSString</objc>
+				<java>String</java>
+			</appinfo>
+		</annotation>
+		<restriction base="string" />
+	</simpleType>
+	
+	<simpleType name="classRef">
+		<annotation>
+			<appinfo>
+				<objc>NSString</objc>
+				<java>String</java>
+			</appinfo>
+		</annotation>
+		<restriction base="string" />
+	</simpleType>
+	
+	<simpleType name="titleRef">
+		<annotation>
+			<appinfo>
+				<objc>NSString</objc>
+				<java>String</java>
+			</appinfo>
+		</annotation>
+		<restriction base="string" />
+	</simpleType>
+
+</schema>

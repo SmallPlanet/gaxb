@@ -1,0 +1,1662 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:planetCore="http://schema.smallplanet.com/PlanetCore"
+	xmlns:planetCoreShared="http://schema.smallplanet.com/PlanetCoreShared"
+	xmlns:planetTypes="http://schema.smallplanet.com/PlanetTypes"
+	targetNamespace="http://schema.smallplanet.com/PlanetCore">
+    
+	<import namespace="http://schema.smallplanet.com/PlanetTypes" schemaLocation="../PlanetTypes.xsd"/>
+	<import namespace="http://schema.smallplanet.com/PlanetCoreShared" schemaLocation="../PlanetCoreShared.xsd"/>
+
+	<!-- 'In', 'Out', and 'Both' refer to the easing of the tween, the first part of the name is the mathematic description of the curve ('quad' is short for quadratic, 'exp' is short for exponential) -->
+	<simpleType name="PlanetTween">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="UIViewEaseInOut" />
+			<enumeration value="UIViewEaseIn" />
+			<enumeration value="UIViewEaseOut" />
+			<enumeration value="UIViewEaseLinear" />
+			<enumeration value="linear" />
+			<enumeration value="halfQuadIn" />
+			<enumeration value="halfQuadOut" />
+			<enumeration value="halfQuadBoth" />
+			<enumeration value="quadIn" />
+			<enumeration value="quadOut" />
+			<enumeration value="quadBoth" />
+			<enumeration value="cubicIn" />
+			<enumeration value="cubicOut" />
+			<enumeration value="cubicBoth" />
+			<enumeration value="quinticIn" />
+			<enumeration value="quinticOut" />
+			<enumeration value="quinticBoth" />
+			<enumeration value="expIn" />
+			<enumeration value="expOut" />
+			<enumeration value="expBoth" />
+			<enumeration value="circularIn" />
+			<enumeration value="circularOut" />
+			<enumeration value="circularBoth" />
+			<enumeration value="overshootIn" />
+			<enumeration value="overshootOut" />
+			<enumeration value="overshootBoth" />
+			<enumeration value="bounceIn" />
+			<enumeration value="bounceOut" />
+			<enumeration value="bounceBoth" />
+			<enumeration value="springIn" />
+			<enumeration value="springOut" />
+			<enumeration value="springBoth" />
+			<enumeration value="rumble" />
+			<enumeration value="rumbleIn" />
+			<enumeration value="rumbleOut" />
+		</restriction>
+	</simpleType>
+
+	<!-- Super Classes -->
+
+	<element name="ObservableObject" type="planetCore:ObservableObject" />
+	<complexType name="ObservableObject">
+		<!-- @category Base Classes -->
+		<!-- An ObservableObject is the base class of almost everything in planet. It allows representedObjectBindings to function, and also allows title bindings for controllers to function. It should not be used on 
+			it's own: look at Entity instead. -->
+		<annotation>
+			<appinfo>NSMutableDictionary * bindings;</appinfo>
+			<appinfo>NSMutableArray * resolvedRepObjBindings;</appinfo>
+			<appinfo>NSMutableDictionary * query;</appinfo>
+		</annotation>
+		<attribute name="title" type="string" />
+		<attribute name="representedObjectBindings" type="planetTypes:json" />
+	</complexType>
+
+	<element name="GhostEntity" type="planetCore:GhostEntity"/>
+	<complexType name="GhostEntity">
+		<!-- @category Base Classes -->
+		<!-- A ghost entity is an entity that does not have a view, so it does not need bounds. In normal use, GhostEntity will not be used on it's own, it should only be used as a base class for other things. -->
+		<annotation>
+			<appinfo>BOOL ghostIsLoaded;</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="planetCore:ObservableObject">
+				<attribute name="tag" type="string" /> <!-- Default is nil. An arbitrary string which can be used to identify the GhostEntity. -->
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="Entity" type="planetCore:Entity"></element>
+	<complexType name="Entity">
+
+		<!-- @category Base Classes -->
+
+		<!-- An entity is the basic building block of PlanetApp. It has a view, which can in turn, contain many other views. <br/> While it has very minimal appearance itself, a PlanetApp entity is a parent to almost 
+			all of the other entities in PlanetApp that have a visual component. -->
+
+		<annotation>
+			<appinfo>UIView * view;</appinfo>
+			<appinfo>PlanetAppController|PlanetAppController * appcontroller;</appinfo>
+			<appinfo>BOOL ignoreSubEntityViews;</appinfo>
+			<appinfo>BOOL ignoreNextRestoreViewState;</appinfo>
+			<appinfo>BOOL parentCheckedForBounds;</appinfo>
+			<appinfo>BOOL shouldStopObservingFrame;</appinfo>
+			<appinfo>CGRect designedBounds;</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="planetCore:ObservableObject">
+				<sequence>
+					<any minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
+				<attribute name="rotation" type="planetTypes:vec3" /> <!-- The rotation to rotate the view, in degrees, expressed in 3D. Expects the form x,y,z. For 2D rotates, use zeros. Example: 90,0,0 to perform a 90 degree right rotate -->
+				<attribute name="scale" type="float" /> <!-- The scale of the view. Use this only if you know you want your view to be scaled up or down. -->
+				<attribute name="scale3D" type="planetTypes:vec3" /> <!-- The scale of the view, with all 3 vectors available for independant scaling. Use "scale" instead if you want uniform scaling. "x,y,z". -->
+				<attribute name="translation3D" type="planetTypes:vec3" /> <!-- Move things around in 3D space. "x,y,z". -->
+				<attribute name="bounds" type="planetTypes:rect" /> <!-- The bounds of the entity, in the format "x,y,w,h". <br/>Default value is 0,0,0,0. If the width or height begins at zero, that dimension is set to the width of it's parent entity. So a view with no bounds, or 
+					bounds of 0,0,0,0 will fill it's parent entity. -->
+				<attribute name="origin" type="planetTypes:vec2" /> <!-- The origin component (x,y) of the bounds rectangle. Useful for animating entity movement without redundant size information and for certain types of Entities (Images, for example) that will automatically fill 
+					in the size based on the image if origin is specified and bounds is not -->
+				<attribute name="anchorPoint" type="planetTypes:vec2" /> <!-- Specifies the location within the Entity that corresponds to the position relative to which transformations (like rotations) will occur. -->
+				<attribute name="color" type="planetTypes:color" /> <!-- The main color of the entity. This is interpreted by different entities in different ways. It is also ignored by some entities. -->
+				<attribute name="hidden" type="boolean" /> <!-- Whether or not to hide the entity. Default is false (entity is visible). -->
+				<attribute name="debug" type="boolean" use="optional" default="false"/> <!-- Default is false. This is for debugging, and is interpreted by different entities in different ways. Do not use this in shipping code. -->
+				<attribute name="floating" type="boolean" /> <!-- Default is false. A "floating" entity is one whose bounds are not defined by the parent, but by the absolute scene. You may think of this as absolute positioning vs relative positioning. -->
+				<attribute name="userEnabled" type="boolean" /> <!-- Default is true. Whether the user can interact with this entity. Turn this off to allow taps to pass through this view -->
+				<attribute name="tag" type="string" /> <!-- Default is nil. An arbitrary string which can be used to identify the entity. -->
+				<attribute name="global" type="string" /> <!-- Default is false. A global view is one that is not unloaded during view changes. Very rarely used. -->
+				<attribute name="clips" type="boolean" /> <!-- Default is false. A view that clips to it's bounds will not draw outside it's set bounds. -->
+				<attribute name="opaque" type="boolean" /> <!-- Default is false. An opaque view can render faster than a transparent one. Even when setting the alpha to 1, setting opaque to true can speed up performance -->
+				<attribute name="cornerRadius" type="float" /> <!-- Default 0. Clip the corners of this view to the given radius. If specified, clips will automatically be set to true. -->
+				<attribute name="flexibleWidth" type="boolean" /> <!-- Default false. For resizing due to orientation changes and animations. Flexible width allows the view's width to stretch. -->
+				<attribute name="flexibleHeight" type="boolean" /><!-- Default false. For resizing due to orientation changes and animations. Flexible height allows the view's height to stretch. -->
+				<attribute name="flexibleTop" type="boolean" /><!-- Default false. For resizing due to orientation changes and animations. Flexible top allows the view's top margin to stretch -->
+				<attribute name="flexibleLeft" type="boolean" /><!-- Default false. For resizing due to orientation changes and animations. Flexible left allows the view's left margin to stretch. -->
+				<attribute name="flexibleRight" type="boolean" /><!-- Default false. For resizing due to orientation changes and animations. Flexible right allows the view's right margin to stretch. -->
+				<attribute name="flexibleBottom" type="boolean" /><!-- Default false. For resizing due to orientation changes and animations. Flexible bottom allows the view's bottom margin to stretch. -->
+
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<element name="TouchlessEntity">
+	<!-- An entity that allows touches to it's children, but doesn't catch touches itself. Useful for creating overlays that can be hidden and shown, without blocking the underlying view. -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity"/>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="RepresentedObject">
+		<!-- A way to access an object from code, via bindings. Controllers will set this, to allow the XML to have access to various properties in the bindings. There are 2 ways to use a representedObject: via entity 
+			bindings ($thisEntitiesTitle.someValue) and the children of represented objects can directly bind to someValue in their representedObjectBindings. -->
+		<!-- @category Controllers -->
+		<complexType>
+			<annotation>
+				<appinfo>NSObject * representedObject;</appinfo>
+			</annotation>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="oneWay" type="boolean" /> <!-- The binding will only go TO the view, but changes <br/> to the view won't be reflected in the bound object -->
+					<attribute name="subscribe" type="planetTypes:sub" /><!-- A subscribe that allows you to easily change the representedObject via this subscribe. Expects the argument "representedObject" -->
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+
+	<element name="RepresentedObjectGhost" type="planetCore:RepresentedObjectGhost"/>
+	<complexType name="RepresentedObjectGhost">
+		<!-- Same as representedObjects, but with no entity -->
+		<!-- @category Controllers -->
+		<annotation>
+			<appinfo>NSObject * representedObject;</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="planetCore:GhostEntity">
+				<sequence>
+					<any minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
+				<attribute name="oneWay" type="boolean" /> <!-- The binding will only go TO the view, but changes <br/> to the view won't be reflected in the bound object -->
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<!-- TODO: Deprecate -->
+	<element name="TouchableEntity" type="planetCore:TouchableEntity"></element>
+	<complexType name="TouchableEntity">
+		<!-- Base class for touchable stuff. -->
+		<!-- @category Base Classes -->
+		<annotation>
+			<appinfo>NSMutableArray * allTouches;</appinfo>
+			<appinfo>CGPoint centerPoint;</appinfo>
+			<appinfo>float baseScale;</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="planetCore:Entity">
+				<attribute name="onTouchDown" type="planetTypes:pub" /> <!-- Publishes the named notification whenever the user's finger touches down on the entity. -->
+				<attribute name="onTouchUp" type="planetTypes:pub" /> <!-- Publishes the named notification whenever the user's finger lifts off from the entity. -->
+				<attribute name="onSelect" type="planetTypes:pub" /> <!-- Same as onTouchUp. -->
+				<attribute name="onDragExit" type="planetTypes:pub" /> <!-- Publishes the named notification whenever the user's finger leaves the bounds of the entity while still on the screen. -->
+				<attribute name="onDrag" type="planetTypes:pub" /> <!-- Publishes the named notification whenever the user's finger moves around inside the view. -->
+				<attribute name="draggable" type="boolean" />
+				<attribute name="zoomable" type="boolean" />
+				<attribute name="rotatable" type="boolean" />
+				<attribute name="ignoreTouchBounds" type="boolean" />
+				<attribute name="useGlobalAnchor" type="boolean" />
+			</extension>
+		</complexContent>
+
+	</complexType>
+
+	<!-- Entities -->
+	
+	<simpleType name="Platform">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="iPhone" />
+			<enumeration value="iPad" />
+		</restriction>
+	</simpleType>
+	
+	<element name="Override">
+        <complexType>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<attribute name="platform" type="planetCore:Platform" />
+					<attribute name="entity" type="string" />
+					<attribute name="key" type="string" />
+					<attribute name="value" type="string" />
+				</extension>
+			</complexContent>
+        </complexType>
+	</element>
+
+	<element name="Scene">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="portrait" type="boolean" />
+					<attribute name="portraitUpsideDown" type="boolean" />
+					<attribute name="landscapeRight" type="boolean" />
+					<attribute name="landscapeLeft" type="boolean" />
+					<attribute name="orientationLocked" type="boolean" />
+					<attribute name="publishOnLoad" type="planetTypes:pub" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<element name="InnerScene">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<sequence>
+						<any minOccurs="0" maxOccurs="unbounded" />
+					</sequence>
+					<attribute name="proxyNotifications" type="boolean" default="true" />
+					<attribute name="proxyInternalNotifications" type="boolean" default="true" />
+					<attribute name="proxyExternalNotifications" type="boolean" default="true" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="Gradient">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="colorA" type="planetTypes:color" />
+					<attribute name="colorB" type="planetTypes:color" />
+					<attribute name="radius" type="float" />
+					<attribute name="lineWidth" type="float" />
+					<attribute name="lineColor" type="planetTypes:color" />
+					<attribute name="radial" type="boolean" />
+					<attribute name="horizontal" type="boolean" />
+				</extension>
+				<!-- radial creates a radial gradient from the center of the view outward, unaffected by radius attr -->
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="Progress">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="progress" type="float" />
+					<attribute name="style" type="string" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<simpleType name="BillboardResolution">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="Full" />
+			<enumeration value="Half" />
+			<enumeration value="Off" />
+		</restriction>
+	</simpleType>
+
+	<element name="Alert">
+		<complexType>
+			<annotation>
+				<appinfo>NSData * alertDefinition;</appinfo>
+				<appinfo>id delegate;</appinfo>
+				<appinfo>id item;</appinfo>
+			</annotation>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<sequence>
+						<any minOccurs="0" maxOccurs="unbounded" />
+					</sequence>
+					<attribute name="subscribe" type="planetTypes:sub" use="required" />
+					<attribute name="subscribeClose" type="planetTypes:sub" use="optional" />
+					<attribute name="queueKey" type="string" use="optional" />
+					<attribute name="modalBackgroundColor" type="planetTypes:color" use="optional" />
+					<attribute name="radialBackground" type="boolean" use="optional" />
+					<attribute name="timespan" type="float" use="optional" />
+					<attribute name="rotationDuration" type="float" use="optional" />
+					<attribute name="transitionDuration" type="float" use="optional" />
+					<attribute name="billboardResolution" type="planetCore:BillboardResolution" use="optional" />
+					<attribute name="outsideTapsDismiss" type="boolean" use="optional" />
+					<attribute name="sceneUrl" type="string" use="optional" />
+					<attribute name="onClose" type="planetTypes:pub" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+
+	<element name="Script">
+		<complexType mixed="true">
+			<annotation>
+				<appinfo>LuaScript|LuaScript * lua;</appinfo>
+				<appinfo>NSTimer|NSTimer * timer;</appinfo>
+			</annotation>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<attribute name="subscribe" type="planetTypes:sub" use="optional" />
+					<attribute name="urlPath" type="planetTypes:path" use="optional" /><!-- This optional bundle path will override any script that is put inside the script tag with the script at the specified path -->
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="DataSection">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<attribute name="name" type="string" use="optional" />
+					<attribute name="path" type="string" use="required" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="DataFilter">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<attribute name="key" type="string" use="required" />
+					<attribute name="op" type="string" use="required" />
+					<attribute name="value" type="string" use="required" />
+					<attribute name="valueIsString" type="boolean" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="DataSort">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<attribute name="key" type="string" use="optional" />
+					<attribute name="ascending" type="boolean" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="DataSource">
+		<complexType>
+			<annotation>
+				<appinfo>SPSectionedDataSource|SPSectionedDataSource * datasource;
+				</appinfo>
+				<appinfo>NSObject * data;</appinfo>
+			</annotation>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<sequence>
+						<element ref="planetCore:DataSort" minOccurs="0" maxOccurs="unbounded" />
+						<element ref="planetCore:DataFilter" minOccurs="0" maxOccurs="unbounded" />
+						<element ref="planetCore:DataSection" minOccurs="0" maxOccurs="unbounded" />
+					</sequence>
+					<attribute name="source" type="planetTypes:path" use="required" />
+					<attribute name="itemsKeyPath" type="string" use="optional" />
+					<attribute name="sectionsKeyPath" type="string" use="optional" />
+					<attribute name="writePath" type="planetTypes:path" use="optional" />
+					<attribute name="subscribeSave" type="planetTypes:sub" use="optional" />
+					<attribute name="useCache" type="boolean" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="BreakPoint">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<attribute name="subscribe" type="planetTypes:pub" use="optional" /><!-- use '*' character to listen to all notifications -->
+					<attribute name="logToConsole" type="boolean" use="optional" default="false"/><!-- value of true will log this breakpoint to the console instead of breaking -->
+					<attribute name="verboseLog" type="boolean" use="optional" default="false" /><!-- print all of the notification arguments? -->
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="SeriesIndex">
+		<complexType>
+			<annotation>
+				<appinfo>UITouch * _touch;</appinfo>
+				<appinfo>CGPoint _lastTouchPos;</appinfo>
+				<appinfo>SPTableViewDataSource|SPTableViewDataSource * datasource;</appinfo>
+			</annotation>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="source" type="string" />
+					<attribute name="sourceSection" type="string" />
+					<attribute name="leftImagePath" type="planetTypes:path" />
+					<attribute name="middleImagePath" type="planetTypes:path" />
+					<attribute name="rightImagePath" type="planetTypes:path" />
+					<attribute name="selectedImagePath" type="planetTypes:path" />
+					<attribute name="selectedIndex" type="int" />
+					<attribute name="numberOfIndices" type="int" />
+					<attribute name="onChange" type="planetTypes:pub" />
+					<attribute name="onTouchUp" type="planetTypes:pub" />
+					<attribute name="onTouchDown" type="planetTypes:pub" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="SeriesImage">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<attribute name="urlPath" type="planetTypes:path" use="required" />
+					<attribute name="iconOverridePath" type="planetTypes:path" use="optional" />
+					<attribute name="selectedOverridePath" type="planetTypes:path" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<simpleType name="ContentMode">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="scaletofill" />
+			<enumeration value="scaleaspectfit" />
+			<enumeration value="scaleaspectfill" />
+			<enumeration value="redraw" />
+			<enumeration value="center" />
+			<enumeration value="top" />
+			<enumeration value="bottom" />
+			<enumeration value="left" />
+			<enumeration value="right" />
+			<enumeration value="topleft" />
+			<enumeration value="topright" />
+			<enumeration value="bottomleft" />
+			<enumeration value="bottomright" />
+		</restriction>
+	</simpleType>
+
+
+	<element name="Image">
+		<complexType>
+			<annotation>
+				<appinfo>UIView* saved_parent;</appinfo>
+			</annotation>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="maskPath" type="planetTypes:path" />
+					<attribute name="urlPath" type="planetTypes:path" />
+					<attribute name="altUrlPath" type="planetTypes:path" />
+					<attribute name="contentMode" type="planetCore:ContentMode" />
+				<!--	<attribute name="autoresize" type="boolean" />  -->
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<simpleType name="AnimatedImageOrientation">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="none" /><!-- upper left, will NOT update the bounds each frame -->
+			<enumeration value="default" /><!-- upper left, WILL update the bounds each frame -->
+			<enumeration value="top" /><!-- centered between the left and right at the top -->
+			<enumeration value="topRight" />
+			<enumeration value="bottomLeft" />
+			<enumeration value="bottom" /><!-- centered between the left and right at the bottom -->
+			<enumeration value="bottomRight" />
+			<enumeration value="left" /><!-- centered between the top and bottom on the left -->
+			<enumeration value="right" /><!-- centered between the top and bottom on the right -->
+			<enumeration value="centered" /><!-- centered between the left, right, top and bottom -->
+		</restriction>
+	</simpleType>
+	
+	<element name="AnimatedImage">
+		<complexType>
+			<annotation>
+				<appinfo>UIImageView* imageView;</appinfo>
+				<appinfo>UIImage* currentImage;</appinfo>
+				<appinfo>NSMutableArray* imageSequence;</appinfo>
+				<appinfo>float secondsPerFrame;</appinfo>
+				<appinfo>int currentIndex;</appinfo>
+				<appinfo>int numTimesLooped;</appinfo>
+				<appinfo>BOOL isAnimating;</appinfo>
+				<appinfo>NSTimer *animationTimer;</appinfo>
+				<appinfo>CGRect baseBounds;</appinfo>
+			</annotation>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="urlPath" type="planetTypes:path" use="required" />
+					<attribute name="loopCount" type="int" default="1" use="optional" />
+					<attribute name="duration" type="float" default="1.0" use="optional" />
+					<attribute name="sequence" type="string" use="optional" />
+					<attribute name="subscribe" type="string" use="optional" />
+					<attribute name="subscribeStop" type="string" use="optional" />
+					<attribute name="onFinish" type="string" use="optional" />
+					<attribute name="orientation" type="planetCore:AnimatedImageOrientation" use="optional" default="none" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="StretchableImage">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="urlPath" type="planetTypes:path" />
+					<attribute name="leftCapWidth" type="int" />
+					<attribute name="topCapHeight" type="int" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<simpleType name="MovieRepeatMode">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="None" />
+			<enumeration value="One" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="MovieControlStyle">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="none" />
+			<enumeration value="default" />
+			<enumeration value="embedded" />
+			<enumeration value="fullscreen" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="MovieScalingMode">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="none" />
+			<enumeration value="aspectFit" />
+			<enumeration value="aspectFill" />
+			<enumeration value="fill" />
+		</restriction>
+	</simpleType>
+
+	<element name="Movie">
+		<complexType>
+			<annotation>
+				<appinfo>MPMoviePlayerController|MPMoviePlayerController * mp;</appinfo>
+				<appinfo>UIView * pview;</appinfo>
+				<appinfo>UIImageView * firstFrame;</appinfo>
+				<appinfo>UIImageView * lastFrame;</appinfo>
+				<appinfo>UIImageView * backgroundFrame;</appinfo>
+				<appinfo>UIView * contentView;</appinfo>
+				<appinfo>float t;</appinfo>
+				<appinfo>NSTimer * timer;</appinfo>
+				<appinfo>NSObject * delegate;</appinfo>
+				<appinfo>BOOL playAfterLoad;</appinfo>
+				<appinfo>PlanetCore_Embed|PlanetCore_Embed * sceneRenderer;</appinfo>
+				<appinfo>NSString|NSString * currentSubscribePlay;</appinfo>
+				<appinfo>NSString|NSString * currentSubscribeStop;</appinfo>
+				<appinfo>NSString|NSString * currentUrlPath;</appinfo>
+				<appinfo>NSString|NSString * currentFirstFrameUrl;</appinfo>
+				<appinfo>NSString|NSString * currentLastFrameUrl;</appinfo>
+				<appinfo>int currentFrameMode;</appinfo>
+				<appinfo>BOOL urlPathChanged;</appinfo>
+				<appinfo>BOOL movieShouldAutoPlay;</appinfo>
+				<appinfo>BOOL movieFinished;</appinfo>
+				<appinfo>BOOL movieLoaded;</appinfo>
+				<appinfo>BOOL appWasUsingStatusBar;</appinfo>
+				<appinfo>BOOL waitingForLoad;</appinfo>
+			</annotation>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="urlPath" type="planetTypes:path" />
+					<attribute name="firstFrameURL" type="string" />
+					<attribute name="lastFrameURL" type="string" />
+					<attribute name="oneshot" type="boolean" />
+					<attribute name="skipable" type="boolean" />
+					<attribute name="loop" type="boolean" />
+					<attribute name="controlStyle" type="planetCore:MovieControlStyle" use="optional" default="default" />
+					<attribute name="scalingMode" type="planetCore:MovieScalingMode" use="optional" default="fill" />
+					<attribute name="repeatMode" type="planetCore:MovieRepeatMode" default="None" />
+					<attribute name="playbackRate" type="float" use="optional" />
+					<attribute name="subscribePlay" type="planetTypes:sub" />
+					<attribute name="subscribeStop" type="planetTypes:sub" />
+					<attribute name="onFinish" type="planetTypes:pub" />
+					<attribute name="waitForLoad" type="boolean" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="Web" type="planetCore:Web"/>
+	<complexType name="Web">
+		<complexContent>
+			<extension base="planetCore:Entity">
+				<annotation>
+					<appinfo>UIWebView * webview;</appinfo>
+					<appinfo>BOOL offline;</appinfo>
+					<appinfo>id delegate;</appinfo>
+				</annotation>
+				<attribute name="urlPath" type="planetTypes:path" />
+				<attribute name="htmlString" type="string" />
+				<attribute name="storeFullState" type="boolean" />
+				<attribute name="scrollEnabled" type="boolean" default="true" />
+				<attribute name="scalesPageToFit" type="boolean" default="false" />
+				<attribute name="hideUntilInitialLoad" type="boolean" />
+				<attribute name="reloadOnRestore" type="boolean" />
+				<attribute name="offlineUrlPath" type="string" />
+			</extension>
+		</complexContent>
+	</complexType>
+
+
+
+	<element name="Table" type="planetCore:Table" />
+	<complexType name="Table">
+		<annotation>
+			<appinfo>NSObject * cellDelegate;</appinfo>
+			<appinfo>NSMutableArray * currentCustomCells;</appinfo>
+			<appinfo>NSMutableArray * currentCustomSections;</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="planetCore:Entity">
+				<attribute name="source" type="string" />
+				<attribute name="delegate" type="string" />
+				<attribute name="style" type="string" />
+				<!-- "grouped" "plain" -->
+				<attribute name="onSelect" type="planetTypes:pub" />
+				<attribute name="onDragStart" type="planetTypes:pub" />
+				<attribute name="separatorStyle" type="string" />
+				<attribute name="scrollIndicators" type="boolean" />
+				<attribute name="allowsSelection" type="boolean" />
+				<attribute name="definitionURL" type="string" />
+				<attribute name="cellDelegateClass" type="string" />
+				<attribute name="snapToCellEnabled" type="boolean" />
+				<attribute name="pagingEnabled" type="boolean" />
+
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="HorizontalTable">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Table" />
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="Pager">
+		<complexType>
+			<annotation>
+				<appinfo>id tableDatasource;</appinfo>
+				<appinfo>NSMutableDictionary * currentCustomCells;</appinfo>
+				<appinfo>NSMutableArray * customCellSizes;</appinfo>
+			</annotation>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="source" type="string" />
+					<attribute name="definitionURL" type="string" />
+					<attribute name="pageSpacing" type="float" />
+					<attribute name="onTouchUp" type="string" />
+					<attribute name="onTouchDown" type="string" />
+					<attribute name="onDraggingStarted" type="string" />
+					<attribute name="onPageMoveEnded" type="string" />	<!-- notification when user swipes to new page, pageIndex NSNumber included in userInfo -->
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="TableExternalDefinitions">
+		<complexType>
+			<sequence>
+				<element ref="planetCore:TableCell" minOccurs="0" maxOccurs="unbounded" />
+				<element ref="planetCore:TableSection" minOccurs="0" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="TableCell" type="planetCore:TableCell" />
+	<complexType name="TableCell">
+		<annotation>
+			<appinfo>PlanetTableCell|PlanetTableCell * tableCell;</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="planetCore:RepresentedObjectGhost">
+				<attribute name="class" type="string" />
+				<attribute name="bounds" type="planetTypes:rect" />
+				<attribute name="selectionStyle" type="string" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="HorizontalTableCell">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:TableCell" />
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="TableSection" type="planetCore:TableSection" />
+	<complexType name="TableSection">
+		<complexContent>
+			<extension base="planetCore:RepresentedObjectGhost">
+				<attribute name="bounds" type="planetTypes:rect" />
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="HorizontalTableSection">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:TableSection" />
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="Button" type="planetCore:Button" />
+	<complexType name="Button">
+			<annotation>
+				<appinfo>BOOL internalDisabled;</appinfo>
+				<appinfo>CGPoint startInternalDragPoint;</appinfo>
+			</annotation>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="labelNormal" type="string" />
+					<attribute name="labelHighlighted" type="string" />
+					<attribute name="labelDisabled" type="string" />
+					<attribute name="labelSelected" type="string" />
+					<attribute name="iconNormal" type="planetTypes:path" />
+					<attribute name="iconHighlighted" type="planetTypes:path" />
+					<attribute name="iconSelectedHighlighted" type="planetTypes:path" />
+					<attribute name="iconDisabled" type="planetTypes:path" />
+					<attribute name="iconSelected" type="planetTypes:path" />
+					<attribute name="backgroundNormal" type="planetTypes:path" />
+					<attribute name="backgroundHighlighted" type="planetTypes:path" />
+					<attribute name="backgroundDisabled" type="planetTypes:path" />
+					<attribute name="backgroundSelected" type="planetTypes:path" />
+					<attribute name="onTouchDown" type="planetTypes:pub" />
+					<attribute name="onTouchUp" type="planetTypes:pub" />
+					<attribute name="onDragExit" type="planetTypes:pub" />
+					<attribute name="onDragInside" type="planetTypes:pub" />
+					<attribute name="onDragging" type="planetTypes:pub" />
+					<attribute name="onDraggingDone" type="planetTypes:pub" />
+					
+					<attribute name="contentMode" type="planetCore:ContentMode" />
+					<attribute name="showHighlightOnTouch" type="boolean" />
+					<attribute name="selected" type="boolean" />
+					<attribute name="intermediateDisableDuration" type="float" />
+					<attribute name="isToggle" type="boolean" />
+					<attribute name="enabled" type="boolean" />
+				</extension>
+			</complexContent>
+		</complexType>
+		
+			
+
+		
+	<element name="Slider" type="planetCore:Slider"></element>
+	<complexType name="Slider">
+		<complexContent>
+			<extension base="planetCore:Entity">
+				<attribute name="minValue" type="float" />
+				<attribute name="maxValue" type="float" />
+				<attribute name="value" type="float" />
+				<attribute name="continuous" type="boolean" />
+				<attribute name="thumbImg" type="string" />
+				<attribute name="leftImg" type="string" />
+				<attribute name="rightImg" type="string" />
+				<attribute name="onChange" type="planetTypes:pub" /><!-- Fired when the slider value changes -->
+				<attribute name="onTouchUp" type="planetTypes:pub" />
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="Switch">
+		<!-- @category 1.Basic Entities -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<annotation>
+						<appinfo>BOOL shouldAnimateSwitch;</appinfo>
+					</annotation>
+					<attribute name="on" type="boolean" />
+					<attribute name="enabled" type="boolean" />
+					<attribute name="onChange" type="planetTypes:pub" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="Picker">
+		<!-- @category 1.Basic Entities:Picker -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="rowHeight" type="float" />
+					<attribute name="showSelection" type="boolean" />
+					<attribute name="onSelect" type="planetTypes:pub" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="PickerItem">
+		<!-- @category 1.Basic Entities:Picker -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<attribute name="text" type="string" use="required" />
+					<attribute name="value" type="string" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<simpleType name="SwitcherTransition">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="none" />
+			<enumeration value="push" />
+			<enumeration value="flip" />
+			<enumeration value="curl" />
+			<enumeration value="pages" />
+			<enumeration value="fade" />
+			<enumeration value="crossfade" /> 
+			<enumeration value="coverFromBottom" /> 
+			<enumeration value="coverFromTop" /> 
+			<enumeration value="revealFromBottom" /> 
+			<enumeration value="revealFromTop" />
+			<enumeration value="swapFromBottom" />
+			<enumeration value="swapFromTop" />
+		</restriction>
+	</simpleType>
+	
+	<element name="Switcher" type="planetCore:Switcher" />
+	<complexType name="Switcher">
+		<!-- Switcher subscribe can take an index or an elementTitle. -->
+		<!-- @category View Control -->
+		<annotation>
+			<appinfo>PlanetCore_Entity|PlanetCore_Entity * current;</appinfo>
+			<appinfo>PlanetCore_Entity|PlanetCore_Entity * previous;</appinfo>
+			<appinfo>int previous_view_index;</appinfo>
+			<appinfo>int go_back_view_index;</appinfo>
+			<appinfo>BOOL markedForClose;</appinfo>
+			<appinfo>int transitionCounter;</appinfo>
+			<appinfo>NSMutableArray * containerViews;</appinfo>
+			<appinfo>NSMutableArray * definitions;</appinfo>
+			<appinfo>NSMutableArray * activeEntities;</appinfo>
+			<appinfo>NSMutableArray * activeDefinitions;</appinfo>
+			<appinfo>NSMutableDictionary * storage;</appinfo>
+			<appinfo>NSMutableDictionary * viewQueries;</appinfo>
+			<appinfo>BOOL inTransition;</appinfo>
+			<appinfo>BOOL enabled;</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="planetCore:Entity">
+				<attribute name="subscribe" type="planetTypes:sub" />
+				<attribute name="defaultEntity" type="int" />
+				<attribute name="currentIndex" type="int" />
+				<attribute name="modal" type="boolean" />
+				<attribute name="transition" type="planetCore:SwitcherTransition" />
+				<attribute name="transitionDuration" type="float" />
+				<attribute name="openTransition" type="planetCore:SwitcherTransition"/>
+				<attribute name="openTransitionDuration" type="float" />
+				<attribute name="closeTransition" type="planetCore:SwitcherTransition" />
+				<attribute name="closeTransitionDuration" type="float" />
+				<attribute name="allowChangeDuringTransition" type="boolean" />
+				<attribute name="subscribeNext" type="planetTypes:sub" />
+				<attribute name="subscribePrevious" type="planetTypes:sub" />
+				<attribute name="subscribeBack" type="planetTypes:sub" />
+				<attribute name="publishAfterSwitch" type="planetTypes:sub" />
+				<attribute name="ignoreViewState" type="boolean" />
+				<attribute name="createBillboards" type="boolean" default="false" />
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="NavigationStack">
+		<!-- Use the format "::sceneUrl=" to send the sceneUrl argument along with the subscribePush notification -->
+		<!-- @category View Control -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Switcher">
+					<attribute name="subscribePush" type="planetTypes:sub" />
+					<attribute name="subscribePop" type="planetTypes:sub" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="Random">
+		<!-- @category View Control -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Switcher">
+					<attribute name="cycle" type="boolean" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<simpleType name="Gesture_direction">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="left" />
+			<enumeration value="right" />
+			<enumeration value="up" />
+			<enumeration value="down" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="Gesture_type">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="swipe" />
+			<enumeration value="tap" />
+			<enumeration value="pinch" />
+			<enumeration value="pan" />
+			<enumeration value="hold" />
+			<enumeration value="touch" />
+		</restriction>
+	</simpleType>
+
+	<element name="Gestures">
+		<!-- @category Control:Gestures -->
+		<complexType>
+			<annotation>
+				<appinfo>NSMutableDictionary * gestures_map;</appinfo>
+			</annotation>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="onGesture" type="planetTypes:pub" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="Gesture">
+		<!-- @category Control:Gestures -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<attribute name="type" type="planetCore:Gesture_type" use="required" />
+					<attribute name="direction" type="planetCore:Gesture_direction" use="optional" />
+					<attribute name="touches" type="int" use="optional" />
+					<attribute name="onGesture" type="planetTypes:pub" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="OpenGL" type="planetCore:OpenGL" />
+	<complexType name="OpenGL">
+		<annotation>
+			<appinfo>NSMutableArray * delegateStack;</appinfo>
+			<appinfo>NSObject * delegate;</appinfo>
+			<appinfo>BOOL initedDelegate;</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="planetCore:Entity">
+				<attribute name="class" type="string" use="optional" />
+				<attribute name="scene" type="string" use="optional" />
+				<attribute name="api" type="string" use="optional" default="ES1" />
+				<attribute name="clear" type="boolean" use="optional" default="true" />
+				<attribute name="showFrames" type="boolean" use="optional" default="true" />
+				<attribute name="framesPosition" type="planetTypes:vec2" use="optional" default="10,10" />
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<simpleType name="TextLabelVerticalAlignment">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="center" />
+			<enumeration value="top" />
+			<enumeration value="bottom" />
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="TextLabelAlignment">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="left" />
+			<enumeration value="right" />
+			<enumeration value="center" />
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="TextLabelLineBreakMode">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="characterwrap" />
+			<enumeration value="modeclip" />
+			<enumeration value="headtruncation" />
+			<enumeration value="tailtruncation" />
+			<enumeration value="middletruncation" />
+			<enumeration value="wordwrap" />
+		</restriction>
+	</simpleType>
+
+	<element name="TextLabel">
+		<!-- @category 1.Basic Entities -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="value" type="string" use="optional" /> <!-- The value of the label -->
+					<attribute name="font" type="string" use="optional" /> <!-- The name of the font used. Default is helvetica -->
+					<attribute name="fontSize" type="int" use="optional" /> <!-- The size of the font. Default is 12. -->
+					<attribute name="textColor" type="planetTypes:color" use="optional" /> <!-- The color of the text. Default is black. -->
+					<attribute name="alignment" type="planetCore:TextLabelAlignment" use="optional" default="left"/> <!-- Horizontal alignment. Possible values are left (default), center, and right. -->
+					<attribute name="lineBreakMode" type="planetCore:TextLabelLineBreakMode" use="optional" default="wordwrap"/> <!-- The way the line breaks. <br/> Possible values:<br/>wordwrap (default)<br/>characterwrap<br/>modeclip<br/>headtruncation<br/>tailtruncation<br/>middletruncation -->
+					<attribute name="disabled" type="boolean" use="optional" /> <!-- Deprecated. Use userEnabled from Entity instead. -->
+					<attribute name="verticalAlignment" type="planetCore:TextLabelVerticalAlignment" default="center" /> <!-- The vertical alignment of the text. -->
+					<attribute name="adjustFontSizeToFitWidth" type="boolean" use="optional" /><!-- When enabled, the font size will shrink down if the text is too long to fit inside the bounds. The minimumFontSize determines 
+						how small it is allowed to get before truncating. Note that this only works with a single-line label (numberOfLines is set to 1) -->
+					<attribute name="minimumFontSize" type="int" use="optional" /> <!-- The minimumFontSize. See adjustFontSizeToFitWidth. Default is 0. -->
+					<attribute name="baselineAdjustment" type="string" use="optional" /> <!-- Options are: aligncenters, alignbaselines (default), none -->
+					<attribute name="numberOfLines" type="int" use="optional" /> <!-- The number of lines of this label, default is 1, setting it to 0 makes the label accommodate the number of lines needed   -->
+					<attribute name="highlighted" type="boolean" use="optional" /> <!-- Whether the item is highlighted -->
+					<attribute name="highlightedTextColor" type="planetTypes:color" use="optional" /> <!-- The color to use when highlighting. Default is none -->
+					<attribute name="shadowColor" type="planetTypes:color" use="optional" /> <!-- The color of the shadow. Default is no shadow. -->
+					<attribute name="shadowOffset" type="planetTypes:vec2" use="optional" /> <!-- The offset of the shadow, in pixels away from the object. Default is 0,-1, which is a single pixel above the text. -->
+					<attribute name="disableUserInteraction" type="boolean" use="optional" /> <!-- Deprecated. Use userEnabled from Entity instead. -->
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="CoreText" type="planetCore:CoreText" />
+	<complexType name="CoreText">
+		<!-- @category Advanced Entities -->
+		<complexContent>
+			<extension base="planetCore:Entity">
+				<attribute name="htmlString" type="string" use="optional" />
+				<attribute name="htmlFile" type="planetTypes:path" use="optional" />
+				<attribute name="defaultCSS" type="string" use="optional" />
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<element name="CoreLabel">
+		<!-- Use the format "::sceneUrl=" to send the sceneUrl argument along with the subscribePush notification -->
+		<!-- @category View Control -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:CoreText">
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>	
+	
+	<simpleType name="LayoutFlow">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="left" />
+			<enumeration value="right" />
+            <enumeration value="clear" />
+            <enumeration value="center" />
+            <enumeration value="even" />
+            <enumeration value="justified" />
+		</restriction>
+	</simpleType>
+	
+	<element name="Layout">
+		<!-- @category Advanced Entities -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="flow" type="planetCore:LayoutFlow" use="optional" />
+					<attribute name="edgePadding" type="planetTypes:vec2" use="optional" />
+                    <attribute name="itemPadding" type="planetTypes:vec2" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<simpleType name="TextEditorReturnKeyType">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="Go" />
+			<enumeration value="Join" />
+			<enumeration value="Google" />
+			<enumeration value="Next" />
+			<enumeration value="Route" />
+			<enumeration value="Search" />
+			<enumeration value="Send" />
+			<enumeration value="Yahoo" />
+			<enumeration value="Done" />
+			<enumeration value="EmergencyCall" />
+			<enumeration value="Return" />
+		</restriction>
+	</simpleType>
+
+	<element name="TextEditor">
+		<!-- @category 1.Basic Entities -->
+		<complexType>
+			<annotation>
+				<appinfo>UIButton * blockingView;</appinfo>
+			</annotation>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="placeholder" type="string" use="optional" />
+					<attribute name="value" type="string" use="optional" />
+					<attribute name="font" type="string" use="optional" />
+					<attribute name="fontSize" type="int" use="optional" />
+					<attribute name="textColor" type="planetTypes:color" use="optional" />
+					<attribute name="maxNumberOfLines" type="int" use="optional" />
+					<attribute name="minNumberOfLines" type="int" use="optional" />
+					<attribute name="autocorrection" type="boolean" use="optional" />
+					<attribute name="autocapitalization" type="boolean" use="optional" />
+					<attribute name="closeOnReturn" type="boolean" use="optional" />
+					<attribute name="publishOnReturn" type="string" use="optional" />
+					<attribute name="returnKeyType" type="planetCore:TextEditorReturnKeyType" default="Return" />
+					<attribute name="onBeginEdit" type="planetTypes:pub" use="optional" />
+					<attribute name="onEndEdit" type="planetTypes:pub" use="optional" />
+					<attribute name="subscribe" type="planetTypes:sub" use="optional" />
+					<attribute name="secureText" type="boolean" use="optional" />
+					<attribute name="maxCharacterLength" type="int" use="optional" />
+					<attribute name="closeOnOutsideTouches" type="boolean" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<simpleType name="SpinnerStyle">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="white" />
+			<enumeration value="whiteLarge" />
+			<enumeration value="gray" />
+		</restriction>
+	</simpleType>
+
+	<element name="Spinner">
+		<!-- @category 1.Basic Entities -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="spinning" type="boolean" use="optional" />
+					<attribute name="hidesWhenStopped" type="boolean" use="optional" />
+					<attribute name="style" type="planetCore:SpinnerStyle" use="optional" default="gray"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="ScrollView">
+		<!-- @category 1.Basic Entities -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="contentSize" type="planetTypes:vec2" use="required" />
+					<attribute name="contentOffset" type="planetTypes:vec2" use="optional" />
+					<attribute name="contentInset" type="planetTypes:vec4" use="optional" />
+					<attribute name="pagingEnabled" type="boolean" use="optional" />
+					<attribute name="scrollsToTop" type="boolean" use="optional" />
+					<attribute name="scrollEnabled" type="boolean" use="optional" default="true"/>
+
+					<attribute name="minimumZoomScale" type="float" use="optional" />
+					<attribute name="maximumZoomScale" type="float" use="optional" />
+					<attribute name="zoomScale" type="float" use="optional" />
+					<attribute name="bouncesZoom" type="boolean" use="optional" />
+
+					<attribute name="showsHorizontalScrollIndicator" type="boolean" use="optional" />
+					<attribute name="showsVerticalScrollIndicator" type="boolean" use="optional" />
+					<attribute name="contentSceneUrl" type="string" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<simpleType name="MapType">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="standard" />
+			<enumeration value="satellite" />
+			<enumeration value="hybrid" />
+		</restriction>
+	</simpleType>
+	
+	<element name="Map">
+		<!-- @category Advanced Entities:Map -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="spanInMiles" type="float" />
+					<attribute name="centerCoordinate" type="planetTypes:vec2" />
+					<attribute name="showUserLocation" type="boolean" use="optional" />
+					<attribute name="mapType" type="planetCore:MapType" use="optional" default="standard"/>
+					<attribute name="zoomEnabled" type="boolean" use="optional" />
+					<attribute name="scrollEnabled" type="boolean" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="MapAnnotation">
+		<!-- @category Advanced Entities:Map -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<attribute name="location" type="planetTypes:vec2" use="required" />
+					<attribute name="subtitle" type="string" use="required" />
+					<attribute name="onSelect" type="planetTypes:pub" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="KeyboardHeader">
+		<!-- @category Advanced Entities -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="movementOffset" type="planetTypes:vec2" use="optional" />
+					<attribute name="hides" type="boolean" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="Mask">
+		<!-- @category Advanced Entities -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+					<attribute name="maskPath" type="planetTypes:path" use="required" />
+					<attribute name="opacity" type="float" use="optional" />
+					<attribute name="maskBounds" type="planetTypes:rect" use="optional" />
+					<attribute name="position" type="planetTypes:vec2" use="optional" />
+					<attribute name="maskAnchorPoint" type="planetTypes:vec2" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="PieChart">
+		<!-- @category Advanced Entities -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:Entity">
+
+					<attribute name="offset" type="float" default="0.0" /> <!-- [0..1] from noon -->
+					<attribute name="progress" type="float" default="0.0" /> <!-- [0..1] clockwise -->
+					<attribute name="radius" type="float" default="1.0" /> <!-- [0..1] relative to bounds -->
+					<attribute name="borderRadius" type="float" default="-1.0" /> <!-- [0..1] relative to bounds, if negative use radius instead -->
+					<attribute name="pieBackgroundColor" type="planetTypes:color" />
+					<attribute name="fillColor" type="planetTypes:color" />
+					<attribute name="borderColor" type="planetTypes:color" />
+					<attribute name="borderWidth" type="float" />
+					<attribute name="borderDashed" type="boolean" />
+					<attribute name="borderDashSize" type="planetTypes:vec2" use="optional" /> <!-- if borderDashed is enabled, this sets the length of the on and off portion of the dash -->
+					<attribute name="borderColor1" type="planetTypes:color" use="optional" />
+					<attribute name="borderRadiusColor1" type="float" use="optional" /><!-- when radius > this value, the border becomes borderColor1 -->
+					<attribute name="borderColor2" type="planetTypes:color" use="optional" />
+					<attribute name="borderRadiusColor2" type="float" use="optional" /><!-- when radius > this value, the border becomes borderColor2 -->
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<!-- Other -->
+
+	<element name="Orientations">
+		<!-- @category Structural -->
+		<complexType>
+			<annotation>
+				<appinfo>UIView * parent_view;</appinfo>
+				<appinfo>PlanetCore_Entity|PlanetCore_Entity * landscapeLeft;
+				</appinfo>
+				<appinfo>PlanetCore_Entity * landscapeRight;</appinfo>
+				<appinfo>PlanetCore_Entity * portrait;</appinfo>
+				<appinfo>PlanetCore_Entity * portraitUpsideDown;</appinfo>
+				<appinfo>NSMutableDictionary * state_storage;</appinfo>
+				<appinfo>int last_orientation;</appinfo>
+				<appinfo>PlanetAppController|PlanetAppController * appcontroller;
+				</appinfo>
+			</annotation>
+			<sequence>
+				<element ref="planetCore:Entity" minOccurs="2" maxOccurs="2" />
+			</sequence>
+			<attribute name="title" type="string" />
+			<attribute name="sharedState" type="boolean" />
+		</complexType>
+	</element>
+
+	<element name="Embed">
+		<!-- @category Structural -->
+		<complexType>
+			<annotation>
+				<appinfo>NSObject * external;</appinfo>
+				<appinfo>UIView * parentview;</appinfo>
+				<appinfo>PlanetAppController|PlanetAppController * appcontroller;</appinfo>
+				<appinfo>NSTimeInterval fileLoadedTime;</appinfo>
+			</annotation>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<attribute name="file" type="string" use="required" />
+					<attribute name="includeQuery" type="planetTypes:json" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<element name="Include" type="planetCore:Include" />
+	<!-- @category Structural -->
+	<complexType name="Include">
+		<sequence>
+			<any minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+		<attribute name="file" type="string" use="required" />
+		<attribute name="contentKey" type="string" use="optional" />
+		<attribute name="variables" type="planetTypes:json" use="optional" />
+	</complexType>
+	
+	<element name="IncludeVariable" type="planetCore:IncludeVariable"/>
+	<!-- @category Structural -->
+	<complexType name="IncludeVariable">
+		<attribute name="key" type="string" use="required" />
+		<attribute name="value" type="string" use="required" />
+	</complexType>
+
+	<!-- Code Support -->
+	
+	<element name="CommBridgeChild" type="planetCore:CommBridgeChild">
+		<!-- @category Controllers:CommBridge -->
+	</element>
+	<complexType name="CommBridgeChild">
+		<complexContent>
+			<extension base="planetCore:GhostEntity">
+				<annotation>
+					<appinfo>NSPredicate* predicateObj;</appinfo>
+				</annotation>
+				<attribute name="listen" type="planetTypes:sub" use="required" />
+				<attribute name="publish" type="planetTypes:pub" use="required" />
+				<attribute name="delay" type="float" use="optional" />
+				<attribute name="predicate" type="string" use="optional"/><!-- predicates are evaluated on the parameters of the incoming note before publishing -->
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<simpleType name="AnalyticEventType">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="single" />
+			<enumeration value="timedStart" />
+			<enumeration value="timedEnd" />
+			<enumeration value="deviceInfo" />
+		</restriction>
+	</simpleType>
+
+	<element name="LocalToAnalytic">
+		<!-- @category Controllers:CommBridge -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:CommBridgeChild">
+					<attribute name="type" type="planetCore:AnalyticEventType" default="single" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="LocalToGlobal">
+		<!-- @category Controllers:CommBridge -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:CommBridgeChild"/>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="GlobalToLocal">
+		<!-- @category Controllers:CommBridge -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:CommBridgeChild"/>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="LocalToLocal">
+		<!-- @category Controllers:CommBridge -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:CommBridgeChild"/>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="LocalToParent">
+		<!-- @category Controllers:CommBridge -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:CommBridgeChild"/>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="ParentToLocal">
+		<!-- @category Controllers:CommBridge -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:CommBridgeChild"/>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="BindingToLocal">
+		<!-- @category Controllers:CommBridge -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<attribute name="watch" type="string" />
+					<attribute name="publish" type="planetTypes:pub" />
+					<attribute name="delay" type="float" use="optional"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="Subscribe" type="planetCore:Subscribe" />
+	<complexType name="Subscribe">
+	<!-- @category Controllers -->
+		<attribute name="listen" type="string" use="required" />
+		<attribute name="method" type="string" use="optional" />
+	</complexType>
+
+	<element name="Controller" type="planetCore:Controller" />
+	<complexType name="Controller">
+		<!-- @category Controllers -->
+		<complexContent>
+			<extension base="planetCore:GhostEntity">
+				<annotation>
+					<appinfo>NSObject * delegate;</appinfo>
+					<appinfo>BOOL initedDelegate;</appinfo>
+					<appinfo>NSMutableArray * allWatchedKeys;</appinfo>
+				</annotation>
+				<sequence>
+					<element ref="planetCore:Subscribe" minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
+				<attribute name="class" type="planetTypes:classRef" use="required" />
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="CommBridge" type="planetCore:CommBridge" />
+	<complexType name="CommBridge">
+		<!-- @category Controllers:CommBridge -->
+		<complexContent>
+			<extension base="planetCore:GhostEntity">
+				<sequence>
+					<element ref="planetCore:CommBridgeChild" minOccurs="0" maxOccurs="unbounded" />
+					<element ref="planetCore:BindingToLocal" minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<!-- Animations -->
+	<simpleType name="AnimationPositionType">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="absolute" />
+			<enumeration value="relative" />
+		</restriction>
+	</simpleType>
+	
+	<element name="AnimationGroup">
+		<complexType>
+		<!-- @category Animation -->
+			<complexContent>
+				<extension base="planetCore:Animation">
+					<annotation>
+						<appinfo>PlanetCore_Animation* longestAnimation;</appinfo>
+					</annotation>
+					<sequence>
+						<element ref="planetCore:Animation" minOccurs="0" maxOccurs="unbounded" />
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<element name="Animation" type="planetCore:Animation">
+		<!-- @category Animation -->
+	</element>
+	<complexType name="Animation">
+		<complexContent>
+			<extension base="planetCore:GhostEntity">
+				<annotation>
+					<appinfo>NSMutableDictionary* currentAnimations;</appinfo>
+				</annotation>
+				<attribute name="entity" type="string" use="optional"/>
+				<attribute name="delay" type="float" use="optional"/>
+				<attribute name="curve" type="planetCore:PlanetTween" use="optional"/>
+				<attribute name="duration" type="float" use="optional"/>
+				<attribute name="repeatCount" type="float" use="optional"/>
+				<attribute name="autoReverse" type="boolean" use="optional"/>
+				<attribute name="positionType" type="planetCore:AnimationPositionType" use="optional"/>
+				
+				<attribute name="property" type="string" use="optional" />
+				<attribute name="startValue" type="string" use="optional" />
+				<attribute name="endValue" type="string" use="optional" />
+				
+				<attribute name="subscribe" type="planetTypes:sub" use="optional" />
+				<attribute name="subscribeStop" type="planetTypes:sub" use="optional" />
+				<attribute name="onFinish" type="string" use="optional" />
+				
+				<attribute name="landscapeLeft" type="boolean" use="optional"/>
+				<attribute name="landscapeRight" type="boolean" use="optional"/>
+				<attribute name="portraitRightsideUp" type="boolean" use="optional"/>
+				<attribute name="portraitUpsideDown" type="boolean" use="optional"/>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<simpleType name="OrientationAnimationType">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="Move" />
+			<enumeration value="FadeIn" />
+			<enumeration value="FadeOut" />
+			<enumeration value="Crossfade" />
+			<enumeration value="Duplicate" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="OrientationDirection">
+		<annotation>
+			<appinfo>NAMED_ENUM</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="PortraitRightsideUp" />
+			<enumeration value="PortraitUpsideDown" />
+			<enumeration value="LandscapeLeft" />
+			<enumeration value="LandscapeRight" />
+			<enumeration value="Portrait" />
+			<enumeration value="Landscape" />
+		</restriction>
+	</simpleType>
+
+
+	<element name="OrientationAnimation">
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<sequence>
+						<element ref="planetCore:OrientationAnimationProperty" minOccurs="0" maxOccurs="unbounded" />
+					</sequence>
+					<attribute name="orientation" type="planetCore:OrientationDirection" use="required" />
+					<attribute name="useDesignedBounds" type="boolean" use="optional" /><!-- Use designed bounds and origins. newBounds on children will become an override. -->
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="OrientationAnimationProperty">
+		<!-- Properties that are meant to be nested inside of OrientationAnimation tags. These tags specify which attributes of an object are affected by the animation. -->
+		<complexType>
+			<complexContent>
+				<extension base="planetCore:GhostEntity">
+					<attribute name="type" type="planetCore:OrientationAnimationType" default="Move" />
+					<attribute name="entity" type="string" use="required" />
+					<attribute name="start" type="float" use="optional" />
+					<attribute name="end" type="float" use="optional" />
+					<attribute name="endOrigin" type="planetTypes:vec2" use="optional" />
+					<attribute name="endBounds" type="planetTypes:rect" use="optional" />
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="Definition" type="planetCore:Definition" />
+	<complexType name="Definition">
+		<complexContent>
+			<extension base="planetCore:GhostEntity">
+				<annotation>
+					<appinfo>NSMutableArray* spawnedDefinitions;</appinfo>
+				</annotation>
+				<sequence>
+					<any minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
+				<attribute name="subscribe" type="planetTypes:sub" use="optional" />
+				<attribute name="subscribeUnspawn" type="planetTypes:sub" use="optional" />
+				<attribute name="spawnInto" type="planetTypes:titleRef" use="optional" />
+				<attribute name="proxyExternalNotifications" type="boolean" use="optional" default="true" />
+				<attribute name="proxyInternalNotifications" type="boolean" use="optional" default="true" />
+			</extension>
+		</complexContent>
+	</complexType>
+	
+</schema>
