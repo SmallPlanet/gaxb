@@ -4,13 +4,13 @@ ALL_LIB_FLAGS = $(LUA_LIB_FLAGS) $(XML_LIB_FLAGS)
 
 LUA_INCLUDE_FLAGS = -Ilua-5.2.0/src/
 XML_INCLUDE_FLAGS = `xml2-config --cflags`
-ALL_INCLUDE_FLAGS = $(LUA_INCLUDE_FLAGS) $(XML_INCLUDE_FLAGS)
+ALL_INCLUDE_FLAGS = $(LUA_INCLUDE_FLAGS) $(XML_INCLUDE_FLAGS) -std=c99
 
 all : clean lua main.o
 	gcc main.o -Wall $(ALL_LIB_FLAGS) -o gaxb
 
 lua : $(LUA_LIB)
-	make -C lua-5.2.0 generic &> /dev/null
+	make -C lua-5.2.0 generic
 
 main.o : main.c
 	gcc $(ALL_INCLUDE_FLAGS) -c main.c
