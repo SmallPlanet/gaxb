@@ -5,10 +5,14 @@ add_subdirectory(lua)
 
 add_definitions(-std=c99)
 
-find_package ( libxml2 )
+if ( ${CMAKE_SYSTEM_NAME} MATCHES "Linux" )
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_GNU_SOURCE")
+endif ()
+
+find_package ( LibXml2 )
 if ( LIBXML2_FOUND )
   include_directories(${LIBXML2_INCLUDE_DIR})
-endif( LIBXML2_FOUND )
+endif ()
 
 add_executable(gaxb main.c)
 include_directories(${lua_SOURCE_DIR}/src ${CMAKE_CURRENT_BINARY_DIR}/lua)
