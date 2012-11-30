@@ -137,8 +137,9 @@ void * hashLookup(xmlHashTablePtr table, const xmlChar * key)
             {
                 if(!xmlStrcmp(ns->href, targetNamespace))
                 {
+                    void * userdata = xmlHashLookup(table, nsPtr+1);
                     free(localKey);
-                    return xmlHashLookup(table, nsPtr+1);
+                    return userdata;
                 }
                 else
                 {
