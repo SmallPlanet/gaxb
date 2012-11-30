@@ -15,9 +15,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#import "lua.h"
-#import "lauxlib.h"
-#import "lualib.h"
+#include "lua.h"
+#include "lauxlib.h"
+#include "lualib.h"
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
