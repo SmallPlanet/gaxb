@@ -702,9 +702,6 @@ char parseSchemaFile()
     xmlHashScan(schema->schemasImports, (xmlHashScanner) copyToLua, schema);
 	
 	fprintf(stderr, "Schema is valid and available\n");
-	xmlNode *root_element = NULL;
-	
-	root_element = xmlDocGetRootElement(schema_doc);
     
     //xmlXPathFreeContext(xpathCtx);
 	//xmlSchemaFreeParserCtxt(parser_ctxt);
