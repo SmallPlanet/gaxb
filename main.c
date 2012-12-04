@@ -1174,6 +1174,11 @@ static int _engine_gaxb_template(lua_State *ls)
     // 1) preprocess the template file to create a lua script we can run through the VM
     char processedFilePath[] = "/tmp/gaxbXXXXXXXX";
     int temp_fd = mkstemp(processedFilePath);
+    if(temp_fd == -1)
+    {
+        fprintf(stderr, "%s\n", "Couldn't open temporary lua script file to execute!");
+        exit(1);
+    }
     preprocessTemplateFile(pathForTemplateFile(templateFile), processedFilePath);
     
     // 2) run the script through the VM, route the output to the appropriate output file
