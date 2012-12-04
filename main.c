@@ -1321,8 +1321,6 @@ int main(int argc, char * const argv[])
 				usage();
 		}
 	}
-	argc -= optind;
-	argv += optind;
 	
 	fprintf(stderr, "LANGUAGE_ID: %s\n", LANGUAGE_ID);
 	fprintf(stderr, "SCHEMA_PATH: %s\n", SCHEMA_PATH);
