@@ -51,8 +51,6 @@ struct _xmlSchemaBucket {
     int parsed;
     int imported;
     int preserveDoc;
-    //xmlSchemaItemListPtr globals; /* Global components. */
-    //xmlSchemaItemListPtr locals; /* Local components. */
 };
 
 #pragma mark -
@@ -691,10 +689,6 @@ char parseSchemaFile()
 	
 	fprintf(stderr, "Schema is valid and available\n");
     
-    //xmlXPathFreeContext(xpathCtx);
-	//xmlSchemaFreeParserCtxt(parser_ctxt);
-    //xmlFreeDoc(schema_doc);
-    
     // Run through and dereference all links now that processing is complete
     lua_run("for k,v in pairs(__DEREFERENCE_AT_END) do v.table[v.key] = gaxb_reference(v.ref); end");
     
@@ -901,7 +895,6 @@ void copyNodeSetToLua(xmlNodeSetPtr nodes)
     // table to hold the results
     lua_run("NODERESULTS = {}");
     
-    //fprintf(output, "Result (%d nodes):\n", size);
     for(i = 0; i < size; ++i)
     {
         if(nodes->nodeTab[i]->type == XML_NAMESPACE_DECL)
@@ -995,12 +988,6 @@ static int _engine_gaxb_xpath(lua_State *ls)
         return 0;
     }
     
-    
-    
-    
-    
-    
-    
     return 1;
 }
 
@@ -1019,7 +1006,6 @@ static int _engine_gaxb_reference(lua_State *ls)
     
     const char * key = lua_tostring(ls, 1);
     
-    //fprintf(currentOutputFile, "%s", stringToOutput);
     void * ptr = NULL;
         
     if(!ptr)    ptr = hashLookup(currentSchema->idcDef, XMLCHAR(key));
