@@ -211,9 +211,6 @@ void copyElementAttributesToLua(xmlNode * a_node)
             {
                 lua_run("TEMP1 = {}");
                 
-                
-                // TODO: is this really what we want to do?  I want auto referencing, but what
-                // happens if there is a naming conflict?
                 for(xmlAttrPtr attr = cur_node->properties; NULL != attr; attr = attr->next)
                 {
                     lua_run("TEMP1['%s'] = '%s'", attr->name, attr->children->content);
@@ -223,7 +220,6 @@ void copyElementAttributesToLua(xmlNode * a_node)
                         if(xmlStrchr(attr->children->content, ':'))
                         {
                             lua_run("table.insert(__DEREFERENCE_AT_END, {table=TEMP1,key='type',ref='%s'})", attr->children->content);
-                            //lua_run("TEMP1.type = function() return gaxb_reference('%s'); end", attr->children->content);
                         }
                     }
                 }
@@ -257,7 +253,6 @@ void copyElementSequencesAttributesToLua(xmlNode * a_node)
                         
                         if(type == NULL)
                         {
-                            // TODO: support embedded element definitions?
                             fprintf(stderr, "WARNING: embedded element definitions are not supported\n");
                         }
                         // 2) Elements can also be defined with a type attribute, which points to a type definition which contains their content
@@ -276,8 +271,6 @@ void copyElementSequencesAttributesToLua(xmlNode * a_node)
                             lua_run("TEMP1.namespace = '%s'", (strrchr((const char *)seq_node->ns->href, '/')+1));
                             lua_run("TEMP1.namespaceURL = '%s'", (const char *)seq_node->ns->href);
                             
-                            // TODO: is this really what we want to do?  I want auto referencing, but what
-                            // happens if there is a naming conflict?
                             for(xmlAttrPtr attr = seq_node->properties; NULL != attr; attr = attr->next)
                             {
                                 lua_run("TEMP1['%s'] = '%s'", attr->name, attr->children->content);
@@ -291,7 +284,6 @@ void copyElementSequencesAttributesToLua(xmlNode * a_node)
 										lua_run("local result = false");
 										lua_run("for k,v in pairs(__DEREFERENCE_AT_END) do if (v.ref == '%s') then result = true; break; end; end", attr->children->content);
 										lua_run("if (result == false) then table.insert(__DEREFERENCE_AT_END, {table=TEMP1,key='type',ref='%s'}) end", attr->children->content);
-                                        //lua_run("TEMP1.type = function() return gaxb_reference('%s'); end", attr->children->content);
                                         lua_run("TEMP1.name = '%s'", name);
                                     }
                                 }
@@ -359,9 +351,6 @@ int copyToLua(void * payload, xmlSchemaPtr schema, xmlChar * name)
 		lua_pushstring(luaVM,"xml");
 		lua_pushlightuserdata(luaVM, (void *)p->node);
 		lua_settable(luaVM, -3);
-
-        // TODO: expose element attributes to lua.  Unfortunately, libxml2 doesn't make it easy as it could for us,
-        // so we need to drop down from the schema ptr to the actual XML node and parse it by hand.
         
         // 1) Elements can be defined all in one block; aka, they contain their information
         const xmlChar * type = xmlGetProp(p->node, XMLCHAR("type"));
@@ -453,7 +442,6 @@ int copyToLua(void * payload, xmlSchemaPtr schema, xmlChar * name)
             }
             else
             {
-                // TODO: no type.  this must be a simple type (like string)
                 fprintf(stderr, "WARNING: simple types for root elements not implemented\n");
             }
         }
