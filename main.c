@@ -10,13 +10,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <getopt.h>
 #include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#import "lua.h"
-#import "lauxlib.h"
-#import "lualib.h"
+#include "lua.h"
+#include "lauxlib.h"
+#include "lualib.h"
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -50,8 +51,6 @@ struct _xmlSchemaBucket {
     int parsed;
     int imported;
     int preserveDoc;
-    //xmlSchemaItemListPtr globals; /* Global components. */
-    //xmlSchemaItemListPtr locals; /* Local components. */
 };
 
 #pragma mark -
@@ -93,8 +92,8 @@ static void lua_destruct();
 static void lua_run(char * scriptFormat, ...);
 static void lua_runFile(const char * path);
 
-static const char * pathForOutputFile(const char * path);
-static const char * pathForTemplateFile(const char * path);
+static void pathForOutputFile(char ** path, const char * file);
+static void pathForTemplateFile(char ** path, const char * file);
 static void usage();
 
 
@@ -136,8 +135,9 @@ void * hashLookup(xmlHashTablePtr table, const xmlChar * key)
             {
                 if(!xmlStrcmp(ns->href, targetNamespace))
                 {
+                    void * userdata = xmlHashLookup(table, nsPtr+1);
                     free(localKey);
-                    return xmlHashLookup(table, nsPtr+1);
+                    return userdata;
                 }
                 else
                 {
@@ -209,9 +209,6 @@ void copyElementAttributesToLua(xmlNode * a_node)
             {
                 lua_run("TEMP1 = {}");
                 
-                
-                // TODO: is this really what we want to do?  I want auto referencing, but what
-                // happens if there is a naming conflict?
                 for(xmlAttrPtr attr = cur_node->properties; NULL != attr; attr = attr->next)
                 {
                     lua_run("TEMP1['%s'] = '%s'", attr->name, attr->children->content);
@@ -221,7 +218,6 @@ void copyElementAttributesToLua(xmlNode * a_node)
                         if(xmlStrchr(attr->children->content, ':'))
                         {
                             lua_run("table.insert(__DEREFERENCE_AT_END, {table=TEMP1,key='type',ref='%s'})", attr->children->content);
-                            //lua_run("TEMP1.type = function() return gaxb_reference('%s'); end", attr->children->content);
                         }
                     }
                 }
@@ -255,7 +251,6 @@ void copyElementSequencesAttributesToLua(xmlNode * a_node)
                         
                         if(type == NULL)
                         {
-                            // TODO: support embedded element definitions?
                             fprintf(stderr, "WARNING: embedded element definitions are not supported\n");
                         }
                         // 2) Elements can also be defined with a type attribute, which points to a type definition which contains their content
@@ -274,8 +269,6 @@ void copyElementSequencesAttributesToLua(xmlNode * a_node)
                             lua_run("TEMP1.namespace = '%s'", (strrchr((const char *)seq_node->ns->href, '/')+1));
                             lua_run("TEMP1.namespaceURL = '%s'", (const char *)seq_node->ns->href);
                             
-                            // TODO: is this really what we want to do?  I want auto referencing, but what
-                            // happens if there is a naming conflict?
                             for(xmlAttrPtr attr = seq_node->properties; NULL != attr; attr = attr->next)
                             {
                                 lua_run("TEMP1['%s'] = '%s'", attr->name, attr->children->content);
@@ -289,7 +282,6 @@ void copyElementSequencesAttributesToLua(xmlNode * a_node)
 										lua_run("local result = false");
 										lua_run("for k,v in pairs(__DEREFERENCE_AT_END) do if (v.ref == '%s') then result = true; break; end; end", attr->children->content);
 										lua_run("if (result == false) then table.insert(__DEREFERENCE_AT_END, {table=TEMP1,key='type',ref='%s'}) end", attr->children->content);
-                                        //lua_run("TEMP1.type = function() return gaxb_reference('%s'); end", attr->children->content);
                                         lua_run("TEMP1.name = '%s'", name);
                                     }
                                 }
@@ -329,7 +321,7 @@ void copyElementAppinfosToLua(xmlNode * a_node)
     {
         if (!xmlStrcmp(cur_node->name, XMLCHAR("appinfo")))
         {
-            lua_run("table.insert(TEMP.appinfos, '%s')", trimNewline(cur_node->children->content));
+            lua_run("table.insert(TEMP.appinfos, '%s')", trimNewline((char *)cur_node->children->content));
         }
     }
 }
@@ -357,9 +349,6 @@ int copyToLua(void * payload, xmlSchemaPtr schema, xmlChar * name)
 		lua_pushstring(luaVM,"xml");
 		lua_pushlightuserdata(luaVM, (void *)p->node);
 		lua_settable(luaVM, -3);
-
-        // TODO: expose element attributes to lua.  Unfortunately, libxml2 doesn't make it easy as it could for us,
-        // so we need to drop down from the schema ptr to the actual XML node and parse it by hand.
         
         // 1) Elements can be defined all in one block; aka, they contain their information
         const xmlChar * type = xmlGetProp(p->node, XMLCHAR("type"));
@@ -451,7 +440,6 @@ int copyToLua(void * payload, xmlSchemaPtr schema, xmlChar * name)
             }
             else
             {
-                // TODO: no type.  this must be a simple type (like string)
                 fprintf(stderr, "WARNING: simple types for root elements not implemented\n");
             }
         }
@@ -700,13 +688,6 @@ char parseSchemaFile()
     xmlHashScan(schema->schemasImports, (xmlHashScanner) copyToLua, schema);
 	
 	fprintf(stderr, "Schema is valid and available\n");
-	xmlNode *root_element = NULL;
-	
-	root_element = xmlDocGetRootElement(schema_doc);
-    
-    //xmlXPathFreeContext(xpathCtx);
-	//xmlSchemaFreeParserCtxt(parser_ctxt);
-    //xmlFreeDoc(schema_doc);
     
     // Run through and dereference all links now that processing is complete
     lua_run("for k,v in pairs(__DEREFERENCE_AT_END) do v.table[v.key] = gaxb_reference(v.ref); end");
@@ -914,7 +895,6 @@ void copyNodeSetToLua(xmlNodeSetPtr nodes)
     // table to hold the results
     lua_run("NODERESULTS = {}");
     
-    //fprintf(output, "Result (%d nodes):\n", size);
     for(i = 0; i < size; ++i)
     {
         if(nodes->nodeTab[i]->type == XML_NAMESPACE_DECL)
@@ -1008,12 +988,6 @@ static int _engine_gaxb_xpath(lua_State *ls)
         return 0;
     }
     
-    
-    
-    
-    
-    
-    
     return 1;
 }
 
@@ -1032,7 +1006,6 @@ static int _engine_gaxb_reference(lua_State *ls)
     
     const char * key = lua_tostring(ls, 1);
     
-    //fprintf(currentOutputFile, "%s", stringToOutput);
     void * ptr = NULL;
         
     if(!ptr)    ptr = hashLookup(currentSchema->idcDef, XMLCHAR(key));
@@ -1105,21 +1078,32 @@ static int _engine_gaxb_template(lua_State *ls)
         shouldOverwrite = lua_toboolean(ls, 4);
     }
     
-    const char * templateFile = lua_tostring(ls, 1);
-    const char * outputFilePath = lua_tostring(ls, 2);
+    const char * template = lua_tostring(ls, 1);
+    const char * output = lua_tostring(ls, 2);
     
     // check if file needs updating based on timestamps of inputPath, outputPath, and main.lua
     struct stat in, out, mainlua, schema;   
-
-    if (!stat(pathForOutputFile(outputFilePath), &out))
+    
+    char * outputFile = NULL;
+    char * templateFile = NULL;
+    char * templateMain = NULL;
+    
+    pathForOutputFile(&outputFile, output);
+    pathForTemplateFile(&templateFile, template);
+    pathForTemplateFile(&templateMain, "main.lua");
+    
+    if (!stat(outputFile, &out))
     {
-        if (!stat(pathForTemplateFile(templateFile), &in) && out.st_mtime > in.st_mtime)
+        if (!stat(templateFile, &in) && out.st_mtime > in.st_mtime)
         {
-            if (!stat(pathForTemplateFile("main.lua"), &mainlua) && out.st_mtime > mainlua.st_mtime)
+            if (!stat(templateMain, &mainlua) && out.st_mtime > mainlua.st_mtime)
             {
                 if (!stat(SCHEMA_PATH, &schema) && out.st_mtime > schema.st_mtime)
                 {
-                    fprintf(stdout, "gaxb_template: skipping %s\n", outputFilePath);
+                    fprintf(stdout, "gaxb_template: skipping %s\n", output);
+                    free(outputFile);
+                    free(templateFile);
+                    free(templateMain);
                     return 0;
                 }
             }
@@ -1129,20 +1113,29 @@ static int _engine_gaxb_template(lua_State *ls)
     if(argType1 != LUA_TSTRING)
     {
         fprintf(stderr, "_engine_gaxb_template requires a string as its first argument");
+        free(outputFile);
+        free(templateFile);
+        free(templateMain);
         return 0;
     }
     if(argType2 != LUA_TSTRING)
     {
         fprintf(stderr, "_engine_gaxb_template requires a string as its second argument");
+        free(outputFile);
+        free(templateFile);
+        free(templateMain);
         return 0;
     }
     if(argType3 != LUA_TTABLE)
     {
         fprintf(stderr, "_engine_gaxb_template requires a table as its third argument");
+        free(outputFile);
+        free(templateFile);
+        free(templateMain);
         return 0;
     }
     
-    fprintf(stderr, "Processing template %s, output to %s\n", templateFile, outputFilePath);
+    fprintf(stderr, "Processing template %s, output to %s\n", template, output);
     
     if(n == 4)
     {
@@ -1155,26 +1148,41 @@ static int _engine_gaxb_template(lua_State *ls)
     
     if(!shouldOverwrite)
     {
-        FILE * t = fopen(pathForOutputFile(outputFilePath), "r");
+        FILE * t = fopen(outputFile, "r");
         if(t)
         {
             fclose(t);
+            free(outputFile);
+            free(templateFile);
+            free(templateMain);
             return 0;
         }
         fclose(t);
     }
     
     // 0) open the output file
-    currentOutputFile = fopen(pathForOutputFile(outputFilePath), "wb+");
+    currentOutputFile = fopen(outputFile, "wb+");
     if(!currentOutputFile)
     {
-        fprintf(stderr, "Error: unable to open output file %s", pathForOutputFile(outputFilePath));
+        fprintf(stderr, "Error: unable to open output file %s", outputFile);
+        free(outputFile);
+        free(templateFile);
+        free(templateMain);
         exit(1);
     }
     
     // 1) preprocess the template file to create a lua script we can run through the VM
-    char * processedFilePath = tmpnam(NULL);
-    preprocessTemplateFile(pathForTemplateFile(templateFile), processedFilePath);
+    char processedFilePath[] = "/tmp/gaxbXXXXXXXX";
+    int temp_fd = mkstemp(processedFilePath);
+    if(temp_fd == -1)
+    {
+        fprintf(stderr, "%s\n", "Couldn't open temporary lua script file to execute!");
+        free(outputFile);
+        free(templateFile);
+        free(templateMain);
+        exit(1);
+    }
+    preprocessTemplateFile(templateFile, processedFilePath);
     
     // 2) run the script through the VM, route the output to the appropriate output file
     lua_runFile(processedFilePath);
@@ -1182,6 +1190,11 @@ static int _engine_gaxb_template(lua_State *ls)
     // 3) Profit.
     fclose(currentOutputFile);
     unlink(processedFilePath);
+    
+    // cleanup the template goodies we looked up
+    free(outputFile);
+    free(templateFile);
+    free(templateMain);
 	
 	return 0;
 }
@@ -1266,20 +1279,18 @@ void lua_runFile(const char * path)
 
 #pragma mark -
 
-const char * pathForOutputFile(const char * path)
-// Yes, this will leak.  Not too worried about it.
+void pathForOutputFile(char ** path, const char * file)
 {
-    char * s = NULL;
-    asprintf(&s, "%s/%s", OUTPUT_PATH, path);
-    return (const char *)s;
+    *path = NULL;
+    asprintf(path, "%s/%s", OUTPUT_PATH, file);
+    return;
 }
 
-const char * pathForTemplateFile(const char * path)
-// Yes, this will leak.  Not too worried about it.
+void pathForTemplateFile(char ** path, const char * file)
 {
-    char * s = NULL;
-    asprintf(&s, "%s/%s/%s", TEMPLATE_BASE_PATH, LANGUAGE_ID, path);
-    return (const char *)s;
+    *path = NULL;
+    asprintf(path, "%s/%s/%s", TEMPLATE_BASE_PATH, LANGUAGE_ID, file);
+    return;
 }
 
 void usage()
@@ -1316,8 +1327,6 @@ int main(int argc, char * const argv[])
 				usage();
 		}
 	}
-	argc -= optind;
-	argv += optind;
 	
 	fprintf(stderr, "LANGUAGE_ID: %s\n", LANGUAGE_ID);
 	fprintf(stderr, "SCHEMA_PATH: %s\n", SCHEMA_PATH);
@@ -1332,8 +1341,13 @@ int main(int argc, char * const argv[])
         exit(1);
     }
     
+    char * templateMain = NULL;
+    pathForTemplateFile(&templateMain, "main.lua");
+    
     // Run the main.lua script
-    lua_runFile(pathForTemplateFile("main.lua"));
+    lua_runFile(templateMain);
+    
+    free(templateMain);
 	
 	lua_destruct();
 	xmlCleanupParser();

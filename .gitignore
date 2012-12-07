@@ -5,6 +5,7 @@ Generated/
 # Xcode #
 ###################
 build/
+build-xcode/
 xcuserdata/
 *.pbxuser
 *.perspective
