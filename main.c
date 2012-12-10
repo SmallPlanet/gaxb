@@ -475,23 +475,7 @@ int copyToLua(void *payload, xmlSchemaPtr schema, xmlChar *name)
    }
    else if (type == XML_SCHEMA_TYPE_ATTRIBUTEGROUP)
    {
-      /*
-       * xmlSchemaAttributeGroupPtr p = (xmlSchemaAttributeGroupPtr)payload;
-       * lua_run("TEMP = {}");
-       * lua_run("TEMP.name = '%s'", p->name);
-       * lua_run("TEMP.type = '%s'", "attributegroup");
-       * lua_run("TEMP.namespace = '%s'", strrchr((char *)p->targetNamespace, '/')+1);
-       * lua_run("TEMP.namespaceURL = '%s'", p->targetNamespace);
-       *
-       * // set a light ptr to the xmlNode
-       * lua_getglobal(luaVM, "TEMP");
-       *      lua_pushstring(luaVM,"xml");
-       *      lua_pushlightuserdata(luaVM, (void *)p->node);
-       *      lua_settable(luaVM, -3);
-       *
-       * if(name)
-       *  lua_run("table.insert(schema.attributeGroups, TEMP)");
-       */
+      // we don't need XML attribute groups specifically, they will be followed and attributes captured
    }
    else if (type == XML_SCHEMA_TYPE_SIMPLE)
    {
