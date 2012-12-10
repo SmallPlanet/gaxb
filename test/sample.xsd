@@ -29,8 +29,7 @@
 		<attribute name="a" type="boolean" use="required" />
 		<attribute name="b" type="short" use="required" />
 		<attribute name="c" type="int" use="required" />
-		<attribute name="d" type="nonNegativeInteger" use="required" />
-		<attribute name="e" type="positiveInteger" use="required" />
+		<attributeGroup ref="lg:PackageShared" />
 		<attribute name="f" type="long" use="required" />
 		<attribute name="g" type="base64Binary" use="required" />
 		<attribute name="h" type="decimal" use="required" />
@@ -41,6 +40,11 @@
 		<attribute name="m" type="dateTime" use="required" />
 		<attribute name="size" type="lg:PackageSize" use="required" />
 	</complexType>
+
+	<attributeGroup name="PackageShared">
+		<attribute name="d" type="nonNegativeInteger" />
+		<attribute name="e" type="positiveInteger" />
+	</attributeGroup>
 	
 	<element name="Container">
         <complexType>
