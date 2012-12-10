@@ -519,7 +519,7 @@ int copyToLua(void *payload, xmlSchemaPtr schema, xmlChar *name)
    }
    else
    {
-      fprintf(stderr, "Unknown ptr of type %d\n", type);
+      fprintf(stderr, "%s: Unknown ptr of type %d\n", name, type);
       return(0);
    }
 
@@ -698,7 +698,6 @@ char parseSchemaFile()
    xmlHashScan(schema->attrgrpDecl, (xmlHashScanner)copyToLua, schema);
    xmlHashScan(schema->notaDecl, (xmlHashScanner)copyToLua, schema);
    xmlHashScan(schema->groupDecl, (xmlHashScanner)copyToLua, schema);
-   xmlHashScan(schema->schemasImports, (xmlHashScanner)copyToLua, schema);
 
    fprintf(stderr, "Schema is valid and available\n");
 
