@@ -318,9 +318,9 @@ for k,v in pairs(this.attributes) do
 <% elseif (v.type=="date") then %>
 	if (<%= v.name %>Exists || <%= v.name %> ) [xml appendFormat:@" <%= v.name %>='%@'", [self dateStringFromSchema:<%= v.name %>]]; 
 <% elseif (v.type=="dateTime") then %>
-	if (<%= v.name %>Exists | <%= v.name %> ) [xml appendFormat:@" <%= v.name %>='%@'", [self dateTimeStringFromSchema:<%= v.name %>]]; 
+	if (<%= v.name %>Exists || <%= v.name %> ) [xml appendFormat:@" <%= v.name %>='%@'", [self dateTimeStringFromSchema:<%= v.name %>]]; 
 <% elseif (v.type=="base64Binary") then %>
-	if (<%= v.name %>Exists | <%= v.name %> ) [xml appendFormat:@" <%= v.name %>='%@'", [<%= v.name %> base64Encoding]]; 
+	if (<%= v.name %>Exists || <%= v.name %> ) [xml appendFormat:@" <%= v.name %>='%@'", [<%= v.name %> base64Encoding]]; 
 <% elseif (v.type=="string") then %>
 	if (<%= v.name %>) [xml appendFormat:@" <%= v.name %>='%@'", SAFESTRING(<%= v.name %>)]; 
 <% 	else %>	if (<%= v.name %>) { [xml appendFormat:@" <%= v.name %>='%@'", SAFESTRING([<%= v.name %> description])]; }
