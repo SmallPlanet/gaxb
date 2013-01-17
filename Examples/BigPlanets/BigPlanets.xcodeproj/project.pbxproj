@@ -25,6 +25,7 @@
 				A9A4E43116A0B4B100AA4449 /* ShellScript */,
 			);
 			dependencies = (
+				A9A4E9AE16A8B2BF00AA4449 /* PBXTargetDependency */,
 			);
 			name = "gaxb generate";
 			productName = gaxb;
@@ -61,19 +62,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A9A4E43516A0B5E700AA4449 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A9A4E3E816A06B0C00AA4449 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A9A4E42B16A0B3D200AA4449;
-			remoteInfo = "make gaxb";
-		};
 		A9A4E43916A0B89400AA4449 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A9A4E3E816A06B0C00AA4449 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = A9A4E43016A0B4B100AA4449;
 			remoteInfo = "gaxb generate";
+		};
+		A9A4E9AD16A8B2BF00AA4449 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9A4E3E816A06B0C00AA4449 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9A4E42B16A0B3D200AA4449;
+			remoteInfo = "make gaxb";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -260,7 +261,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				A9A4E43616A0B5E700AA4449 /* PBXTargetDependency */,
 				A9A4E43A16A0B89400AA4449 /* PBXTargetDependency */,
 			);
 			name = BigPlanets;
@@ -382,15 +382,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A9A4E43616A0B5E700AA4449 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A9A4E42B16A0B3D200AA4449 /* make gaxb */;
-			targetProxy = A9A4E43516A0B5E700AA4449 /* PBXContainerItemProxy */;
-		};
 		A9A4E43A16A0B89400AA4449 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A9A4E43016A0B4B100AA4449 /* gaxb generate */;
 			targetProxy = A9A4E43916A0B89400AA4449 /* PBXContainerItemProxy */;
+		};
+		A9A4E9AE16A8B2BF00AA4449 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9A4E42B16A0B3D200AA4449 /* make gaxb */;
+			targetProxy = A9A4E9AD16A8B2BF00AA4449 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

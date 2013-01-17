@@ -40,13 +40,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
     self.detailViewController = (SPDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     
     self.sol = [Planets_XMLLoader readFromFile:[[NSBundle mainBundle] pathForResource:@"sol" ofType:@".xml"]];
-    NSLog(@"sol = %@", sol);
-    NSLog(@"planets = %@", sol.Planets);
 }
 
 - (void)didReceiveMemoryWarning
@@ -73,7 +69,6 @@
 
     Planets_Planet *object = sol.Planets[indexPath.row];
     cell.textLabel.text = [object name];
-    NSLog(@"cell = %@  <--  %@", cell.textLabel.text, object);
     return cell;
 }
 
@@ -92,22 +87,6 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
 }
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
