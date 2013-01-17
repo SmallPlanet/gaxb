@@ -1,16 +1,3 @@
--- Copyright (c) 2012 Small Planet Digital, LLC
--- 
--- Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files 
--- (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, 
--- publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
--- subject to the following conditions:
--- 
--- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--- 
--- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
--- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
--- FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--- WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 TYPEMAP = {};
 TYPEMAP["boolean"] = "BOOL";
@@ -29,6 +16,28 @@ TYPEMAP["double"] = "double";
 TYPEMAP["byte"] = "char";
 TYPEMAP["date"] = "NSDate *";
 TYPEMAP["dateTime"] = "NSDate *";
+
+
+OBJECTMAP = {};
+OBJECTMAP["BOOL"] = "NSNumber *";
+OBJECTMAP["boolean"] = "NSNumber *";
+OBJECTMAP["short"] = "NSNumber *";
+OBJECTMAP["int"] = "NSNumber *";
+OBJECTMAP["nonNegativeInteger"] = "NSNumber *";
+OBJECTMAP["positiveInteger"] = "NSNumber *";
+OBJECTMAP["enum"] = "NSNumber *";
+OBJECTMAP["ENUM_MASK"] = "NSNumber *";
+OBJECTMAP["named_enum"] = "NSNumber *";
+OBJECTMAP["long"] = "NSNumber *";
+OBJECTMAP["string"] = "NSString *";
+OBJECTMAP["base64Binary"] = "NSData *";
+OBJECTMAP["string"] = "NSString *";
+OBJECTMAP["decimal"] = "NSNumber *";
+OBJECTMAP["float"] = "NSNumber *";
+OBJECTMAP["double"] = "NSNumber *";
+OBJECTMAP["byte"] = "NSNumber *";
+OBJECTMAP["date"] = "NSDate *";
+OBJECTMAP["dateTime"] = "NSDate *";
 
 
 function printAllKeys(t)
@@ -254,7 +263,13 @@ function typeForItem(v)
 				appinfo = gaxb_xpath(t.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
 			end
 			if(appinfo ~= nil) then
-				return appinfo[1].content.." *";
+				appinfo = appinfo[1].content;
+				local type = TYPEMAP[appinfo];
+				if(type == nil) then
+					return appinfo.." *";
+				else
+					return type;
+				end
 			end
 			
 			-- If there is no appinfo, then use the restriction
@@ -329,9 +344,14 @@ function isObject(v)
 			end
 			
 			-- If there is an appinfo, use that
-			local appinfo = gaxb_xpath(t.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
 			if(appinfo ~= nil) then
-				return true;
+				-- is this schema type? If it is, it isn't an object
+				local type = TYPEMAP[appinfo];
+				if (type == nil or string.sub(type,-1) == "*") then
+					return true;
+				else
+					return false;
+				end
 			end
 			
 			-- If there is no appinfo, then use the restriction
@@ -385,7 +405,7 @@ end
 -- Create a gobal header which includes all of the definition stuff (such as enums)
 print("Generating global header file...")
 gaxb_template("global.h", schema.namespace.."_XMLLoader.h", schema);
-gaxb_template("global.m", schema.namespace.."_XMLLoader.m", schema);
+gaxb_template("global.mm", schema.namespace.."_XMLLoader.mm", schema);
 
 for k,v in pairs(schema.simpleTypes) do
 	if (schema.namespace == v.namespace) then			
@@ -415,7 +435,10 @@ for k,v in pairs(schema.elements) do
 			v1.name = cleanedName(v1.name);
 		end
 		print("Generating class file "..className(v).."...")
-		gaxb_template("element.h", className(v)..".h", v);
-		gaxb_template("element.m", v.namespace.."_"..v.name..".m", v);
+		gaxb_template("element_base.h", className(v).."Base.h", v);
+		gaxb_template("element_base.mm", v.namespace.."_"..v.name.."Base.mm", v);
+		
+		gaxb_template("element.h", className(v)..".h", v, false);
+		gaxb_template("element.mm", v.namespace.."_"..v.name..".mm", v, false);
 	end
 end

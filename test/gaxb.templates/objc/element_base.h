@@ -1,19 +1,4 @@
 <%
--- Copyright (c) 2012 Small Planet Digital, LLC
--- 
--- Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files 
--- (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, 
--- publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
--- subject to the following conditions:
--- 
--- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--- 
--- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
--- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
--- FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--- WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- %>
-<%
 FULL_NAME_CAPS = "_"..string.upper(this.namespace).."_"..string.upper(this.name).."BASE".."_";
 FULL_NAME_CAMEL = capitalizedString(this.namespace).."_"..capitalizedString(this.name).."Base";
 %>//
@@ -21,11 +6,16 @@ FULL_NAME_CAMEL = capitalizedString(this.namespace).."_"..capitalizedString(this
 //
 
 #ifndef <%= FULL_NAME_CAPS %>
+#define <%= FULL_NAME_CAPS %>
 
 #import <Foundation/Foundation.h>
 
 #ifndef FAST_ENUMERATION
 #define FAST_ENUMERATION(x,anys) for(id e = [anys objectEnumerator], x = [e nextObject]; x; x = [e nextObject])
+#endif
+
+#ifndef FAST_ENUMERATION_REV
+#define FAST_ENUMERATION_REV(x,anys) for(id e = [anys reverseObjectEnumerator], x = [e nextObject]; x; x = [e nextObject])
 #endif
 
 <% -- check for ENUMs defined in other namespaces and load their XMLConstants as needed
@@ -55,7 +45,8 @@ for k,v in pairs(this.attributes) do
 			if(appinfo == nil) then
 				appinfo = gaxb_xpath(v.type.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
 			end
-			if(appinfo ~= nil and appinfo[1].content ~= "NAMED_ENUM") then
+			-- If the appinfo indicates it's not an enum or is a simple type, it's a class
+			if(appinfo ~= nil and appinfo[1].content ~= "NAMED_ENUM" and not TYPEMAP[appinfo[1].content]) then
 				table.insertIfNotPresent(classes,appinfo[1].content);
 			end	
 			
@@ -100,6 +91,7 @@ end
 {<% if ( not hasSuperclass(this) ) then %>
 	id parent;
 	NSNumber * uid; 
+	NSMutableDictionary * originalValues;
 	BOOL gaxb_init_called;
 	BOOL gaxb_dealloc_called;
 	
@@ -147,6 +139,7 @@ end
 <% if ( not hasSuperclass(this) ) then %>
 @property (nonatomic, assign) id parent;
 @property (nonatomic, retain) NSNumber * uid;
+@property (nonatomic, retain) NSMutableDictionary * originalValues;
 <% end %>
 <%
 	for k,v in pairs(this.attributes) do
@@ -181,12 +174,15 @@ end
 	end
 
 if (hasSuperclass(this) == false) then %>
-- (NSArray *) validAttributes;
+- (NSDictionary *) validAttributes;
 - (NSString *) xmlns;
 
 - (void) appendXML:(NSMutableString *)xml;
+- (void) appendXML:(NSMutableString *)xml useOriginalValues:(BOOL)useOriginalValues;
 - (void) appendXMLAttributesForSubclass:(NSMutableString *)xml;
+- (void) appendXMLAttributesForSubclass:(NSMutableString *)xml useOriginalValues:(BOOL)useOriginalValues;
 - (void) appendXMLElementsForSubclass:(NSMutableString *)xml;
+- (void) appendXMLElementsForSubclass:(NSMutableString *)xml useOriginalValues:(BOOL)useOriginalValues;
 - (NSString *) translateToXMLSafeString:(NSString *)__value;
 
 - (id) gaxb_init;

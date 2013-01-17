@@ -1,0 +1,3 @@
+[submodule "gaxb"]
+	path = gaxb
+	url = https://github.com/SmallPlanet/gaxb.git

@@ -1,19 +1,4 @@
 <%
--- Copyright (c) 2012 Small Planet Digital, LLC
--- 
--- Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files 
--- (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, 
--- publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
--- subject to the following conditions:
--- 
--- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--- 
--- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
--- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
--- FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--- WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- %>
-<%
 FULL_NAME_CAPS = "_"..string.upper(this.namespace).."_"..string.upper(this.name).."BASE".."_";
 CAP_NAME = capitalizedString(this.name);
 FULL_NAME_CAMEL = capitalizedString(this.namespace).."_"..capitalizedString(this.name).."Base";
@@ -46,6 +31,7 @@ end
 <% if (hasSuperclass(this) == false) then %>
 @synthesize parent;
 @synthesize uid;
+@synthesize originalValues;
 
 - (id) gaxb_init { return self; }
 - (void) gaxb_dealloc {  }
@@ -62,10 +48,19 @@ end
 			gaxb_init_called=YES;
 			[self gaxb_init];
 		}
+		
+		if(!originalValues)
+		{
+			originalValues = [[NSMutableDictionary dictionary] retain];
+		}
+		
 		<%
 		for k,v in pairs(this.sequences) do
 			if (v.name == "any") then %>	
-		anys = [[NSMutableArray array] retain];<%
+		if(!anys)
+		{
+			anys = [[NSMutableArray array] retain];
+		}<%
 			elseif(isPlural(v)) then %>
 		<%= pluralName(v.name) %> = [[NSMutableArray array] retain];<%	
 			end	
@@ -84,6 +79,8 @@ end
 - (void) dealloc 
 {
 	[uid release], uid = nil;
+	
+	[originalValues release], originalValues = nil;
 	
 	if (!gaxb_dealloc_called)
 	{
@@ -110,47 +107,53 @@ end
 	[super dealloc];
 }
 
-- (NSArray *) validAttributes
+- (NSDictionary *) validAttributes
 {
-	static NSArray *validAttributes;
-		validAttributes = [[NSArray alloc] initWithObjects:
+	NSMutableDictionary* validAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 <%
 
 	for k,v in pairs(this.attributes) do
 		--printAllKeys(v)
-		gaxb_print("\t\t\t[NSDictionary dictionaryWithObject:@\""..simpleTypeForItem(v).."\" forKey:@\""..v.name.."\"],\n")
+		gaxb_print("\t\t\t@\""..simpleTypeForItem(v).."\", @\""..v.name.."\",\n")
 	end
 	if (this.mixedContent) then
-		gaxb_print("\t\t\t[NSDictionary dictionaryWithObject:@\"string\" forKey:@\"MixedContent\"],\n");
+		gaxb_print("\t\t\t@\"string\", @\"MixedContent\",\n");
 	end
 	for k,v in pairs(this.sequences) do
 		if (v.name == "any") then
-			gaxb_print("\t\t\t[NSDictionary dictionaryWithObject:@\"any[]\" forKey:@\"anys\"],\n")
+			gaxb_print("\t\t\t@\"any[]\", @\"anys\",\n")
 		elseif(isPlural(v)) then
-			gaxb_print("\t\t\t[NSDictionary dictionaryWithObject:@\""..simpleTypeForItem(v).."[]\" forKey:@\""..pluralName(v.name).."\"],\n")
+			gaxb_print("\t\t\t@\""..simpleTypeForItem(v).."[]\", @\""..pluralName(v.name).."\",\n")
 		else
-	 		gaxb_print("\t\t\t[NSDictionary dictionaryWithObject:@\""..simpleTypeForItem(v).."\" forKey:@\""..v.name.."\"],\n")
+	 		gaxb_print("\t\t\t@\""..simpleTypeForItem(v).."\", @\""..v.name.."\",\n")
 		end
 	end
 %>			nil];
-	
+	<% if (hasSuperclass(this) == true) then %>
+	[validAttributes addEntriesFromDictionary:[super validAttributes]];
+	<% end %>
 	return validAttributes;
 }
 
+#ifdef ANDROID
 - (void) setValue:(id)_value forKey:(NSString *)_key 
-{ 
+{
  	if([_value isKindOfClass:[NSString class]]) 
-	{ 
-    	SEL selector = NSSelectorFromString([NSString stringWithFormat:@"set%@WithString:", [[[_key capitalizedString] substringToIndex:1] stringByAppendingString:[_key substringFromIndex:1]]]);
-    	if([self respondsToSelector:selector]) 
-		{ 
-			[self performSelector:selector withObject:_value]; 
-			return;
-		}
-  	} 
+	{
+<%
+		for k,v in pairs(this.attributes) do
+			--printAllKeys(v)
+			gaxb_print("\t\tif([_key isEqual:@\""..v.name.."\"]) { [self set"..capitalizedString(v.name).."WithString:_value]; return; }\n")
+		end
+%>
+    	SEL selector = NSSelectorFromString([NSString stringWithFormat:@"set%@WithString:", [_key capitalizedString]]);
+		[self performSelector:selector withObject:_value]; 
+		return;
+  	}
 
 	[super setValue:_value forKey:_key];
 }
+#endif
 
 - (void) setValue:(id)value forUndefinedKey:(NSString *)key { }
 
@@ -162,7 +165,11 @@ end
 @synthesize <%= v.name %>Exists;<%
 if (isObject(v)) then  %>
 - (void) set<%= capName %>:(<% if (v.type == "string") then gaxb_print("NSString *") else gaxb_print(typeForItem(v)) end %>)v 
-{ 
+{<% if (typeForItem(v) ~= "NSString *") then %>
+	if([v isKindOfClass:[NSString class]]) 
+		return [self set<%= capName %>WithString:(NSString *)v];
+	<% end %>
+	
 	id _t = <%= v.name %>; 
 	<%= v.name %>Exists=YES; <%
 	if  (v.type == "string") then %>
@@ -187,28 +194,113 @@ else %>
 	<%= v.name %> = v; 
 	[self didChangeValueForKey:@"<%= v.name %>AsString"]; 
 	[self gaxb_valueDidChange:@"<%= v.name %>"]; 
-}<%
+}
+<%if (isEnumForItem(v) == false) then%>
+- (void) set<%= capName %>WithObject:(<%= OBJECTMAP[typeNameForItem(v)] %>)v 
+{ 
+<%	if (typeNameForItem(v)=="BOOL") then %>
+	<%= v.name %>Exists=YES; 
+	[self gaxb_valueWillChange:@"<%= v.name %>"]; 
+	[self willChangeValueForKey:@"<%= v.name %>AsString"]; 
+	<%= v.name %> = [v boolValue]; 
+	[self didChangeValueForKey:@"<%= v.name %>AsString"]; 
+	[self gaxb_valueDidChange:@"<%= v.name %>"];
+<% elseif (typeNameForItem(v)=="float") then %>
+	<%= v.name %>Exists=YES; 
+	[self gaxb_valueWillChange:@"<%= v.name %>"]; 
+	[self willChangeValueForKey:@"<%= v.name %>AsString"]; 
+	<%= v.name %> = [v floatValue]; 
+	[self didChangeValueForKey:@"<%= v.name %>AsString"]; 
+	[self gaxb_valueDidChange:@"<%= v.name %>"];
+<% elseif (typeNameForItem(v)=="short") then %>
+	<%= v.name %>Exists=YES; 
+	[self gaxb_valueWillChange:@"<%= v.name %>"]; 
+	[self willChangeValueForKey:@"<%= v.name %>AsString"]; 
+	<%= v.name %> = [v shortValue]; 
+	[self didChangeValueForKey:@"<%= v.name %>AsString"]; 
+	[self gaxb_valueDidChange:@"<%= v.name %>"];
+<% elseif (typeNameForItem(v)=="int") then %>
+	<%= v.name %>Exists=YES; 
+	[self gaxb_valueWillChange:@"<%= v.name %>"]; 
+	[self willChangeValueForKey:@"<%= v.name %>AsString"]; 
+	<%= v.name %> = [v intValue]; 
+	[self didChangeValueForKey:@"<%= v.name %>AsString"]; 
+	[self gaxb_valueDidChange:@"<%= v.name %>"];
+<% elseif (typeNameForItem(v)=="long") then %>
+	<%= v.name %>Exists=YES; 
+	[self gaxb_valueWillChange:@"<%= v.name %>"]; 
+	[self willChangeValueForKey:@"<%= v.name %>AsString"]; 
+	<%= v.name %> = [v intValue]; 
+	[self didChangeValueForKey:@"<%= v.name %>AsString"]; 
+	[self gaxb_valueDidChange:@"<%= v.name %>"];
+<% elseif (typeNameForItem(v)=="double") then %>
+	<%= v.name %>Exists=YES; 
+	[self gaxb_valueWillChange:@"<%= v.name %>"]; 
+	[self willChangeValueForKey:@"<%= v.name %>AsString"]; 
+	<%= v.name %> = [v doubleValue]; 
+	[self didChangeValueForKey:@"<%= v.name %>AsString"]; 
+	[self gaxb_valueDidChange:@"<%= v.name %>"];
+<% elseif (typeNameForItem(v)=="char") then %>
+	<%= v.name %>Exists=YES; 
+	[self gaxb_valueWillChange:@"<%= v.name %>"]; 
+	[self willChangeValueForKey:@"<%= v.name %>AsString"]; 
+	<%= v.name %> = [v intValue]; 
+	[self didChangeValueForKey:@"<%= v.name %>AsString"]; 
+	[self gaxb_valueDidChange:@"<%= v.name %>"];
+<% elseif (isEnumForItem(v)) then %>
+	<%= v.name %>Exists=YES; 
+	[self gaxb_valueWillChange:@"<%= v.name %>"]; 
+	[self willChangeValueForKey:@"<%= v.name %>AsString"]; 
+	<%= v.name %> = [v intValue]; 
+	[self didChangeValueForKey:@"<%= v.name %>AsString"]; 
+	[self gaxb_valueDidChange:@"<%= v.name %>"];
+<% else %>
+	// bleh 
+<% end %>
+}
+- (id) <%= v.name %>AsObject
+{ 
+<%	if (typeNameForItem(v)=="BOOL") then %>
+	return [NSNumber numberWithBool:<%= v.name %>];
+<% elseif (typeNameForItem(v)=="float") then %>
+	return [NSNumber numberWithFloat:<%= v.name %>];
+<% elseif (typeNameForItem(v)=="short") then %>
+	return [NSNumber numberWithShort:<%= v.name %>];
+<% elseif (typeNameForItem(v)=="int") then %>
+	return [NSNumber numberWithInt:<%= v.name %>];
+<% elseif (typeNameForItem(v)=="long") then %>
+	return [NSNumber numberWithLong:<%= v.name %>];
+<% elseif (typeNameForItem(v)=="double") then %>
+	return [NSNumber numberWithFloat:<%= v.name %>];
+<% elseif (typeNameForItem(v)=="char") then %>
+	return [NSNumber numberWithInt:<%= v.name %>];
+<% elseif (isEnumForItem(v)) then %>
+	return [NSNumber numberWithInt:<%= v.name %>];
+<% else %>
+	// bleh 
+<% end %>
+}<% end %><%
 end %>	
 - (NSString *) <%= v.name %>AsString {<%
-if (TYPEMAP[v.type]=="BOOL") then
+if (typeNameForItem(v)=="BOOL") then
 	%> return ((<%= v.name %>Exists) ? (<%= v.name %> ? @"true" : @"false") : nil); <%
-elseif (TYPEMAP[v.type]=="float") then 
+elseif (typeNameForItem(v)=="float") then 
 	%> return ((<%= v.name %>Exists) ? [[NSNumber numberWithFloat:<%= v.name %>] stringValue] : nil); <%
-elseif (TYPEMAP[v.type]=="short") then 
+elseif (typeNameForItem(v)=="short") then 
 	%> return ((<%= v.name %>Exists) ? [[NSNumber numberWithShort:<%= v.name %>] stringValue] : nil); <%
-elseif (TYPEMAP[v.type]=="int" or isEnumForItem(v)) then
+elseif (typeNameForItem(v)=="int" or isEnumForItem(v)) then
 	%> return ((<%= v.name %>Exists) ? [[NSNumber numberWithInt:<%= v.name %>] stringValue] : nil); <%
-elseif (TYPEMAP[v.type]=="long") then
+elseif (typeNameForItem(v)=="long") then
 	%> return ((<%= v.name %>Exists) ? [[NSNumber numberWithLong:<%= v.name %>] stringValue] : nil); <%
-elseif (TYPEMAP[v.type]=="double") then
+elseif (typeNameForItem(v)=="double") then
 	%> return ((<%= v.name %>Exists) ? [[NSNumber numberWithDouble:<%= v.name %>] stringValue] : nil); <%
-elseif (TYPEMAP[v.type]=="char") then 
+elseif (typeNameForItem(v)=="char") then 
 	%> return ((<%= v.name %>Exists) ? [[NSNumber numberWithChar:<%= v.name %>] stringValue] : nil); <%
-elseif (TYPEMAP[v.type]=="date") then 
+elseif (typeNameForItem(v)=="date") then 
 	%> return [self dateStringFromSchema:<%= v.name %>]; <%
-elseif (TYPEMAP[v.type]=="dateTime") then
+elseif (typeNameForItem(v)=="dateTime") then
 	%> return [self dateTimeStringFromSchema:<%= v.name %>]; <%
-elseif (TYPEMAP[v.type]=="base64Binary") then
+elseif (typeNameForItem(v)=="base64Binary") then
 	%> return [<%= v.name %> base64Encoding]; <%
 else
 	%> return [<%= v.name %> description]; <%
@@ -216,19 +308,19 @@ end %>}
 - (void) set<%= capName %>WithString:(NSString *)string 
 { 	
 	<%= v.name %>Exists=YES; <%	
-if (TYPEMAP[v.type]=="BOOL") then %>
+if (typeNameForItem(v)=="BOOL") then %>
 	[self set<%= capName %>:([string isEqualToString:@"true"] ? YES : NO)];
-<% elseif (TYPEMAP[v.type]=="float") then %>
+<% elseif (typeNameForItem(v)=="float") then %>
 	[self set<%= capName %>:[string floatValue]];
-<% elseif (TYPEMAP[v.type]=="short") then %>
+<% elseif (typeNameForItem(v)=="short") then %>
 	[self set<%= capName %>:[string shortValue]];
-<% elseif (TYPEMAP[v.type]=="int") then %>
+<% elseif (typeNameForItem(v)=="int") then %>
 	[self set<%= capName %>:[string intValue]];
-<% elseif (TYPEMAP[v.type]=="long") then %>
-	[self set<%= capName %>:[string longValue]];
-<% elseif (TYPEMAP[v.type]=="double") then %>
+<% elseif (typeNameForItem(v)=="long") then %>
+	[self set<%= capName %>:[string intValue]];
+<% elseif (typeNameForItem(v)=="double") then %>
 	[self set<%= capName %>:[string doubleValue]];
-<% elseif (TYPEMAP[v.type]=="char") then %>
+<% elseif (typeNameForItem(v)=="char") then %>
 	[self set<%= capName %>:[string intValue];
 <% elseif (v.type=="date") then %>
 	[self set<%= capName %>:[self schemaDateFromString:string]]; 
@@ -306,53 +398,68 @@ if (TYPEMAP[v.type]=="BOOL") then %>
 	end
 %>	
 
-
 - (void) appendXMLAttributesForSubclass:(NSMutableString *)xml
 {
-<% if (hasSuperclass(this)) then %>	[super appendXMLAttributesForSubclass:xml];
+	[self appendXMLAttributesForSubclass:xml useOriginalValues:false];
+}
+
+
+- (void) appendXMLAttributesForSubclass:(NSMutableString *)xml useOriginalValues:(BOOL)useOriginalValues
+{
+<% if (hasSuperclass(this)) then %>	[super appendXMLAttributesForSubclass:xml useOriginalValues:useOriginalValues];
 <% end
 for k,v in pairs(this.attributes) do
-	if (v.type == "boolean") then 
-%>	if (<%= v.name %>Exists || <%= v.name %> ) { [xml appendFormat:@" <%= v.name %>='%@'", SAFESTRING(((<%= v.name %>Exists || <%= v.name %> ) ? (<%= v.name %> ? @"true" : @"false") : NULL))]; }
-<% elseif (TYPEMAP[v.type]=="short") then %>
-	if (<%= v.name %>Exists || <%= v.name %> ) { [xml appendFormat:@" <%= v.name %>='%hi'", <%= v.name %>]; }
-<% elseif (TYPEMAP[v.type]=="int" or isEnumForItem(v)) then %>
-	if (<%= v.name %>Exists || <%= v.name %> ) { [xml appendFormat:@" <%= v.name %>='%i'", <%= v.name %>]; }
-<% elseif (TYPEMAP[v.type]=="long") then %>
-	if (<%= v.name %>Exists || <%= v.name %> ) { [xml appendFormat:@" <%= v.name %>='%ld'", <%= v.name %>]; }
-<% elseif (TYPEMAP[v.type]=="char") then %>
-	if (<%= v.name %>Exists || <%= v.name %> ) { [xml appendFormat:@" <%= v.name %>='%i'", <%= v.name %>]; }
-<% elseif (TYPEMAP[v.type]=="float" or TYPEMAP[v.type]=="double") then %>
-	if (<%= v.name %>Exists || <%= v.name %> ) 
+	if (typeNameForItem(v) == "BOOL") then 
+%>	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%@'", SAFESTRING(((<%= v.name %>Exists || <%= v.name %> ) ? (<%= v.name %> ? @"true" : @"false") : NULL))]; }
+<% elseif (typeNameForItem(v)=="short") then %>
+	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%hi'", <%= v.name %>]; }
+<% elseif (typeNameForItem(v)=="int" or isEnumForItem(v)) then %>
+	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%i'", <%= v.name %>]; }
+<% elseif (typeNameForItem(v)=="long") then %>
+	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%ld'", <%= v.name %>]; }
+<% elseif (typeNameForItem(v)=="char") then %>
+	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%i'", <%= v.name %>]; }
+<% elseif (typeNameForItem(v)=="float" or typeNameForItem(v)=="double") then %>
+	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) 
 	{ 
 		NSString *s = [[NSString stringWithFormat:@"%0.2f", <%= v.name %>] stringByReplacingOccurrencesOfString:@".00" withString:@""]; 
 		[xml appendFormat:@" <%= v.name %>='%@'", s]; 
 	}
 <% elseif (v.type=="date") then %>
-	if (<%= v.name %>Exists || <%= v.name %> ) [xml appendFormat:@" <%= v.name %>='%@'", [self dateStringFromSchema:<%= v.name %>]]; 
+	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%@'", [self dateStringFromSchema:<%= v.name %>]]; }
 <% elseif (v.type=="dateTime") then %>
-	if (<%= v.name %>Exists | <%= v.name %> ) [xml appendFormat:@" <%= v.name %>='%@'", [self dateTimeStringFromSchema:<%= v.name %>]]; 
+	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%@'", [self dateTimeStringFromSchema:<%= v.name %>]]; }
 <% elseif (v.type=="base64Binary") then %>
-	if (<%= v.name %>Exists | <%= v.name %> ) [xml appendFormat:@" <%= v.name %>='%@'", [<%= v.name %> base64Encoding]]; 
+	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%@'", [<%= v.name %> base64Encoding]]; }
 <% elseif (v.type=="string") then %>
-	if (<%= v.name %>) [xml appendFormat:@" <%= v.name %>='%@'", SAFESTRING(<%= v.name %>)]; 
-<% 	else %>	if (<%= v.name %>) { [xml appendFormat:@" <%= v.name %>='%@'", SAFESTRING([<%= v.name %> description])]; }
-<%	end
-end
-%>}
+	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%@'", SAFESTRING(<%= v.name %>)]; }
+<% 	else %>	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %>)) { [xml appendFormat:@" <%= v.name %>='%@'", SAFESTRING([<%= v.name %> description])]; }
+<%	end %>
+	else if([[self valueForKey:@"originalValues"] valueForKey:@"<%= v.name %>"]) { [xml appendFormat:@" <%= v.name %>='%@'", SAFESTRING([[[self valueForKey:@"originalValues"] valueForKey:@"<%= v.name %>"] description])]; }
+
+<%end
+%>
+
+}
 
 - (void) appendXMLElementsForSubclass:(NSMutableString *)xml
 {
-<% if (hasSuperclass(this)) then %>	[super appendXMLElementsForSubclass:xml];
+	[self appendXMLElementsForSubclass:xml useOriginalValues:false];
+}
+
+- (void) appendXMLElementsForSubclass:(NSMutableString *)xml useOriginalValues:(BOOL)useOriginalValues
+{
+<% if (this.mixedContent) then %>[xml appendFormat:@"%@", SAFESTRING(MixedContent)];<% end %>
+<% if (hasSuperclass(this)) then %>	[super appendXMLElementsForSubclass:xml useOriginalValues:useOriginalValues];
 <% end
 for k,v in pairs(this.sequences) do
 -- print(table.tostring(v))
 	if (v.name == "any") then 
 %>
-	FAST_ENUMERATION(x,anys) { [x appendXML:xml]; } 
+	FAST_ENUMERATION(x,anys) { [x appendXML:xml useOriginalValues:useOriginalValues]; } 
 <%	elseif (v.ref ~= nil) then 
 		if (isPlural(v)) then
-%>	FAST_ENUMERATION(x,<%= pluralName(v.name) %>) { [x appendXML:xml]; } 
+%>	FAST_ENUMERATION(x,<%= pluralName(v.name) %>) { [x appendXML:xml useOriginalValues:useOriginalValues]; } 
 <% 		else
 %>	[<%= v.name %> appendXML:xml];<%
 	  	end
@@ -366,14 +473,19 @@ end
 
 - (void) appendXML:(NSMutableString *)xml
 {
+	[self appendXML:xml useOriginalValues:false];
+}
+
+- (void) appendXML:(NSMutableString *)xml useOriginalValues:(BOOL)useOriginalValues
+{
 	[xml appendFormat:@"<<%= CAP_NAME %>"];
 	if ([parent performSelector:@selector(xmlns)] != @"<%= this.namespaceURL %>") 
 	{ 
 		[xml appendFormat:@" xmlns='<%= this.namespaceURL %>'"]; 
 	} 
-	[self appendXMLAttributesForSubclass:xml];
+	[self appendXMLAttributesForSubclass:xml useOriginalValues:useOriginalValues];
 	NSMutableString * elems = [NSMutableString string];
-	[self appendXMLElementsForSubclass:elems];
+	[self appendXMLElementsForSubclass:elems useOriginalValues:useOriginalValues];
 	if([elems length])
 	{
 		[xml appendFormat:@">"];

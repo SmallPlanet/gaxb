@@ -1,19 +1,4 @@
 <%
--- Copyright (c) 2012 Small Planet Digital, LLC
--- 
--- Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files 
--- (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, 
--- publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
--- subject to the following conditions:
--- 
--- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--- 
--- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
--- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
--- FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--- WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- %>
-<%
 FULL_NAME_CAPS = "_"..string.upper(this.namespace).."_"
 FULL_NAME_CAMEL = capitalizedString(this.namespace)
 %>
@@ -24,7 +9,6 @@ FULL_NAME_CAMEL = capitalizedString(this.namespace)
 #import <objc/message.h>
 #import <objc/runtime.h>
 #import "<%= FULL_NAME_CAMEL %>_XMLLoader.h"
-#import <Foundation/Foundation.h>
 
 #ifndef TARGET_OS_IPHONE
 #define objc_msgSend(object,selector,argument)	{ IMP imp = objc_msg_lookup(object, selector); imp(object, selector, argument); }
@@ -215,7 +199,7 @@ end
 static NSString * cappedString(NSString *name) 
 {
 	char first = toupper([name characterAtIndex: 0]);
-	return [NSString stringWithFormat: @"%c%s", first, [name substringFromIndex: 1]];
+	return [NSString stringWithFormat: @"%c%@", first, [name substringFromIndex: 1]];
 }
 
 + (NSString *)setterName:(NSString *)name {
@@ -311,6 +295,19 @@ static NSString * cappedString(NSString *name)
 	if([object respondsToSelector:@selector(appendXML:)])
 	{
 		[object performSelector:@selector(appendXML:) withObject:scratch];
+	}
+	
+	return scratch;
+}
+
++ (NSString *) writeOriginalXMLToString:(id)object
+{
+	NSMutableString * scratch = [NSMutableString string];
+	[scratch appendString:@"<?xml version=\\"1.0\\" encoding=\\"UTF-8\\"?>"];
+	
+	if([object respondsToSelector:@selector(appendXML:useOriginalValues:)])
+	{
+		[object performSelector:@selector(appendXML:useOriginalValues:) withObject:scratch withObject:[NSNumber numberWithBool:true]];
 	}
 	
 	return scratch;
@@ -548,7 +545,6 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 {
 	char className[kMaxSelectorName];
 	TBXMLAttribute * repObjBindings[kMaxSelectorName];
-	TBXMLAttribute * mainRepObj = NULL;
 	int nRepObjBindings = 0;
 	TBXMLAttribute * attribute;
 	
@@ -605,6 +601,13 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 		
 		[object performSelector:@selector(setUid:) withObject:[NSNumber numberWithInt:_XmlElementUid++]];
 		[object performSelector:@selector(setParent:) withObject:parent];
+
+		SEL origValueSelector = sel_getUid("setOriginalValues:");
+		NSMutableDictionary * origValues;
+		if (origValueSelector &&  class_respondsToSelector(c, origValueSelector))
+		{
+			origValues = [[[NSMutableDictionary alloc] init] autorelease];
+		}
 		
 		// Handle attributes...
 		attribute = element->firstAttribute;
@@ -612,70 +615,37 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 		{
 			if (attribute->value && attribute->value[0])
 			{
-				if (strcmp(attribute->name, "representedObjectBindings"))
+				ConvertName(attribute->name, scratch);
+				strncpy(selectorName, "set", sizeof(selectorName));
+				selectorName[3] = toupper(scratch[0]);
+				strncat(selectorName, scratch+1, sizeof(selectorName));
+				strncat(selectorName, "WithString:", sizeof(selectorName));
+				
+				SEL selector = sel_getUid(selectorName);
+				if (selector && class_respondsToSelector(c, selector))
 				{
-					ConvertName(attribute->name, scratch);
-					strncpy(selectorName, "set", sizeof(selectorName));
-					selectorName[3] = toupper(scratch[0]);
-					strncat(selectorName, scratch+1, sizeof(selectorName));
-					strncat(selectorName, "WithString:", sizeof(selectorName));
-					
-					SEL selector = sel_getUid(selectorName);
-					if (selector && class_respondsToSelector(c, selector))
+					if ((attribute->value[0] == '$' && attribute->value[1] != '$' && attribute->value[1]) || (attribute->value[0] == '@' && attribute->value[1] != '@' && attribute->value[1]))
 					{
-						if ((attribute->value[0] == '$' && attribute->value[1] != '$' && attribute->value[1]) || (attribute->value[0] == '@' && attribute->value[1] != '@' && attribute->value[1]))
+						if (selector && class_respondsToSelector(c, selector))
 						{
-							if (selector && class_respondsToSelector(c, selector))
-							{
-								repObjBindings[nRepObjBindings] = attribute;
-								nRepObjBindings++;
-							}
-						} 
-						else
-						{
-							objc_msgSend(object, selector, [(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribute->value), kCFStringEncodingUTF8) autorelease]);
+							repObjBindings[nRepObjBindings] = attribute;
+							nRepObjBindings++;
 						}
+					} 
+					else
+					{
+						objc_msgSend(object, selector, [(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribute->value), kCFStringEncodingUTF8) autorelease]);
 					}
-				}
-				else
-				{
-					mainRepObj = attribute;
+					char attribName[kMaxSelectorName];
+					ConvertName(attribute->name, attribName);
+					[origValues setValue:[(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribute->value), kCFStringEncodingUTF8) autorelease]
+							  		forKey:[(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribName), kCFStringEncodingUTF8) autorelease]];
 				}
 			}
 			attribute = attribute->next;
 		}
-		
-		if (nRepObjBindings || mainRepObj)
-		{
-			Class jsonClass = objc_lookUpClass("tJSON");
-			SEL selector = sel_getUid("setRepresentedObjectBindings:");
-			if (selector && jsonClass &&  class_respondsToSelector(c, selector))
-			{
-				NSObject * repObj = NULL;
-				
-				if(mainRepObj)
-				{
-					repObj = [[[jsonClass alloc] initWithString:[(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(mainRepObj->value), kCFStringEncodingUTF8) autorelease]] autorelease];
-				}
-				else
-				{
-					repObj = [[[jsonClass alloc] init] autorelease];
-				}
-				
-				for (int i = 0; i < nRepObjBindings; i++)
-				{
-					attribute = repObjBindings[i];
-					
-					char attribName[kMaxSelectorName];
-					ConvertName(attribute->name, attribName);
-					
-					[repObj setValue:[(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribute->value), kCFStringEncodingUTF8) autorelease]
-							  forKey:[(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribName), kCFStringEncodingUTF8) autorelease]];
-				}
-				
-				objc_msgSend(object, selector, repObj);
-			}
-		}
+
+		objc_msgSend(object, origValueSelector, origValues);
 		
 		// Handle mixed content ( if it exists )
 		if (element->text && element->text[0])
@@ -719,7 +689,7 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 					objc_msgSend(object, selector, [(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(element->text), kCFStringEncodingUTF8) autorelease]);
 				}
 			}
-			if ([childObject respondsToSelector:@selector(gaxb_loadDidComplete)])	{ [childObject gaxb_loadDidComplete]; }
+			if ([childObject respondsToSelector:@selector(gaxb_loadDidComplete)])	{ [childObject performSelector:@selector(gaxb_loadDidComplete)]; }
 			
 			element = element->nextSibling;
 		}
