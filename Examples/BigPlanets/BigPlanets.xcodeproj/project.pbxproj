@@ -339,7 +339,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "GAXB_DIR=\"../..\"\n\nSDKROOT=\"\"\nSDK_NAME=\"\"\nSDK_NAME=\"\"\nmkdir -p \"$GAXB_DIR//build\"\ncd \"$GAXB_DIR/build\"\ncmake ..\nmake";
+			shellScript = "GAXB_DIR=\"$PROJECT_DIR/../..\"\n\nSDKROOT=\"\"\nSDK_NAME=\"\"\nSDK_NAME=\"\"\nmkdir -p \"$GAXB_DIR//build\"\ncd \"$GAXB_DIR/build\"\ncmake ..\nmake";
 		};
 		A9A4E43116A0B4B100AA4449 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -352,7 +352,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$PROJECT_DIR/Generated\"\nGAXB_ROOT=\"../..\"\n\nfor xsd_path in $(find \"$PROJECT_DIR/XMLSchema\" -name \"*.xsd\" -print );\ndo\n    mkdir -p \"$PROJECT_DIR/generated/\";\n    \"$GAXB_ROOT/build/gaxb\" objc \"$xsd_path\" -t \"$GAXB_ROOT/test/gaxb.templates\" -o \"$PROJECT_DIR/Generated\"\ndone\n";
+			shellScript = "mkdir -p \"$PROJECT_DIR/Generated\"\nGAXB_ROOT=\"$PROJECT_DIR/../..\"\n\nfor xsd_path in $(find \"$PROJECT_DIR/XMLSchema\" -name \"*.xsd\" -print );\ndo\n    mkdir -p \"$PROJECT_DIR/generated/\";\n    \"$GAXB_ROOT/build/gaxb\" objc \"$xsd_path\" -t \"$GAXB_ROOT/test/gaxb.templates\" -o \"$PROJECT_DIR/Generated\"\ndone\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
