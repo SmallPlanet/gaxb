@@ -18,4 +18,6 @@ DerivedData
 .idea/
 *.hmap
 build
-Generated
+Generated/*Base.*
+Generated/*_XMLLoader.*
+Generated/*_XMLConstants.h
