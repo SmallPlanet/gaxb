@@ -54,7 +54,7 @@
         self.detailMassLabel.text = [self.detailItem massAsString];
         self.detailRadiusLabel.text = [self.detailItem equatorialRadiusAsString];
         self.detailVolumeLabel.text = [self.detailItem estimatedVolumeAsString];
-        self.detailRingsLabel.text = [self.detailItem hasRingsAsWittyString];
+        self.detailRingsLabel.text = [NSString stringWithFormat:@"%@\n \n ",[self.detailItem hasRingsAsWittyString]];
         self.detailMoonsLabel.text = [NSString stringWithFormat:@"%d",[[self.detailItem Moons] count]];
     }
 }
