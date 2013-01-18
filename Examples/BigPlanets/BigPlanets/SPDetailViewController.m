@@ -20,6 +20,11 @@
     [_detailItem release];
     [_detailDescriptionLabel release];
     [_masterPopoverController release];
+    [_detailRadiusLabel release];
+    [_detailMassLabel release];
+    [_detailVolumeLabel release];
+    [_detailRingsLabel release];
+    [_detailMoonsLabel release];
     [super dealloc];
 }
 
@@ -46,6 +51,11 @@
 
     if (self.detailItem) {
         self.detailDescriptionLabel.text = [self.detailItem name];
+        self.detailMassLabel.text = [self.detailItem massAsString];
+        self.detailRadiusLabel.text = [self.detailItem equatorialRadiusAsString];
+        self.detailVolumeLabel.text = [self.detailItem estimatedVolumeAsString];
+        self.detailRingsLabel.text = [self.detailItem hasRingsAsWittyString];
+        self.detailMoonsLabel.text = [NSString stringWithFormat:@"%d",[[self.detailItem Moons] count]];
     }
 }
 

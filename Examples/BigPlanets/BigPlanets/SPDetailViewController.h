@@ -7,11 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Planets_XMLLoader.h"
 
 @interface SPDetailViewController : UIViewController <UISplitViewControllerDelegate>
 
-@property (strong, nonatomic) id detailItem;
+@property (strong, nonatomic) Planets_Planet *detailItem;
 
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (retain, nonatomic) IBOutlet UILabel *detailMassLabel;
+@property (retain, nonatomic) IBOutlet UILabel *detailRadiusLabel;
+@property (retain, nonatomic) IBOutlet UILabel *detailVolumeLabel;
+@property (retain, nonatomic) IBOutlet UILabel *detailRingsLabel;
+@property (retain, nonatomic) IBOutlet UILabel *detailMoonsLabel;
+
 
 @end
