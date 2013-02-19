@@ -40,15 +40,18 @@ The executable (gaxb) will be waiting for you in the current directory!
 
 ## Usage
 
-If you want to give it a whirl straight away (after building), try the following from the gaxb directory:
+If you want to give it a whirl straight away (after building), try the following from the Examples/Sample directory:
 
 ```bash
 mkdir Generated
-build/gaxb objc test/sample.xsd -t test/gaxb.templates/ -o Generated
+../../build/gaxb objc sample.xsd -t ../../templates -o Generated
 ```
 
-This will generate some quick classes in Objective-C based on the schema at test/sample.xsd.
+This will generate some quick Objective-C classes in Generated/ based on the schema at sample.xsd.
 
+## Example Project
+
+A sample XCode project for an iOS app using gaxb-generated classes is included in Examples/BigPlanet. Open BigPlanet.xcodeproj from that directory in XCode, select iPhone or iPad Simulator, then Build and Run. This simple example uses the schema located at XMLSchema/Planets.xsd and loads sample data in BigPlanets/sol.xml.  
 
 ## License
 

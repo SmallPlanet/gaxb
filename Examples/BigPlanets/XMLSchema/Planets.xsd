@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:pl="http://schema.smallplanet.com/Planets"
+    targetNamespace="http://schema.smallplanet.com/Planets">
+
+	<simpleType name="MenuAction">
+		<annotation>
+			<appinfo>TYPEDEF</appinfo>
+		</annotation>
+        	<restriction base="string">
+			<enumeration value = "MENU_ACTION_SORT_NAME"/>
+			<enumeration value = "MENU_ACTION_SORT_VINTAGE"/>
+			<enumeration value = "MENU_ACTION_SORT_REGION"/>
+		</restriction>
+    </simpleType>
+	
+	<element name="AstronomicalObject" type="pl:AstronomicalObject"/>
+    <complexType name="AstronomicalObject">
+		<attribute name="name" type="string" use="required" />
+		<attribute name="mass" type="float" use="required" />
+		<attribute name="meanOrbitalDistance" type="float" use="optional" />
+		<attribute name="orbitalPeriod" type="float" use="optional" />
+		<attribute name="equatorialRadius" type="float" use="optional" />
+		<attribute name="equatorialGravity" type="float" use="optional" />
+    </complexType>
+	
+	<element name="Moon" type="pl:Moon"/>
+    <complexType name="Moon">
+		<complexContent>
+			<extension base="pl:AstronomicalObject"/>
+		</complexContent>
+    </complexType>
+
+	<element name="Planet" type="pl:Planet"/>
+    <complexType name="Planet">
+		<complexContent>
+			<extension base="pl:AstronomicalObject">
+				<sequence>
+					<element ref="pl:Moon" minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
+				<attribute name="hasRings" type="boolean" default="false" />
+			</extension>
+		</complexContent>
+    </complexType>
+
+	<element name="SolarSystem" type="pl:SolarSystem"/>
+    <complexType name="SolarSystem">
+		<sequence>
+			<element ref="pl:Planet" minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+		<attribute name="numberOfSuns" type="int" default="1" />
+    </complexType>
+
+<!-- http://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System -->
+</schema>
