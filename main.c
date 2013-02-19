@@ -71,6 +71,9 @@ struct _xmlSchemaBucket
 
 #pragma mark -
 
+static int NUM_EXTRA_ARGUMENTS = 0;
+static char ** EXTRA_ARGUMENTS;
+
 static const char *TEMPLATE_BASE_PATH = "";
 static const char *LANGUAGE_ID        = NULL;
 static const char *SCHEMA_PATH        = NULL;
@@ -1104,6 +1107,34 @@ static int _engine_gaxb_print(lua_State *ls)
    return(0);
 }
 
+static int _engine_gaxb_flag(lua_State *ls)
+{
+   int n = lua_gettop(ls);
+
+   // _engine_gaxb_flag() takes 1 arguments
+   // 1: the flag to check if it was defined on the command line
+
+   if (n != 1)
+   {
+      fprintf(stderr, "_engine_gaxb_flag called with %d arguments (requires 1)", n);
+      return(0);
+   }
+
+	int i;
+	const char *flagToCheck = lua_tostring(ls, 1);
+	for(i = 0; i < NUM_EXTRA_ARGUMENTS; i++)
+	{
+		const char * c = EXTRA_ARGUMENTS[i];
+		if(!strcmp(c, flagToCheck))
+		{
+			lua_pushboolean(luaVM, 1);
+			return(1);
+		}
+	}
+	lua_pushboolean(luaVM, 0);
+   return(1);
+}
+
 static int _engine_gaxb_template(lua_State *ls)
 {
    int n = lua_gettop(ls);
@@ -1260,6 +1291,7 @@ void lua_init()
 
    lua_register(luaVM, "gaxb_template", _engine_gaxb_template);
    lua_register(luaVM, "gaxb_print", _engine_gaxb_print);
+   lua_register(luaVM, "gaxb_flag", _engine_gaxb_flag);
    lua_register(luaVM, "gaxb_reference", _engine_gaxb_reference);
    lua_register(luaVM, "gaxb_xpath", _engine_gaxb_xpath);
 
@@ -1383,6 +1415,12 @@ int main(int argc, char *const argv[])
          usage();
       }
    }
+   argc -= optind;
+   argv += optind;
+
+   // read in custom set variable toggles
+   EXTRA_ARGUMENTS = (char **)argv;
+   NUM_EXTRA_ARGUMENTS = argc;
 
    fprintf(stderr, "LANGUAGE_ID: %s\n", LANGUAGE_ID);
    fprintf(stderr, "SCHEMA_PATH: %s\n", SCHEMA_PATH);
