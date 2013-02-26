@@ -157,10 +157,11 @@ function hasSuperclass(v)
 	return (v.extension ~= nil)
 end
 
-function classNameFromRef(r)
+function classNameFromRef(t)
+	local r = t.ref;
 	local parts = string.split(r,":");
 	if (#parts == 2) then
-		return capitalizedString(parts[1]).."_"..capitalizedString(parts[2]);
+		return capitalizedString(t.namespace).."_"..capitalizedString(parts[2]);
 	else
 		return "UNKNOWN_REF"
 	end
@@ -188,7 +189,7 @@ function simpleTypeForItem(v)
 		return lowercasedString(v.type.namespace)..":"..v.type.name;
 	end
 	if (t.ref ~= nil) then
-		return 	classNameFromRef(t.ref)
+		return 	classNameFromRef(t)
 	end
 	print(table.tostring(t))	
 	print(typeForItem(v))
@@ -233,7 +234,7 @@ function typeForItem(v)
 		end
 		
 		if(t.ref ~= nil) then
-			return classNameFromRef(t.ref).." *";
+			return classNameFromRef(t).." *";
 		end
 		
 		if(t.type == "element") then

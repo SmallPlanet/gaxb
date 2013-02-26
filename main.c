@@ -288,8 +288,29 @@ void copyElementSequencesAttributesToLua(xmlNode *a_node)
                      lua_settable(luaVM, -3);
 
                      lua_run("TEMP1.type = '%s'", "element");
-                     lua_run("TEMP1.namespace = '%s'", (strrchr((const char *)seq_node->ns->href, '/') + 1));
-                     lua_run("TEMP1.namespaceURL = '%s'", (const char *)seq_node->ns->href);
+                      
+                      // use the ref's prefix to get the correct namespace
+                      const xmlChar *prefix = xmlGetProp(seq_node, XMLCHAR("ref"));
+                      const xmlChar *nsURL = NULL;
+                      if (prefix != NULL)
+                      {
+                          const xmlChar *colon = xmlStrchr(prefix, ':');
+                          if (colon != NULL)
+                          {
+                              nsURL = xmlXPathNsLookup(xpathCtx,xmlStrsub(prefix,0,(int)(colon-prefix)));
+                          }
+                      }
+                      
+                      if (nsURL != NULL)
+                      {
+                          lua_run("TEMP1.namespace = '%s'", (strrchr((const char *)nsURL, '/') + 1));
+                          lua_run("TEMP1.namespaceURL = '%s'", (const char *)nsURL);
+                      }
+                      else
+                      {
+                          lua_run("TEMP1.namespace = '%s'", (strrchr((const char *)seq_node->ns->href, '/') + 1));
+                          lua_run("TEMP1.namespaceURL = '%s'", (const char *)seq_node->ns->href);
+                      }
 
                      for (xmlAttrPtr attr = seq_node->properties; NULL != attr; attr = attr->next)
                      {
