@@ -15,7 +15,7 @@
 	
 }
 
-- (NSString *) hasRingsAsWittyString;
+- (NSString *) hasRingsAnswerString;
 
 @end
 

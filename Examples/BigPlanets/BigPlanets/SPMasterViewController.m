@@ -17,7 +17,7 @@
 
 @implementation SPMasterViewController
 
-@synthesize sol;
+@synthesize solarSystem;
 
 - (void)awakeFromNib
 {
@@ -32,7 +32,7 @@
 {
     [_detailViewController release];
     [_objects release];
-    [sol release]; sol = nil;
+    [solarSystem release]; solarSystem = nil;
     [super dealloc];
 }
 
@@ -42,8 +42,14 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.detailViewController = (SPDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     
-    self.sol = [Planets_XMLLoader readFromFile:[[NSBundle mainBundle] pathForResource:@"sol" ofType:@".xml"]];
-    self.detailViewController.detailItem = sol.Planets[2];
+    // load sol.xml, which defines our solar system and its astronomical objects.
+    self.solarSystem = [Planets_XMLLoader readFromFile:[[NSBundle mainBundle] pathForResource:@"sol" ofType:@".xml"]];
+    
+    // add the stars, planets, and moons to the collection of astronomical objects.
+    self.solarSystem.AstronomicalObjects = [NSMutableArray arrayWithArray:self.solarSystem.Stars];
+    [self.solarSystem.AstronomicalObjects addObjectsFromArray:self.solarSystem.Planets];
+    
+    self.detailViewController.detailItem = solarSystem.Planets[2]; // display Earth by default on load
     [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
 
@@ -62,14 +68,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[sol Planets] count];
+    return [[solarSystem Planets] count] + [[solarSystem Stars] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    Planets_Planet *object = sol.Planets[indexPath.row];
+    Planets_Planet *object = solarSystem.Planets[indexPath.row];
     cell.textLabel.text = [object name];
     return cell;
 }
@@ -93,7 +99,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        self.detailViewController.detailItem = sol.Planets[indexPath.row];
+        self.detailViewController.detailItem = solarSystem.Planets[indexPath.row];
     }
 }
 
@@ -101,7 +107,7 @@
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        [[segue destinationViewController] setDetailItem:sol.Planets[indexPath.row]];
+        [[segue destinationViewController] setDetailItem:solarSystem.Planets[indexPath.row]];
     }
 }
 

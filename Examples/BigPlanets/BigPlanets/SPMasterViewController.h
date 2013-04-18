@@ -13,10 +13,10 @@
 
 @interface SPMasterViewController : UITableViewController
 {
-    Planets_SolarSystem *sol;
+    Planets_SolarSystem *solarSystem;
 }
 
 @property (strong, nonatomic) SPDetailViewController *detailViewController;
-@property (nonatomic, retain) Planets_SolarSystem *sol;
+@property (nonatomic, retain) Planets_SolarSystem *solarSystem;
 
 @end

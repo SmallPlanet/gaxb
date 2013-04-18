@@ -54,8 +54,18 @@
         self.detailMassLabel.text = [self.detailItem massAsString];
         self.detailRadiusLabel.text = [self.detailItem equatorialRadiusAsString];
         self.detailVolumeLabel.text = [self.detailItem estimatedVolumeAsString];
-        self.detailRingsLabel.text = [NSString stringWithFormat:@"%@\n \n ",[self.detailItem hasRingsAsWittyString]];
-        self.detailMoonsLabel.text = [NSString stringWithFormat:@"%d",[[self.detailItem Moons] count]];
+        self.detailRingsLabel.text = [NSString stringWithFormat:@"%@\n \n ",[self.detailItem hasRingsAnswerString]];
+
+        // list the moon names
+        if([[self.detailItem Moons] count] > 0) {
+            NSString* moonList = @"";
+            for(Planets_Moon* moon in [self.detailItem Moons])
+                moonList = [moonList stringByAppendingString:[NSString stringWithFormat:@"%@, ",[moon name]]];
+
+            self.detailMoonsLabel.text = [NSString stringWithFormat:@"%@",[moonList stringByReplacingCharactersInRange:NSMakeRange([moonList length]-2, 2) withString:@""]];
+        }
+        else
+            self.detailMoonsLabel.text = @"No moons.";
     }
 }
 

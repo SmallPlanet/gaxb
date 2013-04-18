@@ -6,16 +6,16 @@
 
 @implementation Planets_Planet
 
-- (NSString *) hasRingsAsWittyString
+- (NSString *) hasRingsAnswerString
 {
     NSArray *answers = nil;
     if (hasRings)
     {
-        answers = @[@"definitely", @"totally", @"at least somtimes", @"sure", @"yes, but worried they make it look fat", @"only in the morning", @"yes, it has my precious"];
+        answers = @[@"Yes.", @"Definitely.", @"Totally.", @"At least one.", @"Certainly.", @"Positively.", @"Of course it does.", @"Indeed.", @"You bet.", @"'Tis incontestably ringed.", @"Clearly."];
     }
     else
     {
-        answers = @[@"nope", @"not even a ringlet", @"fell off", @"invisible rings", @"out to lunch", @"if you liked it then you should have put a ring on it"];
+        answers = @[@"No.", @"Nope.", @"Nah.", @"Absolutely not.", @"No way.", @"Negative.", @"'Tis indubitably ringless."];
     }
     
     return answers[arc4random()%[answers count]];
