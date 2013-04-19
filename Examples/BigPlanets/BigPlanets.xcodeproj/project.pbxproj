@@ -63,6 +63,8 @@
 		A9A4E9CE16A9D8A200AA4449 /* Planets_SolarSystem.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C216A9D8A200AA4449 /* Planets_SolarSystem.mm */; };
 		A9A4E9CF16A9D8A200AA4449 /* Planets_SolarSystemBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C416A9D8A200AA4449 /* Planets_SolarSystemBase.mm */; };
 		A9A4E9D016A9D8A200AA4449 /* Planets_XMLLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C716A9D8A200AA4449 /* Planets_XMLLoader.mm */; };
+		F0919ABA1721A5FD00159219 /* Planets_Star.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0919AB71721A5FD00159219 /* Planets_Star.mm */; };
+		F0919ABB1721A5FD00159219 /* Planets_StarBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0919AB91721A5FD00159219 /* Planets_StarBase.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +133,10 @@
 		A9A4E9C516A9D8A200AA4449 /* Planets_XMLConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Planets_XMLConstants.h; sourceTree = "<group>"; };
 		A9A4E9C616A9D8A200AA4449 /* Planets_XMLLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Planets_XMLLoader.h; sourceTree = "<group>"; };
 		A9A4E9C716A9D8A200AA4449 /* Planets_XMLLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Planets_XMLLoader.mm; sourceTree = "<group>"; };
+		F0919AB61721A5FD00159219 /* Planets_Star.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Planets_Star.h; sourceTree = "<group>"; };
+		F0919AB71721A5FD00159219 /* Planets_Star.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Planets_Star.mm; sourceTree = "<group>"; };
+		F0919AB81721A5FD00159219 /* Planets_StarBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Planets_StarBase.h; sourceTree = "<group>"; };
+		F0919AB91721A5FD00159219 /* Planets_StarBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Planets_StarBase.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +241,10 @@
 		A9A4E9B416A9D8A100AA4449 /* Generated */ = {
 			isa = PBXGroup;
 			children = (
+				F0919AB61721A5FD00159219 /* Planets_Star.h */,
+				F0919AB71721A5FD00159219 /* Planets_Star.mm */,
+				F0919AB81721A5FD00159219 /* Planets_StarBase.h */,
+				F0919AB91721A5FD00159219 /* Planets_StarBase.mm */,
 				A9A4E9B516A9D8A200AA4449 /* Planets_AstronomicalObject.h */,
 				A9A4E9B616A9D8A200AA4449 /* Planets_AstronomicalObject.mm */,
 				A9A4E9B716A9D8A200AA4449 /* Planets_AstronomicalObjectBase.h */,
@@ -392,6 +402,8 @@
 				A9A4E9CE16A9D8A200AA4449 /* Planets_SolarSystem.mm in Sources */,
 				A9A4E9CF16A9D8A200AA4449 /* Planets_SolarSystemBase.mm in Sources */,
 				A9A4E9D016A9D8A200AA4449 /* Planets_XMLLoader.mm in Sources */,
+				F0919ABA1721A5FD00159219 /* Planets_Star.mm in Sources */,
+				F0919ABB1721A5FD00159219 /* Planets_StarBase.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

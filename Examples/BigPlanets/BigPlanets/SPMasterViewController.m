@@ -48,8 +48,16 @@
     // add the stars, planets, and moons to the collection of astronomical objects.
     self.solarSystem.AstronomicalObjects = [NSMutableArray arrayWithArray:self.solarSystem.Stars];
     [self.solarSystem.AstronomicalObjects addObjectsFromArray:self.solarSystem.Planets];
+    for(Planets_Planet* planet in [self.solarSystem Planets]) {
+        [self.solarSystem.AstronomicalObjects addObjectsFromArray:[planet Moons]];
+    }
     
-    self.detailViewController.detailItem = solarSystem.Planets[2]; // display Earth by default on load
+    Planets_AstronomicalObject* defaultObject = [self.solarSystem astronomicalObjectWithName:@"Earth"];
+    if(defaultObject != nil)
+        self.detailViewController.detailItem = defaultObject; // display Earth by default on load
+    else
+        self.detailViewController.detailItem = [[self.solarSystem Planets] objectAtIndex:0];
+        
     [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
 
@@ -68,7 +76,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[solarSystem Planets] count] + [[solarSystem Stars] count];
+    return [[solarSystem Planets] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

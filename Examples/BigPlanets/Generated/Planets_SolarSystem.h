@@ -9,11 +9,13 @@
 
 #import "Planets_SolarSystemBase.h"
 
+@class Planets_AstronomicalObject;
 @interface Planets_SolarSystem : Planets_SolarSystemBase
 {
 	
-	
 }
+
+-(Planets_AstronomicalObject*) astronomicalObjectWithName:(NSString*)name;
 
 @end
 

@@ -6,4 +6,15 @@
 
 @implementation Planets_SolarSystem
 
+-(Planets_AstronomicalObject*) astronomicalObjectWithName:(NSString*)name
+{
+    for(Planets_AstronomicalObject* object in self.AstronomicalObjects)
+    {
+        if([[object name] isEqualToString:name])
+            return object;
+    }
+    
+    return nil;
+}
+
 @end
