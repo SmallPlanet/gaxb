@@ -60,8 +60,8 @@
 		A9A4E9CB16A9D8A200AA4449 /* Galaxy_MoonBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9BC16A9D8A200AA4449 /* Galaxy_MoonBase.mm */; };
 		A9A4E9CC16A9D8A200AA4449 /* Galaxy_Planet.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9BE16A9D8A200AA4449 /* Galaxy_Planet.mm */; };
 		A9A4E9CD16A9D8A200AA4449 /* Galaxy_PlanetBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C016A9D8A200AA4449 /* Galaxy_PlanetBase.mm */; };
-		A9A4E9CE16A9D8A200AA4449 /* Galaxy_SolarSystem.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C216A9D8A200AA4449 /* Galaxy_SolarSystem.mm */; };
-		A9A4E9CF16A9D8A200AA4449 /* Galaxy_SolarSystemBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C416A9D8A200AA4449 /* Galaxy_SolarSystemBase.mm */; };
+		A9A4E9CE16A9D8A200AA4449 /* Galaxy_StarSystem.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C216A9D8A200AA4449 /* Galaxy_StarSystem.mm */; };
+		A9A4E9CF16A9D8A200AA4449 /* Galaxy_StarSystemBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C416A9D8A200AA4449 /* Galaxy_StarSystemBase.mm */; };
 		A9A4E9D016A9D8A200AA4449 /* Galaxy_XMLLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C716A9D8A200AA4449 /* Galaxy_XMLLoader.mm */; };
 		F0919ABA1721A5FD00159219 /* Galaxy_Star.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0919AB71721A5FD00159219 /* Galaxy_Star.mm */; };
 		F0919ABB1721A5FD00159219 /* Galaxy_StarBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0919AB91721A5FD00159219 /* Galaxy_StarBase.mm */; };
@@ -126,10 +126,10 @@
 		A9A4E9BE16A9D8A200AA4449 /* Galaxy_Planet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_Planet.mm; sourceTree = "<group>"; };
 		A9A4E9BF16A9D8A200AA4449 /* Galaxy_PlanetBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_PlanetBase.h; sourceTree = "<group>"; };
 		A9A4E9C016A9D8A200AA4449 /* Galaxy_PlanetBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_PlanetBase.mm; sourceTree = "<group>"; };
-		A9A4E9C116A9D8A200AA4449 /* Galaxy_SolarSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_SolarSystem.h; sourceTree = "<group>"; };
-		A9A4E9C216A9D8A200AA4449 /* Galaxy_SolarSystem.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_SolarSystem.mm; sourceTree = "<group>"; };
-		A9A4E9C316A9D8A200AA4449 /* Galaxy_SolarSystemBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_SolarSystemBase.h; sourceTree = "<group>"; };
-		A9A4E9C416A9D8A200AA4449 /* Galaxy_SolarSystemBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_SolarSystemBase.mm; sourceTree = "<group>"; };
+		A9A4E9C116A9D8A200AA4449 /* Galaxy_StarSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_StarSystem.h; sourceTree = "<group>"; };
+		A9A4E9C216A9D8A200AA4449 /* Galaxy_StarSystem.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_StarSystem.mm; sourceTree = "<group>"; };
+		A9A4E9C316A9D8A200AA4449 /* Galaxy_StarSystemBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_StarSystemBase.h; sourceTree = "<group>"; };
+		A9A4E9C416A9D8A200AA4449 /* Galaxy_StarSystemBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_StarSystemBase.mm; sourceTree = "<group>"; };
 		A9A4E9C516A9D8A200AA4449 /* Galaxy_XMLConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_XMLConstants.h; sourceTree = "<group>"; };
 		A9A4E9C616A9D8A200AA4449 /* Galaxy_XMLLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_XMLLoader.h; sourceTree = "<group>"; };
 		A9A4E9C716A9D8A200AA4449 /* Galaxy_XMLLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_XMLLoader.mm; sourceTree = "<group>"; };
@@ -257,10 +257,10 @@
 				A9A4E9BE16A9D8A200AA4449 /* Galaxy_Planet.mm */,
 				A9A4E9BF16A9D8A200AA4449 /* Galaxy_PlanetBase.h */,
 				A9A4E9C016A9D8A200AA4449 /* Galaxy_PlanetBase.mm */,
-				A9A4E9C116A9D8A200AA4449 /* Galaxy_SolarSystem.h */,
-				A9A4E9C216A9D8A200AA4449 /* Galaxy_SolarSystem.mm */,
-				A9A4E9C316A9D8A200AA4449 /* Galaxy_SolarSystemBase.h */,
-				A9A4E9C416A9D8A200AA4449 /* Galaxy_SolarSystemBase.mm */,
+				A9A4E9C116A9D8A200AA4449 /* Galaxy_StarSystem.h */,
+				A9A4E9C216A9D8A200AA4449 /* Galaxy_StarSystem.mm */,
+				A9A4E9C316A9D8A200AA4449 /* Galaxy_StarSystemBase.h */,
+				A9A4E9C416A9D8A200AA4449 /* Galaxy_StarSystemBase.mm */,
 				A9A4E9C516A9D8A200AA4449 /* Galaxy_XMLConstants.h */,
 				A9A4E9C616A9D8A200AA4449 /* Galaxy_XMLLoader.h */,
 				A9A4E9C716A9D8A200AA4449 /* Galaxy_XMLLoader.mm */,
@@ -399,8 +399,8 @@
 				A9A4E9CB16A9D8A200AA4449 /* Galaxy_MoonBase.mm in Sources */,
 				A9A4E9CC16A9D8A200AA4449 /* Galaxy_Planet.mm in Sources */,
 				A9A4E9CD16A9D8A200AA4449 /* Galaxy_PlanetBase.mm in Sources */,
-				A9A4E9CE16A9D8A200AA4449 /* Galaxy_SolarSystem.mm in Sources */,
-				A9A4E9CF16A9D8A200AA4449 /* Galaxy_SolarSystemBase.mm in Sources */,
+				A9A4E9CE16A9D8A200AA4449 /* Galaxy_StarSystem.mm in Sources */,
+				A9A4E9CF16A9D8A200AA4449 /* Galaxy_StarSystemBase.mm in Sources */,
 				A9A4E9D016A9D8A200AA4449 /* Galaxy_XMLLoader.mm in Sources */,
 				F0919ABA1721A5FD00159219 /* Galaxy_Star.mm in Sources */,
 				F0919ABB1721A5FD00159219 /* Galaxy_StarBase.mm in Sources */,

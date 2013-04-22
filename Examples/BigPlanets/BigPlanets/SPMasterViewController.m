@@ -17,7 +17,7 @@
 
 @implementation SPMasterViewController
 
-@synthesize solarSystem;
+@synthesize starSystem;
 
 - (void)awakeFromNib
 {
@@ -32,7 +32,7 @@
 {
     [_detailViewController release];
     [_objects release];
-    [solarSystem release]; solarSystem = nil;
+    [starSystem release]; starSystem = nil;
     [super dealloc];
 }
 
@@ -43,20 +43,20 @@
     self.detailViewController = (SPDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     
     // load sol.xml, which defines our solar system and its astronomical objects.
-    self.solarSystem = [Galaxy_XMLLoader readFromFile:[[NSBundle mainBundle] pathForResource:@"sol" ofType:@".xml"]];
+    self.starSystem = [Galaxy_XMLLoader readFromFile:[[NSBundle mainBundle] pathForResource:@"sol" ofType:@".xml"]];
     
     // add the stars, planets, and moons to the collection of astronomical objects.
-    self.solarSystem.AstronomicalObjects = [NSMutableArray arrayWithArray:self.solarSystem.Stars];
-    [self.solarSystem.AstronomicalObjects addObjectsFromArray:self.solarSystem.Planets];
-    for(Galaxy_Planet* planet in [self.solarSystem Planets]) {
-        [self.solarSystem.AstronomicalObjects addObjectsFromArray:[planet Moons]];
+    self.starSystem.AstronomicalObjects = [NSMutableArray arrayWithArray:self.starSystem.Stars];
+    [self.starSystem.AstronomicalObjects addObjectsFromArray:self.starSystem.Planets];
+    for(Galaxy_Planet* planet in [self.starSystem Planets]) {
+        [self.starSystem.AstronomicalObjects addObjectsFromArray:[planet Moons]];
     }
     
-    Galaxy_AstronomicalObject* defaultObject = [self.solarSystem astronomicalObjectWithName:@"Earth"];
+    Galaxy_AstronomicalObject* defaultObject = [self.starSystem astronomicalObjectWithName:@"Earth"];
     if(defaultObject != nil)
         self.detailViewController.detailItem = defaultObject; // display Earth by default on load
     else
-        self.detailViewController.detailItem = [[self.solarSystem Planets] objectAtIndex:0];
+        self.detailViewController.detailItem = [[self.starSystem Planets] objectAtIndex:0];
         
     [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
@@ -76,14 +76,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[solarSystem Planets] count];
+    return [[starSystem Planets] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    Galaxy_Planet *object = solarSystem.Planets[indexPath.row];
+    Galaxy_Planet *object = starSystem.Planets[indexPath.row];
     cell.textLabel.text = [object name];
     return cell;
 }
@@ -107,7 +107,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        self.detailViewController.detailItem = solarSystem.Planets[indexPath.row];
+        self.detailViewController.detailItem = starSystem.Planets[indexPath.row];
     }
 }
 
@@ -115,7 +115,7 @@
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        [[segue destinationViewController] setDetailItem:solarSystem.Planets[indexPath.row]];
+        [[segue destinationViewController] setDetailItem:starSystem.Planets[indexPath.row]];
     }
 }
 

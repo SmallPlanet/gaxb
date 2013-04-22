@@ -58,13 +58,14 @@
     </complexType>
 
 	<!-- Solar System -->
-	<element name="SolarSystem" type="pl:SolarSystem"/>
-    <complexType name="SolarSystem">
+	<element name="StarSystem" type="pl:StarSystem"/>
+    <complexType name="StarSystem">
     	<sequence> <!-- collections of the system's stars and planets -->
             <element ref="pl:AstronomicalObject" minOccurs="0" maxOccurs="unbounded" /> <!-- derived collection -->
 			<element ref="pl:Star" minOccurs="1" maxOccurs="unbounded" />
 			<element ref="pl:Planet" minOccurs="0" maxOccurs="unbounded" />
 		</sequence>
+        <attribute name="name" type="string" use="required" />
     </complexType>
 
 <!-- http://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System -->
