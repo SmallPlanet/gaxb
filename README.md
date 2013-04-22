@@ -5,7 +5,7 @@
 GAXB (Generic Architecture XML Bindings) is an XML schema-based code generation tool that supports custom cross-platform model data serialization and deserialization.
 
 ##### What is it good for?
-Rather than writing out all of the classes in your desired language, you can instead build an XML schema. Then, instead of initializing model objects in code, you write XML that conform to that schema. When your project is compiled, GAXB generates the code for your classes and code for the serializer and deserializer needed to convert those objects to XML and vice-versa.
+Rather than writing out all of the classes in your desired language, you can instead build an XML schema. Then, instead of initializing model objects in code, you can write XML that conform to that schema. When your project is compiled, GAXB generates the code for your classes and code for the serializer and deserializer needed to convert those objects to XML and vice-versa.
 
 GAXB supports custom lua script templates and is fully serializable, model data can be used to generate XML (serializing) and XML can be used to generate model data (deserializing).
 
@@ -38,6 +38,19 @@ This schema defines the structure of our Galaxy data model.  This snippet shows 
 &lt;/schema&gt;
 </code></pre>
 
+### XML Example
+This XML file conforms to the Galaxy.xsd schema and defines a Star System with one Planet that has a Moon. Our very own system, the Solar System, might look like [this](solar_system.md).
+<pre><code>&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;StarSystem xmlns="http://schema.smallplanet.com/Planets"&gt;
+    
+    &lt;Planet name="Planet X" mass="1" hasRings="false"
+        &lt;Moon name="Moon Y"/&gt;
+    &lt;/Planet&gt;
+
+&lt;/StarSystem
+</code></pre>
+
+
 ### Generated Base Class Example
 This code is the GAXB-generated Galaxy_PlanetBase Objective C header file. This is one of the generated code files that results from compiling an Objective C project with the Galaxy.xsd schema.
 <pre><code>// Galaxy_PlanetBase.h
@@ -62,18 +75,6 @@ This code is the GAXB-generated Galaxy_PlanetBase Objective C header file. This 
 - (void) setHasRingsWithString:(NSString *)string;
 
 @end
-</code></pre>
-
-### XML Example
-This XML file conforms to the Galaxy.xsd schema and defines a Star System with one Planet that has a Moon. Our very own system, the Solar System, might look like [this](solar_system.md).
-<pre><code>&lt;?xml version="1.0" encoding="utf-8" ?&gt;
-&lt;StarSystem xmlns="http://schema.smallplanet.com/Planets"&gt;
-    
-    &lt;Planet name="Planet X" mass="1" hasRings="false"
-        &lt;Moon name="Moon Y"/&gt;
-    &lt;/Planet&gt;
-
-&lt;/StarSystem
 </code></pre>
 
 ### Custom Code Example
