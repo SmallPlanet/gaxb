@@ -52,7 +52,7 @@
         [self.starSystem.AstronomicalObjects addObjectsFromArray:[planet Moons]];
     }
     
-    Galaxy_AstronomicalObject* defaultObject = [self.starSystem astronomicalObjectWithName:@"Earth"];
+    Galaxy_Planet* defaultObject = [self.starSystem planetWithName:@"Earth"];
     if(defaultObject != nil)
         self.detailViewController.detailItem = defaultObject; // display Earth by default on load
     else

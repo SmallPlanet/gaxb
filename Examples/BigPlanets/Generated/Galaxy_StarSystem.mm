@@ -6,11 +6,22 @@
 
 @implementation Galaxy_StarSystem
 
--(Galaxy_AstronomicalObject*) astronomicalObjectWithName:(NSString*)name
+-(Galaxy_AstronomicalObject*) astronomicalObjectWithName:(NSString*)_name
 {
     for(Galaxy_AstronomicalObject* object in self.AstronomicalObjects)
     {
-        if([[object name] isEqualToString:name])
+        if([[object name] isEqualToString:_name])
+            return object;
+    }
+    
+    return nil;
+}
+
+-(Galaxy_Planet*) planetWithName:(NSString*)_name
+{
+    for(Galaxy_Planet* object in self.Planets)
+    {
+        if([[object name] isEqualToString:_name])
             return object;
     }
     

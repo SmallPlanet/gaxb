@@ -11,7 +11,7 @@
 
 @interface SPDetailViewController : UIViewController <UISplitViewControllerDelegate>
 
-@property (strong, nonatomic) Galaxy_AstronomicalObject *detailItem;
+@property (strong, nonatomic) Galaxy_Planet *detailItem;
 
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @property (retain, nonatomic) IBOutlet UILabel *detailMassLabel;

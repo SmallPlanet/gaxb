@@ -15,7 +15,8 @@
 	
 }
 
--(Galaxy_AstronomicalObject*) astronomicalObjectWithName:(NSString*)name;
+-(Galaxy_AstronomicalObject*) astronomicalObjectWithName:(NSString*)_name;
+-(Galaxy_Planet*) planetWithName:(NSString*)_name;
 
 @end
 

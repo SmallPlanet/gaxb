@@ -440,15 +440,15 @@ static void SetValue(NSObject * object, NSObject * childObject, const char * ele
 	
 	strncpy(selectorName, "set", sizeof(selectorName));
 	selectorName[3] = toupper(scratch[0]);
-	strncat(selectorName, scratch+1, sizeof(selectorName));
+	strlcat(selectorName, scratch+1, sizeof(selectorName));
 	
 	if (cc == _NSStringClass || cc == _NSMutableStringClass)
 	{
-		strncat(selectorName, "WithString:", sizeof(selectorName));
+		strlcat(selectorName, "WithString:", sizeof(selectorName));
 	}
 	else
 	{
-		strncat(selectorName, ":", sizeof(selectorName));
+		strlcat(selectorName, ":", sizeof(selectorName));
 	}
 	
 	SEL selector = sel_getUid(selectorName);
@@ -461,7 +461,7 @@ static void SetValue(NSObject * object, NSObject * childObject, const char * ele
 	{
 		// Ok, now let's check for an array...
 		strncpy(selectorName, scratch, sizeof(selectorName));
-		strncat(selectorName, "s", sizeof(selectorName));
+		strlcat(selectorName, "s", sizeof(selectorName));
 		SEL selector = sel_getUid(selectorName);
 		if (selector && class_respondsToSelector(c, selector))
 		{
@@ -480,8 +480,8 @@ static void SetValue(NSObject * object, NSObject * childObject, const char * ele
 				{
 					strncpy(selectorName, "append", sizeof(selectorName));
 					selectorName[6] = toupper(scratch[0]);
-					strncat(selectorName, scratch+1, sizeof(selectorName));
-					strncat(selectorName, "WithString:", sizeof(selectorName));
+					strlcat(selectorName, scratch+1, sizeof(selectorName));
+					strlcat(selectorName, "WithString:", sizeof(selectorName));
 					
 					SEL selector = sel_getUid(selectorName);
 					if (selector && class_respondsToSelector(c, selector))
@@ -591,8 +591,8 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 		adjustedElementName = strchr(adjustedElementName, ':')+1;
 	}
 	strncpy(className, mappedNamespace, sizeof(className));
-	strncat(className, "_", sizeof(className));
-	strncat(className, adjustedElementName, sizeof(className));
+	strlcat(className, "_", sizeof(className));
+	strlcat(className, adjustedElementName, sizeof(className));
 	
 	Class c = objc_lookUpClass(className);
 	if (c)
@@ -618,8 +618,8 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 				ConvertName(attribute->name, scratch);
 				strncpy(selectorName, "set", sizeof(selectorName));
 				selectorName[3] = toupper(scratch[0]);
-				strncat(selectorName, scratch+1, sizeof(selectorName));
-				strncat(selectorName, "WithString:", sizeof(selectorName));
+				strlcat(selectorName, scratch+1, sizeof(selectorName));
+				strlcat(selectorName, "WithString:", sizeof(selectorName));
 				
 				SEL selector = sel_getUid(selectorName);
 				if (selector && class_respondsToSelector(c, selector))
@@ -679,8 +679,8 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 				ConvertName(adjustedChildElementName, scratch);
 				strncpy(selectorName, "set", sizeof(selectorName));
 				selectorName[3] = toupper(scratch[0]);
-				strncat(selectorName, scratch+1, sizeof(selectorName));
-				strncat(selectorName, "WithString:", sizeof(selectorName));
+				strlcat(selectorName, scratch+1, sizeof(selectorName));
+				strlcat(selectorName, "WithString:", sizeof(selectorName));
 				
 				SEL selector = sel_getUid(selectorName);
 				if (selector && class_respondsToSelector(c, selector))
