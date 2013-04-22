@@ -43,3 +43,7 @@ xcuserdata/
 .svn
 ehthumbs.db
 Thumbs.db
+Examples/Sample/Generated/Logistics_ContainerBase.h
+Examples/Sample/Generated/Logistics_ContainerBase.mm
+Examples/Sample/Generated/Logistics_PackageBase.h
+Examples/Sample/Generated/Logistics_PackageBase.mm

@@ -59,7 +59,7 @@
         // list the moon names
         if([[self.detailItem Moons] count] > 0) {
             NSString* moonList = @"";
-            for(Planets_Moon* moon in [self.detailItem Moons])
+            for(Galaxy_Moon* moon in [self.detailItem Moons])
                 moonList = [moonList stringByAppendingString:[NSString stringWithFormat:@"%@, ",[moon name]]];
 
             self.detailMoonsLabel.text = [NSString stringWithFormat:@"%@",[moonList stringByReplacingCharactersInRange:NSMakeRange([moonList length]-2, 2) withString:@""]];

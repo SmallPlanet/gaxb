@@ -7,16 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Planets_XMLLoader.h"
+#import "Galaxy_XMLLoader.h"
 
 @class SPDetailViewController;
 
 @interface SPMasterViewController : UITableViewController
 {
-    Planets_SolarSystem *solarSystem;
+    Galaxy_SolarSystem *solarSystem;
 }
 
 @property (strong, nonatomic) SPDetailViewController *detailViewController;
-@property (nonatomic, retain) Planets_SolarSystem *solarSystem;
+@property (nonatomic, retain) Galaxy_SolarSystem *solarSystem;
 
 @end

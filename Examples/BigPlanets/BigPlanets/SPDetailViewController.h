@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Planets_XMLLoader.h"
+#import "Galaxy_XMLLoader.h"
 
 @interface SPDetailViewController : UIViewController <UISplitViewControllerDelegate>
 
-@property (strong, nonatomic) Planets_AstronomicalObject *detailItem;
+@property (strong, nonatomic) Galaxy_AstronomicalObject *detailItem;
 
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @property (retain, nonatomic) IBOutlet UILabel *detailMassLabel;

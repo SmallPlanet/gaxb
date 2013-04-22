@@ -43,16 +43,16 @@
     self.detailViewController = (SPDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     
     // load sol.xml, which defines our solar system and its astronomical objects.
-    self.solarSystem = [Planets_XMLLoader readFromFile:[[NSBundle mainBundle] pathForResource:@"sol" ofType:@".xml"]];
+    self.solarSystem = [Galaxy_XMLLoader readFromFile:[[NSBundle mainBundle] pathForResource:@"sol" ofType:@".xml"]];
     
     // add the stars, planets, and moons to the collection of astronomical objects.
     self.solarSystem.AstronomicalObjects = [NSMutableArray arrayWithArray:self.solarSystem.Stars];
     [self.solarSystem.AstronomicalObjects addObjectsFromArray:self.solarSystem.Planets];
-    for(Planets_Planet* planet in [self.solarSystem Planets]) {
+    for(Galaxy_Planet* planet in [self.solarSystem Planets]) {
         [self.solarSystem.AstronomicalObjects addObjectsFromArray:[planet Moons]];
     }
     
-    Planets_AstronomicalObject* defaultObject = [self.solarSystem astronomicalObjectWithName:@"Earth"];
+    Galaxy_AstronomicalObject* defaultObject = [self.solarSystem astronomicalObjectWithName:@"Earth"];
     if(defaultObject != nil)
         self.detailViewController.detailItem = defaultObject; // display Earth by default on load
     else
@@ -83,7 +83,7 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    Planets_Planet *object = solarSystem.Planets[indexPath.row];
+    Galaxy_Planet *object = solarSystem.Planets[indexPath.row];
     cell.textLabel.text = [object name];
     return cell;
 }
