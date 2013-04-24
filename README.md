@@ -12,7 +12,7 @@ GAXB supports custom lua script templates and is fully serializable, model data 
 
 ##### How does it work?
 
-----------
+---
 
 ###### Compile time code generation:
 
@@ -20,7 +20,7 @@ During compile time GAXB generates the header and implementation files for all o
 
 ![Alt text](images/compile_diagram2.png)
 
-----------
+---
 
 ###### Run time deserialization:
 
@@ -28,7 +28,7 @@ During run time you can use the XML Loader to read in your XML files, which dese
 
 ![Alt text](images/deserialization_diagram.png)
 
-----------
+---
 
 ###### Run time serialization:
 
@@ -36,7 +36,7 @@ Conversely, any class objects you create in your application code can be seriali
 
 ![Alt text](images/serialization_diagram.png)
 
-----------
+---
 
 # Examples
 ----------
@@ -130,7 +130,7 @@ Here is the generated and ready-to-use implementation file stub for Galaxy_Plane
 
 The GAXB repository contains a fully-functional Objective-C project based on these examples. Follow the installation instructions in the next section and take a look at the BigPlanets example project.
 
-----------
+---
 # Installation
 ----------
 
@@ -190,7 +190,7 @@ This will generate some quick Objective-C classes in **Generated/** based on the
 
 A sample XCode project for an iOS app using gaxb-generated classes is included in **Examples/BigPlanet**. Open **BigPlanet.xcodeproj** from that directory in XCode, select iPhone or iPad Simulator, then Build and Run. This simple example uses the schema located at **XMLSchema/Planets.xsd** and loads sample data from **BigPlanets/sol.xml**.  
 
-------
+----------
 
 ## License
 
