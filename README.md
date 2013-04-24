@@ -9,7 +9,25 @@ GAXB (Generic Architecture XML Bindings) is an XML schema-based code generation 
 
 GAXB supports custom lua script templates and is fully serializable, model data can be used to generate XML (serializing) and XML can be used to generate model data (deserializing).
 
-![Alt text](diagram.png)
+##### How does it work?
+
+###### Compile time code generation:
+
+![Alt text](images/compile_diagram2.png)
+
+During compile time GAXB generates the header and implementation files for all of the elements defined in your schema. These generated classes contain their own serialization methods. GAXB also generates an XML Loader for deserializing objects from your XML files.
+
+###### Run time deserialization:
+
+![Alt text](images/deserialization_diagram.png)
+
+During run time you can use the XML Loader to read in your XML files, which deserializes them into class instance objects that can then be manipulated in your application code.
+
+###### Run time serialization:
+
+![Alt text](images/serialization_diagram.png)
+
+Conversely, any class objects you create in your application code can be serialized to XML files for later use.
 
 ----------
 
