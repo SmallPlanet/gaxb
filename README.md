@@ -1,5 +1,6 @@
-## GAXB
+# GAXB
 ----------
+
 ##### What is it good for?
 Rather than writing out all of the classes in your desired language, you can instead build an XML schema. Then, instead of initializing model objects in code, you can write XML that conform to that schema. When your project is compiled, GAXB generates the code for your classes and code for the serializer and deserializer needed to convert those objects to XML and vice-versa.
 
@@ -11,27 +12,36 @@ GAXB supports custom lua script templates and is fully serializable, model data 
 
 ##### How does it work?
 
-###### Compile time code generation:
+----------
 
-![Alt text](images/compile_diagram2.png)
+###### Compile time code generation:
 
 During compile time GAXB generates the header and implementation files for all of the elements defined in your schema. These generated classes contain their own serialization methods. GAXB also generates an XML Loader for deserializing objects from your XML files.
 
-###### Run time deserialization:
-
-![Alt text](images/deserialization_diagram.png)
-
-During run time you can use the XML Loader to read in your XML files, which deserializes them into class instance objects that can then be manipulated in your application code.
-
-###### Run time serialization:
-
-![Alt text](images/serialization_diagram.png)
-
-Conversely, any class objects you create in your application code can be serialized to XML files for later use.
+![Alt text](images/compile_diagram2.png)
 
 ----------
 
-### Schema Example
+###### Run time deserialization:
+
+During run time you can use the XML Loader to read in your XML files, which deserializes them into class instance objects that can then be manipulated in your application code.
+
+![Alt text](images/deserialization_diagram.png)
+
+----------
+
+###### Run time serialization:
+
+Conversely, any class objects you create in your application code can be serialized to XML files for later use.
+
+![Alt text](images/serialization_diagram.png)
+
+----------
+
+# Examples
+----------
+
+### Schema Example:
 This schema defines the structure of our Galaxy data model.  This snippet shows the structure that a Planet will conform to.
 
 You can [view the full schema file here](galaxy_schema.md).
@@ -60,7 +70,7 @@ You can [view the full schema file here](galaxy_schema.md).
 &lt;/schema&gt;
 </code></pre>
 
-### XML Example
+### XML Example:
 This XML file conforms to the **Galaxy.xsd** schema and defines a Star System with one Planet that has a Moon.
 
 Our very own system, the Solar System, [might look like this](solar_system.md).
@@ -75,7 +85,7 @@ Our very own system, the Solar System, [might look like this](solar_system.md).
 </code></pre>
 
 
-### Generated Base Class Example
+### Generated Base Class Example:
 Base classes are generated from the schema by GAXB during compile time. These base classes will be re-generated any time a change is made to that object in the schema.
 
 The following code is the generated Galaxy_PlanetBase Objective C header file. This is one of the generated code files that results from compiling an Objective C project using the **Galaxy.xsd** schema.
@@ -103,7 +113,7 @@ The following code is the generated Galaxy_PlanetBase Objective C header file. T
 @end
 </code></pre>
 
-### Custom Code Example
+### Custom Code Example:
 Along with each generated base class, GAXB also generates header and implementation file stubs that subclass their base-class.  These classes are only generated once and are used to write your custom logic.
 
 Here is the generated and ready-to-use implementation file stub for Galaxy_Planet, which extends Galaxy_PlanetBase.
@@ -122,6 +132,7 @@ The GAXB repository contains a fully-functional Objective-C project based on the
 
 ----------
 # Installation
+----------
 
 #### Installation Prerequisites
 In order to install GAXB, your system will require git, CMake 2.8, libxml2, and a compiler tool-chain.
