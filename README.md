@@ -13,23 +13,17 @@ GAXB supports custom lua script templates and is fully serializable, model data 
 
 ##### How does it work?
 
----
-
 ###### Compile time code generation:
 
 During compile time GAXB generates the header and implementation files for all of the elements defined in your schema. These generated classes contain their own serialization methods. GAXB also generates an XML Loader for deserializing objects from your XML files.
 
 ![Alt text](images/compile_diagram2.png)
 
----
-
 ###### Run time deserialization:
 
 During run time you can use the XML Loader to read in your XML files, which deserializes them into class instance objects that can then be manipulated in your application code.
 
 ![Alt text](images/deserialization_diagram.png)
-
----
 
 ###### Run time serialization:
 
