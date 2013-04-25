@@ -69,14 +69,110 @@ typedef struct _TBXMLAttributeBuffer {
 - (id) initWithXMLFile:(NSString *)aXMLFile fileExtension:(NSString *)aFileExtension;
 @end
 
-static BOOL UseTBXML = YES;
+#pragma mark -
+
+static NSString * stringFromCString(const char * cstring);
+static NSString * getStringFromCache(const char * string);
+
+// Fast string lookup
+
+typedef struct {
+	void * stringObject;
+    void * values[256];
+} CachePage;
+
+static CachePage * gStringCache = NULL;
+
+void clearCachePage(CachePage * page)
+{
+	for(int i = 0; i < 256; i++)
+	{
+		CachePage * child = (CachePage*)(page->values[i]);
+		if(child)
+		{
+			clearCachePage(child);
+			free(child);
+			page->values[i] = NULL;
+		}
+	}
+}
+
+void resetStringCache()
+{
+	if(!gStringCache)
+	{
+		gStringCache = (CachePage *)calloc(sizeof(CachePage), 1);
+	}
+	
+	clearCachePage(gStringCache);
+}
+
+void * putStringInCache(const char * string)
+{
+	CachePage * page = gStringCache;
+    CachePage * nextPage;
+	const char * ptr = string;
+	
+	while(*ptr)
+	{
+		nextPage = (CachePage *)page->values[*ptr];
+		if(!nextPage)
+		{
+			nextPage = (CachePage *)calloc(sizeof(CachePage), 1);
+			page->values[*ptr] = nextPage;
+		}
+		
+		page = nextPage;
+		ptr++;
+	}
+	
+	if(page)
+	{
+		page->stringObject = stringFromCString(string);
+		return page->stringObject;
+	}
+	
+	return NULL;
+}
+
+NSString * getStringFromCache(const char * string)
+{
+	CachePage * page = gStringCache;
+	CachePage * nextPage = page;
+	const char * ptr = string;
+	void * stringObject = NULL;
+	
+	while(page && *ptr)
+	{
+		nextPage = (CachePage *)(page->values[*ptr]);
+		if(nextPage)
+		{
+			stringObject = nextPage->stringObject;
+			page = nextPage;
+		}
+		ptr++;
+	}
+	
+	if(!stringObject)
+	{
+        //NSLog(@"Cache Miss: Adding %s", string);
+		return (NSString *)putStringInCache(string);
+	}
+	
+    //NSLog(@"Cache Hit: %s", string);
+	return (NSString *)stringObject;
+}
+
+
+#pragma mark -
 
 @implementation NSData (NSDataAdditions<%= FULL_NAME_CAMEL %>_XMLLoader)
 
 static NSObject * CreateElementWithNamespace(TBXMLElement *element,
-									  const char *currentNamespace,
-									  NSMutableDictionary *namespaceMap,
-									  NSObject *parent);
+									  		const char *currentNamespace,
+									  		NSMutableDictionary *namespaceMap,
+									  		NSObject *parent,
+											BOOL storeOriginals);
 #define kMaxSelectorName 256
 
 static int _XmlElementUid;
@@ -224,22 +320,26 @@ static NSString * cappedString(NSString *name)
 	return name;
 }
 
-+ (id) readFromData:(NSData *)data withParent:(id)p AndMemoryLite:(BOOL)memLite
++ (id) readFromData:(NSData *)data withParent:(id)p AndStoreOriginalValues:(BOOL)storeOriginals
 {
 	if(!data) return NULL;
 	Class TBXLCLASS = NSClassFromString(@"TBXML");
 	if(TBXLCLASS != NULL) 
 	{
 		TBXML * tbxml = [TBXLCLASS tbxmlWithXMLData:data];
-		if(UseTBXML && tbxml) 
+		if(tbxml) 
 		{
+			resetStringCache();
+			
 			_XmlElementUid = time(0);
 			_NSStringClass = [NSString class];
 			_NSMutableStringClass = [NSMutableString class];
 			_NSObjectClass = [NSObject class];
 			if(tbxml.rootXMLElement) 
 			{
-				return CreateElementWithNamespace(tbxml.rootXMLElement, NULL, [NSMutableDictionary dictionary], p);
+				id retVal = CreateElementWithNamespace(tbxml.rootXMLElement, NULL, [NSMutableDictionary dictionary], p, storeOriginals);
+				resetStringCache();
+				return retVal;
 			}
 		}
 	}
@@ -249,7 +349,7 @@ static NSString * cappedString(NSString *name)
 
 + (id) readFromData:(NSData *)data withParent:(id)p
 {
-  return [self readFromData:data withParent:p AndMemoryLite:YES];
+  return [self readFromData:data withParent:p AndStoreOriginalValues:YES];
 }
 
 + (id) readFromData:(NSData *)data 
@@ -269,7 +369,7 @@ static NSString * cappedString(NSString *name)
 
 + (id) readFromDataFast:(NSData *)data 
 {
-	return [self readFromData:data withParent:NULL AndMemoryLite:NO];
+	return [self readFromData:data withParent:NULL AndStoreOriginalValues:NO];
 }
 
 + (id) readFromFileFast:(NSString *)path 
@@ -280,11 +380,6 @@ static NSString * cappedString(NSString *name)
 + (id) readFromStringFast:(NSString *)xml_string 
 {
 	return [self readFromDataFast:[xml_string dataUsingEncoding:NSUTF8StringEncoding]];
-}
-
-+ (void) useTBXML:(BOOL)b 
-{
-	UseTBXML = b;
 }
 
 + (NSString *) writeToString:(id)object
@@ -324,13 +419,13 @@ static NSString * cappedString(NSString *name)
 }
 #pragma mark -
 
-- (id) initWithParent:(id)p AndMemoryLite:(BOOL)m
+- (id) initWithParent:(id)p AndStoreOriginalValues:(BOOL)m
 {
 	self = [super init];
 	if (self)
 	{
-		memLite = m; attribute_map = [NSMutableDictionary dictionary]; plural_element_map = [NSMutableDictionary dictionary];
-		parent = p;  element_stack = [[NSMutableArray array] retain];
+		storeOriginals = m;
+		parent = p;  element_stack = [[NSMutableArray arrayWithCapacity:64] retain];
 	}
 	return self;
 }
@@ -538,10 +633,16 @@ static void SetValue(NSObject * object, NSObject * childObject, const char * ele
 	}
 }
 
+static NSString * stringFromCString(const char * cstring)
+{
+    return [(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands((char *)cstring), kCFStringEncodingUTF8) autorelease];
+}
+
 static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 											 const char * currentNamespace,
-											NSMutableDictionary * namespaceMap,
-											 NSObject * parent)
+											 NSMutableDictionary * namespaceMap,
+											 NSObject * parent,
+											 BOOL storeOriginals)
 {
 	char className[kMaxSelectorName];
 	TBXMLAttribute * repObjBindings[kMaxSelectorName];
@@ -602,11 +703,15 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 		[object performSelector:@selector(setUid:) withObject:[NSNumber numberWithInt:_XmlElementUid++]];
 		[object performSelector:@selector(setParent:) withObject:parent];
 
-		SEL origValueSelector = sel_getUid("setOriginalValues:");
-		NSMutableDictionary * origValues;
-		if (origValueSelector &&  class_respondsToSelector(c, origValueSelector))
+		NSMutableDictionary * origValues = NULL;
+		SEL origValueSelector = NULL;
+		if(storeOriginals)
 		{
-			origValues = [[[NSMutableDictionary alloc] init] autorelease];
+			origValueSelector = sel_getUid("setOriginalValues:");
+			if (origValueSelector &&  class_respondsToSelector(c, origValueSelector))
+			{
+				origValues = [[[NSMutableDictionary alloc] initWithCapacity:64] autorelease];
+			}
 		}
 		
 		// Handle attributes...
@@ -634,18 +739,25 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 					} 
 					else
 					{
-						objc_msgSend(object, selector, [(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribute->value), kCFStringEncodingUTF8) autorelease]);
+						objc_msgSend(object, selector, getStringFromCache(attribute->value));
 					}
-					char attribName[kMaxSelectorName];
-					ConvertName(attribute->name, attribName);
-					[origValues setValue:[(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribute->value), kCFStringEncodingUTF8) autorelease]
-							  		forKey:[(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribName), kCFStringEncodingUTF8) autorelease]];
+					
+					if(storeOriginals)
+					{
+						char attribName[kMaxSelectorName];
+						ConvertName(attribute->name, attribName);
+						[origValues setValue:getStringFromCache(attribute->value)
+								  	  forKey:getStringFromCache(attribName)];	
+					}
 				}
 			}
 			attribute = attribute->next;
 		}
 
-		objc_msgSend(object, origValueSelector, origValues);
+		if(storeOriginals)
+		{
+			objc_msgSend(object, origValueSelector, origValues);
+		}
 		
 		// Handle mixed content ( if it exists )
 		if (element->text && element->text[0])
@@ -654,7 +766,7 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 			if (selector && class_respondsToSelector(c, selector))
 			{
 				// Must be a single element... go ahead and set it
-				objc_msgSend(object, selector, [(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(element->text), kCFStringEncodingUTF8) autorelease]);
+				objc_msgSend(object, selector, getStringFromCache(element->text));
 			}
 		}
 		
@@ -662,7 +774,7 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 		while (element)
 		{
 			// This can be either a single element, or a series.  Check the object's selectors to figure out which...
-			id childObject = CreateElementWithNamespace(element, currentNamespace, namespaceMap, object);
+			id childObject = CreateElementWithNamespace(element, currentNamespace, namespaceMap, object, storeOriginals);
 			const char * adjustedChildElementName = element->name;
 			if (strchr(adjustedChildElementName, ':'))
 			{
@@ -686,7 +798,7 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 				if (selector && class_respondsToSelector(c, selector))
 				{
 					// Must be a single element... go ahead and set it
-					objc_msgSend(object, selector, [(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(element->text), kCFStringEncodingUTF8) autorelease]);
+					objc_msgSend(object, selector, getStringFromCache(element->text));
 				}
 			}
 			if ([childObject respondsToSelector:@selector(gaxb_loadDidComplete)])	{ [childObject performSelector:@selector(gaxb_loadDidComplete)]; }
@@ -698,7 +810,7 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 	
 	if (element->text && element->text[0])
 	{
-		return [(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(element->text), kCFStringEncodingUTF8) autorelease];
+		return getStringFromCache(element->text);
 	}
 	return NULL;
 }

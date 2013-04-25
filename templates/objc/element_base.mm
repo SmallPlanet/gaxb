@@ -49,11 +49,6 @@ end
 			[self gaxb_init];
 		}
 		
-		if(!originalValues)
-		{
-			originalValues = [[NSMutableDictionary dictionary] retain];
-		}
-		
 		<%
 		for k,v in pairs(this.sequences) do
 			if (v.name == "any") then %>	
@@ -62,7 +57,7 @@ end
 			anys = [[NSMutableArray array] retain];
 		}<%
 			elseif(isPlural(v)) then %>
-		<%= pluralName(v.name) %> = [[NSMutableArray array] retain];<%	
+		<%= pluralName(v.name) %> = [[NSMutableArray arrayWithCapacity:64] retain];<%	
 			end	
 		end 
 		for k,v in pairs(this.attributes) do

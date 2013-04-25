@@ -36,7 +36,7 @@ FULL_NAME_CAMEL = capitalizedString(this.namespace)
 	NSMutableDictionary *plural_element_map;
 	id parent;
 	int uid;
-	BOOL memLite;
+	BOOL storeOriginals;
 }
 
 @property (nonatomic, retain) NSMutableArray * element_stack;
@@ -53,7 +53,7 @@ FULL_NAME_CAMEL = capitalizedString(this.namespace)
 + (NSData *) writeToData:(id)object;
 + (NSString *) writeToString:(id)object;
 + (NSString *) writeOriginalXMLToString:(id)object;
-- (id) initWithParent:(id)p AndMemoryLite:(BOOL)m;
+- (id) initWithParent:(id)p AndStoreOriginalValues:(BOOL)m;
 <%
 for k,v in pairs(schema.simpleTypes) do
 	-- only include defintions from this schema's namespace
