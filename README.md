@@ -9,23 +9,21 @@ Rather than writing out all of the classes in your desired language, you can ins
 
 GAXB (Generic Architecture XML Bindings) is an XML schema-based code generation tool that supports custom cross-language model data serialization and deserialization.
 
-GAXB supports custom lua script templates and is fully serializable, model data can be used to generate XML (serializing) and XML can be used to generate model data (deserializing).
+GAXB is fully serializable, model data can be used to generate XML (serializing) and XML can be used to generate model data (deserializing). It supports custom lua templates and currently includes templates for **Objective C**, **Objective C ARC**, and **Java**.
 
 ##### How does it work?
 
 ###### Compile time code generation:
 
-During compile time GAXB generates the header and implementation files for all of the elements defined in your schema. These generated classes contain their own serialization methods. GAXB also generates an XML Loader for deserializing objects from your XML files.
+During compile time GAXB generates the header and implementation files for all of the elements defined in your schema, as well as class stubs that extend these generated base classes that can be used to write custom code for your objects. GAXB also generates an XML Loader for serializing and deserializing objects to and from your XML files.
 
-![Alt text](images/compile_diagram2.png)
+![Alt text](images/compile_diagram3.png)
 
-###### Run time deserialization:
+###### Run time deserialization and serialization:
 
-During run time you can use the XML Loader to read in your XML files, which deserializes them into class instance objects that can then be manipulated in your application code.
+During run time you can use the XML Loader to read in your XML files, which will deserialize them into instances of your class objects that can then be manipulated in your application code.
 
 ![Alt text](images/deserialization_diagram.png)
-
-###### Run time serialization:
 
 Conversely, any class objects you create in your application code can be serialized to XML files for later use.
 
@@ -181,13 +179,15 @@ mkdir Generated
 
 This will generate some quick Objective-C classes in **Generated/** based on the schema at **sample.xsd**.
 
-### IDE Usage
+### XCode Usage
 
 A sample XCode project for an iOS app using gaxb-generated classes is included in **Examples/BigPlanet**. Open **BigPlanet.xcodeproj** from that directory in XCode, select iPhone or iPad Simulator, then Build and Run. This simple example uses the schema located at **XMLSchema/Planets.xsd** and loads sample data from **BigPlanets/sol.xml**.  
 
 ----------
 
 ## License
+
+GAXB is free software distributed under the terms of the MIT license, reproduced below. GAXB may be used for any purpose, including commercial purposes, at absolutely no cost. No paperwork, no royalties, no GNU-like "copyleft" restrictions. Just download and enjoy.
 
 Copyright (c) 2012 Small Planet Digital, LLC
 
