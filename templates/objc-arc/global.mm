@@ -627,12 +627,12 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 					} 
 					else
 					{
-						objc_msgSend(object, selector, (NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribute->value), kCFStringEncodingUTF8));
+						objc_msgSend(object, selector, (NSString *)CFBridgingRelease(CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribute->value), kCFStringEncodingUTF8)));
 					}
 					char attribName[kMaxSelectorName];
 					ConvertName(attribute->name, attribName);
-					[origValues setValue:(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribute->value), kCFStringEncodingUTF8)
-							  		forKey:(NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribName), kCFStringEncodingUTF8)];
+					[origValues setValue:(NSString *)CFBridgingRelease(CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribute->value), kCFStringEncodingUTF8))
+							  		forKey:(NSString *)CFBridgingRelease(CFStringCreateWithCString(NULL, DecodeAllAmpersands(attribName), kCFStringEncodingUTF8))];
 				}
 			}
 			attribute = attribute->next;
@@ -647,7 +647,7 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 			if (selector && class_respondsToSelector(c, selector))
 			{
 				// Must be a single element... go ahead and set it
-				objc_msgSend(object, selector, (NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(element->text), kCFStringEncodingUTF8));
+				objc_msgSend(object, selector, (NSString *)CFBridgingRelease(CFStringCreateWithCString(NULL, DecodeAllAmpersands(element->text), kCFStringEncodingUTF8)));
 			}
 		}
 		
@@ -679,7 +679,7 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 				if (selector && class_respondsToSelector(c, selector))
 				{
 					// Must be a single element... go ahead and set it
-					objc_msgSend(object, selector, (NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(element->text), kCFStringEncodingUTF8));
+					objc_msgSend(object, selector, (NSString *)CFBridgingRelease(CFStringCreateWithCString(NULL, DecodeAllAmpersands(element->text), kCFStringEncodingUTF8)));
 				}
 			}
 			if ([childObject respondsToSelector:@selector(gaxb_loadDidComplete)])	{ [childObject performSelector:@selector(gaxb_loadDidComplete)]; }
@@ -691,7 +691,7 @@ static NSObject * CreateElementWithNamespace(TBXMLElement * element,
 	
 	if (element->text && element->text[0])
 	{
-		return (NSString *)CFStringCreateWithCString(NULL, DecodeAllAmpersands(element->text), kCFStringEncodingUTF8);
+		return (NSString *)CFBridgingRelease(CFStringCreateWithCString(NULL, DecodeAllAmpersands(element->text), kCFStringEncodingUTF8));
 	}
 	return NULL;
 }
