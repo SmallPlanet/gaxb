@@ -1,8 +1,7 @@
-![Alt text](images/smallplanet_logo.png)
+![Small Planet Digital](images/smallplanet_logo.png)
 
-----------
+
 # GAXB
-----------
 
 ##### What is it good for?
 Rather than writing out all of the classes in your desired language, you can instead build an XML schema. Then, instead of initializing model objects in code, you can write XML that conform to that schema. When your project is compiled, GAXB generates the code for your classes and code for the serializer and deserializer needed to convert those objects to XML and vice-versa.
@@ -31,10 +30,8 @@ Conversely, any class objects you create in your application code can be seriali
 
 ![Alt text](images/serialization_diagram.png)
 
----
 
 # Examples
-----------
 
 ### Schema Example:
 This schema defines the structure of our Galaxy data model.  This snippet shows the structure that a Planet will conform to.
@@ -125,9 +122,8 @@ Here is the generated and ready-to-use implementation file stub for Galaxy_Plane
 
 The GAXB repository contains a fully-functional Objective-C project based on these examples. Follow the installation instructions in the next section and take a look at the BigPlanets example project.
 
----
+
 # Installation
-----------
 
 #### Installation Prerequisites
 In order to install GAXB, your system will require git, CMake 2.8, libxml2, and a compiler tool-chain.
@@ -185,14 +181,13 @@ This will generate some quick Objective-C classes in **Generated/** based on the
 
 A sample XCode project for an iOS app using gaxb-generated classes is included in **Examples/BigPlanet**. Open **BigPlanet.xcodeproj** from that directory in XCode, select iPhone or iPad Simulator, then Build and Run. This simple example uses the schema located at **XMLSchema/Planets.xsd** and loads sample data from **BigPlanets/sol.xml**.  
 
-----------
+
 
 ## License
-----------
 
 GAXB is free software distributed under the terms of the MIT license, reproduced below. GAXB may be used for any purpose, including commercial purposes, at absolutely no cost. No paperwork, no royalties, no GNU-like "copyleft" restrictions. Just download and enjoy.
 
-Copyright (c) 2012 Small Planet Digital, LLC
+Copyright (c) 2012 [Small Planet Digital, LLC](http://smallplanet.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
