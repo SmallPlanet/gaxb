@@ -1,6 +1,4 @@
-<p align="center" >
-  <img src="https://github.com/SmallPlanet/gaxb/raw/master/images/smallplanet_logo.png" alt="Small Planet" title="Small Planet logo">
-</p>
+![Small Planet logo](images/smallplanet_logo.png)
 
 # GAXB
 
