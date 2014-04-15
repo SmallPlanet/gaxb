@@ -1,5 +1,6 @@
-![Small Planet Digital](images/smallplanet_logo.png)
-
+<p align="center" >
+  <img src="https://github.com/SmallPlanet/gaxb/raw/master/images/smallplanet_logo.png" alt="Small Planet" title="Small Planet logo">
+</p>
 
 # GAXB
 
