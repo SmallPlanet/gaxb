@@ -3,7 +3,7 @@
 # GAXB
 
 ##### What is it?
-GAXB (Generic Architecture XML Bindings) is an XML schema-based code generation tool that supports custom cross-language model data serialization and deserialization.
+GAXB (Generic Architecture for XML Bindings) is an XML schema-based code generation tool that supports custom cross-language model data serialization and deserialization.
 
 ##### What does GAXB do?
 GAXB is fully serializable--model data can be used to generate XML (serializing) and XML can be used to generate model data (deserializing). 
