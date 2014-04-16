@@ -2,14 +2,15 @@
 
 # GAXB
 
-##### What is it good for?
-Rather than writing out all of the classes in your desired language, you can instead build an XML schema. Then, instead of initializing model objects in code, you can write XML that conform to that schema. When your project is compiled, GAXB generates the code for your classes and code for the serializer and deserializer needed to convert those objects to XML and vice-versa.
-
 ##### What is it?
-
 GAXB (Generic Architecture XML Bindings) is an XML schema-based code generation tool that supports custom cross-language model data serialization and deserialization.
 
-GAXB is fully serializable, model data can be used to generate XML (serializing) and XML can be used to generate model data (deserializing). It supports custom lua templates and currently includes templates for **Objective C**, **Objective C ARC**, and **Java**.
+##### What does GAXB do?
+GAXB is fully serializable--model data can be used to generate XML (serializing) and XML can be used to generate model data (deserializing). 
+
+It supports custom **lua** templates and currently includes templates for **Objective C**, **Objective C ARC**, and **Java**.
+
+Rather than writing out all of the classes in your desired language, you can instead build an XML schema. Then, instead of initializing model objects in code, you can write XML that conform to that schema. When your project is compiled, GAXB generates the code for your classes and code for the serializer and deserializer needed to convert those objects to XML and vice-versa.
 
 ##### How does it work?
 
@@ -186,7 +187,7 @@ A sample XCode project for an iOS app using gaxb-generated classes is included i
 
 GAXB is free software distributed under the terms of the MIT license, reproduced below. GAXB may be used for any purpose, including commercial purposes, at absolutely no cost. No paperwork, no royalties, no GNU-like "copyleft" restrictions. Just download and enjoy.
 
-Copyright (c) 2012 [Small Planet Digital, LLC](http://smallplanet.com)
+Copyright (c) 2014 [Small Planet Digital, LLC](http://smallplanet.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -194,4 +195,6 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-## Enjoy!
+## About Small Planet
+
+Small Planet is a mobile agency in Brooklyn, NY that creates lovely experiences for smartphones and tablets. GAXB has made our lives a lot easier and we hope it does the same for you. You can find us at www.smallplanet.com. 
