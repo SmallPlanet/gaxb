@@ -151,7 +151,7 @@ apt-get install libxml2-dev
 Now you can clone the repository:
 
 ```bash
-git clone -b cmake git://github.com/SmallPlanet/gaxb.git
+git clone git://github.com/SmallPlanet/gaxb.git
 cd gaxb
 git submodule update --init lua
 ```
