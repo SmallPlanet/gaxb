@@ -5,7 +5,7 @@ This XML conforms to the Galaxy.xsd schema and defines the star system of Sol.
 &lt;StarSystem xmlns="http://schema.smallplanet.com/Galaxy" name="Solar System"&gt;
     
     &lt;!-- Sol --&gt;
-    &lt;Star name="Sol" age="4570000" mass="3330000" equatorialRadius="109" equatorialGraviry="28"/&gt;
+    &lt;Star name="Sol" age="4570000" mass="3330000" equatorialRadius="109" equatorialGravity="28"/&gt;
     
     &lt;!-- Sol's Planets --&gt;
 	&lt;Planet name="Mercury" mass="0.055"/&gt;

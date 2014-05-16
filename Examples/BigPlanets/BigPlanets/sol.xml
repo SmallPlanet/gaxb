@@ -2,7 +2,7 @@
 <StarSystem xmlns="http://schema.smallplanet.com/Galaxy" name="Solar System">
     
     <!-- Sol -->
-    <Star name="Sol" age="4570000" mass="3330000" equatorialRadius="109" equatorialGraviry="28" />
+    <Star name="Sol" age="4570000" mass="3330000" equatorialRadius="109" equatorialGravity="28" />
     
     <!-- Sol's Planets -->
 	<Planet name="Mercury"  mass="0.055" equatorialRadius="0.3825" meanOrbitalDistance="0.38709893" orbitalPeriod="0.2408467"  equatorialGravity="3.70" />
