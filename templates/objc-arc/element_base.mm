@@ -470,7 +470,7 @@ end
 - (void) appendXML:(NSMutableString *)xml useOriginalValues:(BOOL)useOriginalValues
 {
 	[xml appendFormat:@"<<%= CAP_NAME %>"];
-	if ([parent performSelector:@selector(xmlns)] != @"<%= this.namespaceURL %>") 
+	if (![[parent performSelector:@selector(xmlns)] isEqualToString:@"<%= this.namespaceURL %>"])
 	{ 
 		[xml appendFormat:@" xmlns='<%= this.namespaceURL %>'"]; 
 	} 
