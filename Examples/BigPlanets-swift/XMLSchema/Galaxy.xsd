@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ga="http://schema.smallplanet.com/Galaxy" targetNamespace="http://schema.smallplanet.com/Galaxy">
+	<!-- http://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System -->
+
+	<!-- Astronomical Object -->
+	<element name="AstronomicalObject" type="ga:AstronomicalObject"/>
+	<complexType name="AstronomicalObject">
+		<attribute name="name" type="string" use="required"/>
+		<attribute name="mass" type="float" use="optional"/>
+		<attribute name="meanOrbitalDistance" type="float" use="optional"/>
+		<attribute name="orbitalPeriod" type="float" use="optional"/>
+		<attribute name="equatorialRadius" type="float" use="optional"/>
+		<attribute name="equatorialGravity" type="float" use="optional"/>
+	</complexType>
+
+	<!-- Solar System -->
+	<element name="StarSystem" type="ga:StarSystem"/>
+	<complexType name="StarSystem">
+		<sequence>
+			<!-- collections of the system's stars and planets -->
+			<element ref="ga:AstronomicalObject" minOccurs="0" maxOccurs="unbounded"/>
+			<!-- derived collection -->
+			<element ref="ga:Star" minOccurs="1" maxOccurs="unbounded"/>
+			<element ref="ga:Planet" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="name" type="string" use="required"/>
+	</complexType>
+
+	<!-- Star -->
+	<element name="Star" type="ga:Star"/>
+	<complexType name="Star">
+		<complexContent>
+			<extension base="ga:AstronomicalObject">
+				<attribute name="age" type="float" use="optional"/>
+				<!-- age in years -->
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<!-- Planet -->
+	<element name="Planet" type="ga:Planet"/>
+	<complexType name="Planet">
+		<complexContent>
+			<extension base="ga:AstronomicalObject">
+				<sequence>
+					<!-- collection of the planet's moons -->
+					<element ref="ga:Moon" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute name="hasRings" type="boolean" default="false"/>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<!-- Moon -->
+	<element name="Moon" type="ga:Moon"/>
+	<complexType name="Moon">
+		<complexContent>
+			<extension base="ga:AstronomicalObject"/>
+		</complexContent>
+	</complexType>
+
+	<!-- Menu -->
+	<simpleType name="MenuAction">
+		<annotation>
+			<appinfo>TYPEDEF</appinfo>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="MENU_ACTION_SORT_NAME"/>
+			<enumeration value="MENU_ACTION_SORT_VINTAGE"/>
+			<enumeration value="MENU_ACTION_SORT_REGION"/>
+		</restriction>
+	</simpleType>
+
+</schema>

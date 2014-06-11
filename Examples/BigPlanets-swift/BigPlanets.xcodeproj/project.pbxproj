@@ -1,0 +1,595 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		A9A4E42B16A0B3D200AA4449 /* make gaxb */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = A9A4E42C16A0B3D200AA4449 /* Build configuration list for PBXAggregateTarget "make gaxb" */;
+			buildPhases = (
+				A9A4E42F16A0B3D800AA4449 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "make gaxb";
+			productName = gaxb;
+		};
+		A9A4E43016A0B4B100AA4449 /* gaxb generate */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = A9A4E43216A0B4B100AA4449 /* Build configuration list for PBXAggregateTarget "gaxb generate" */;
+			buildPhases = (
+				A9A4E43116A0B4B100AA4449 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "gaxb generate";
+			productName = gaxb;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		A983207216D7DADE00D2F5DC /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = A983206E16D7DADE00D2F5DC /* Icon-72.png */; };
+		A983207316D7DADE00D2F5DC /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A983206F16D7DADE00D2F5DC /* Icon-72@2x.png */; };
+		A983207416D7DADE00D2F5DC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A983207016D7DADE00D2F5DC /* Icon.png */; };
+		A983207516D7DADE00D2F5DC /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A983207116D7DADE00D2F5DC /* Icon@2x.png */; };
+		A9A4E3F616A06B0C00AA4449 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A4E3F516A06B0C00AA4449 /* UIKit.framework */; };
+		A9A4E3F816A06B0C00AA4449 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A4E3F716A06B0C00AA4449 /* Foundation.framework */; };
+		A9A4E3FA16A06B0C00AA4449 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A4E3F916A06B0C00AA4449 /* CoreGraphics.framework */; };
+		A9A4E40016A06B0C00AA4449 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A9A4E3FE16A06B0C00AA4449 /* InfoPlist.strings */; };
+		A9A4E40216A06B0C00AA4449 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E40116A06B0C00AA4449 /* main.m */; };
+		A9A4E40616A06B0C00AA4449 /* SPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E40516A06B0C00AA4449 /* SPAppDelegate.m */; };
+		A9A4E40816A06B0C00AA4449 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A9A4E40716A06B0C00AA4449 /* Default.png */; };
+		A9A4E40A16A06B0C00AA4449 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9A4E40916A06B0C00AA4449 /* Default@2x.png */; };
+		A9A4E40C16A06B0C00AA4449 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9A4E40B16A06B0C00AA4449 /* Default-568h@2x.png */; };
+		A9A4E40F16A06B0C00AA4449 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9A4E40D16A06B0C00AA4449 /* MainStoryboard_iPhone.storyboard */; };
+		A9A4E41216A06B0C00AA4449 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9A4E41016A06B0C00AA4449 /* MainStoryboard_iPad.storyboard */; };
+		A9A4E41516A06B0C00AA4449 /* SPMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E41416A06B0C00AA4449 /* SPMasterViewController.m */; };
+		A9A4E41816A06B0C00AA4449 /* SPDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E41716A06B0C00AA4449 /* SPDetailViewController.m */; };
+		A9A4E44E16A0C0E400AA4449 /* sol.xml in Resources */ = {isa = PBXBuildFile; fileRef = A9A4E44D16A0C0E400AA4449 /* sol.xml */; };
+		A9A4E99B16A89CEA00AA4449 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E99816A89CEA00AA4449 /* NSDataAdditions.m */; };
+		A9A4E99C16A89CEA00AA4449 /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E99A16A89CEA00AA4449 /* TBXML.m */; };
+		A9A4E99E16A89D2600AA4449 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A4E99D16A89D2600AA4449 /* libz.1.2.5.dylib */; };
+		A9A4E9C816A9D8A200AA4449 /* Galaxy_AstronomicalObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9B616A9D8A200AA4449 /* Galaxy_AstronomicalObject.mm */; };
+		A9A4E9C916A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9B816A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.mm */; };
+		A9A4E9CA16A9D8A200AA4449 /* Galaxy_Moon.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9BA16A9D8A200AA4449 /* Galaxy_Moon.mm */; };
+		A9A4E9CB16A9D8A200AA4449 /* Galaxy_MoonBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9BC16A9D8A200AA4449 /* Galaxy_MoonBase.mm */; };
+		A9A4E9CC16A9D8A200AA4449 /* Galaxy_Planet.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9BE16A9D8A200AA4449 /* Galaxy_Planet.mm */; };
+		A9A4E9CD16A9D8A200AA4449 /* Galaxy_PlanetBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C016A9D8A200AA4449 /* Galaxy_PlanetBase.mm */; };
+		A9A4E9CE16A9D8A200AA4449 /* Galaxy_StarSystem.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C216A9D8A200AA4449 /* Galaxy_StarSystem.mm */; };
+		A9A4E9CF16A9D8A200AA4449 /* Galaxy_StarSystemBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C416A9D8A200AA4449 /* Galaxy_StarSystemBase.mm */; };
+		A9A4E9D016A9D8A200AA4449 /* Galaxy_XMLLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C716A9D8A200AA4449 /* Galaxy_XMLLoader.mm */; };
+		C4D947F21940026A00A0065E /* AstronomicalObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D947F11940026A00A0065E /* AstronomicalObject.swift */; };
+		F0919ABA1721A5FD00159219 /* Galaxy_Star.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0919AB71721A5FD00159219 /* Galaxy_Star.mm */; };
+		F0919ABB1721A5FD00159219 /* Galaxy_StarBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0919AB91721A5FD00159219 /* Galaxy_StarBase.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C43DA97C19488D2700BFE6C0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9A4E3E816A06B0C00AA4449 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9A4E43016A0B4B100AA4449;
+			remoteInfo = "gaxb generate";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A983206E16D7DADE00D2F5DC /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "BigPlanets/Icon-72.png"; sourceTree = "<group>"; };
+		A983206F16D7DADE00D2F5DC /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72@2x.png"; path = "BigPlanets/Icon-72@2x.png"; sourceTree = "<group>"; };
+		A983207016D7DADE00D2F5DC /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = BigPlanets/Icon.png; sourceTree = "<group>"; };
+		A983207116D7DADE00D2F5DC /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "BigPlanets/Icon@2x.png"; sourceTree = "<group>"; };
+		A9A4E3F116A06B0C00AA4449 /* BigPlanets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BigPlanets.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9A4E3F516A06B0C00AA4449 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A9A4E3F716A06B0C00AA4449 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A9A4E3F916A06B0C00AA4449 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A9A4E3FD16A06B0C00AA4449 /* BigPlanets-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BigPlanets-Info.plist"; sourceTree = "<group>"; };
+		A9A4E3FF16A06B0C00AA4449 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A9A4E40116A06B0C00AA4449 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A9A4E40316A06B0C00AA4449 /* BigPlanets-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BigPlanets-Prefix.pch"; sourceTree = "<group>"; };
+		A9A4E40416A06B0C00AA4449 /* SPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SPAppDelegate.h; sourceTree = "<group>"; };
+		A9A4E40516A06B0C00AA4449 /* SPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPAppDelegate.m; sourceTree = "<group>"; };
+		A9A4E40716A06B0C00AA4449 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		A9A4E40916A06B0C00AA4449 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		A9A4E40B16A06B0C00AA4449 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		A9A4E40E16A06B0C00AA4449 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		A9A4E41116A06B0C00AA4449 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		A9A4E41316A06B0C00AA4449 /* SPMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SPMasterViewController.h; sourceTree = "<group>"; };
+		A9A4E41416A06B0C00AA4449 /* SPMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPMasterViewController.m; sourceTree = "<group>"; };
+		A9A4E41616A06B0C00AA4449 /* SPDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SPDetailViewController.h; sourceTree = "<group>"; };
+		A9A4E41716A06B0C00AA4449 /* SPDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPDetailViewController.m; sourceTree = "<group>"; };
+		A9A4E44D16A0C0E400AA4449 /* sol.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = sol.xml; path = BigPlanets/sol.xml; sourceTree = "<group>"; };
+		A9A4E99716A89CEA00AA4449 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAdditions.h; sourceTree = "<group>"; };
+		A9A4E99816A89CEA00AA4449 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
+		A9A4E99916A89CEA00AA4449 /* TBXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBXML.h; sourceTree = "<group>"; };
+		A9A4E99A16A89CEA00AA4449 /* TBXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBXML.m; sourceTree = "<group>"; };
+		A9A4E99D16A89D2600AA4449 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
+		A9A4E9B516A9D8A200AA4449 /* Galaxy_AstronomicalObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_AstronomicalObject.h; sourceTree = "<group>"; };
+		A9A4E9B616A9D8A200AA4449 /* Galaxy_AstronomicalObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_AstronomicalObject.mm; sourceTree = "<group>"; };
+		A9A4E9B716A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_AstronomicalObjectBase.h; sourceTree = "<group>"; };
+		A9A4E9B816A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_AstronomicalObjectBase.mm; sourceTree = "<group>"; };
+		A9A4E9B916A9D8A200AA4449 /* Galaxy_Moon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_Moon.h; sourceTree = "<group>"; };
+		A9A4E9BA16A9D8A200AA4449 /* Galaxy_Moon.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_Moon.mm; sourceTree = "<group>"; };
+		A9A4E9BB16A9D8A200AA4449 /* Galaxy_MoonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_MoonBase.h; sourceTree = "<group>"; };
+		A9A4E9BC16A9D8A200AA4449 /* Galaxy_MoonBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_MoonBase.mm; sourceTree = "<group>"; };
+		A9A4E9BD16A9D8A200AA4449 /* Galaxy_Planet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_Planet.h; sourceTree = "<group>"; };
+		A9A4E9BE16A9D8A200AA4449 /* Galaxy_Planet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_Planet.mm; sourceTree = "<group>"; };
+		A9A4E9BF16A9D8A200AA4449 /* Galaxy_PlanetBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_PlanetBase.h; sourceTree = "<group>"; };
+		A9A4E9C016A9D8A200AA4449 /* Galaxy_PlanetBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_PlanetBase.mm; sourceTree = "<group>"; };
+		A9A4E9C116A9D8A200AA4449 /* Galaxy_StarSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_StarSystem.h; sourceTree = "<group>"; };
+		A9A4E9C216A9D8A200AA4449 /* Galaxy_StarSystem.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_StarSystem.mm; sourceTree = "<group>"; };
+		A9A4E9C316A9D8A200AA4449 /* Galaxy_StarSystemBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_StarSystemBase.h; sourceTree = "<group>"; };
+		A9A4E9C416A9D8A200AA4449 /* Galaxy_StarSystemBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_StarSystemBase.mm; sourceTree = "<group>"; };
+		A9A4E9C516A9D8A200AA4449 /* Galaxy_XMLConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_XMLConstants.h; sourceTree = "<group>"; };
+		A9A4E9C616A9D8A200AA4449 /* Galaxy_XMLLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_XMLLoader.h; sourceTree = "<group>"; };
+		A9A4E9C716A9D8A200AA4449 /* Galaxy_XMLLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_XMLLoader.mm; sourceTree = "<group>"; };
+		C4D947F01940026900A0065E /* BigPlanets-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BigPlanets-Bridging-Header.h"; sourceTree = "<group>"; };
+		C4D947F11940026A00A0065E /* AstronomicalObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AstronomicalObject.swift; sourceTree = "<group>"; };
+		F0919AB61721A5FD00159219 /* Galaxy_Star.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_Star.h; sourceTree = "<group>"; };
+		F0919AB71721A5FD00159219 /* Galaxy_Star.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_Star.mm; sourceTree = "<group>"; };
+		F0919AB81721A5FD00159219 /* Galaxy_StarBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_StarBase.h; sourceTree = "<group>"; };
+		F0919AB91721A5FD00159219 /* Galaxy_StarBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_StarBase.mm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A9A4E3EE16A06B0C00AA4449 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9A4E99E16A89D2600AA4449 /* libz.1.2.5.dylib in Frameworks */,
+				A9A4E3F616A06B0C00AA4449 /* UIKit.framework in Frameworks */,
+				A9A4E3F816A06B0C00AA4449 /* Foundation.framework in Frameworks */,
+				A9A4E3FA16A06B0C00AA4449 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A9A4E3E616A06B0C00AA4449 = {
+			isa = PBXGroup;
+			children = (
+				A9A4E44C16A0C0D400AA4449 /* Resources */,
+				A9A4E3FB16A06B0C00AA4449 /* BigPlanets */,
+				A9A4E3F416A06B0C00AA4449 /* Frameworks */,
+				A9A4E3F216A06B0C00AA4449 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A9A4E3F216A06B0C00AA4449 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A9A4E3F116A06B0C00AA4449 /* BigPlanets.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A9A4E3F416A06B0C00AA4449 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A9A4E99D16A89D2600AA4449 /* libz.1.2.5.dylib */,
+				A9A4E3F516A06B0C00AA4449 /* UIKit.framework */,
+				A9A4E3F716A06B0C00AA4449 /* Foundation.framework */,
+				A9A4E3F916A06B0C00AA4449 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A9A4E3FB16A06B0C00AA4449 /* BigPlanets */ = {
+			isa = PBXGroup;
+			children = (
+				A9A4E9B416A9D8A100AA4449 /* Generated */,
+				A9A4E99616A89CE900AA4449 /* TBXML */,
+				A9A4E40416A06B0C00AA4449 /* SPAppDelegate.h */,
+				A9A4E40516A06B0C00AA4449 /* SPAppDelegate.m */,
+				A9A4E40D16A06B0C00AA4449 /* MainStoryboard_iPhone.storyboard */,
+				A9A4E41016A06B0C00AA4449 /* MainStoryboard_iPad.storyboard */,
+				A9A4E41316A06B0C00AA4449 /* SPMasterViewController.h */,
+				A9A4E41416A06B0C00AA4449 /* SPMasterViewController.m */,
+				A9A4E41616A06B0C00AA4449 /* SPDetailViewController.h */,
+				A9A4E41716A06B0C00AA4449 /* SPDetailViewController.m */,
+				A9A4E3FC16A06B0C00AA4449 /* Supporting Files */,
+			);
+			path = BigPlanets;
+			sourceTree = "<group>";
+		};
+		A9A4E3FC16A06B0C00AA4449 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A9A4E3FD16A06B0C00AA4449 /* BigPlanets-Info.plist */,
+				A9A4E3FE16A06B0C00AA4449 /* InfoPlist.strings */,
+				A9A4E40116A06B0C00AA4449 /* main.m */,
+				A9A4E40316A06B0C00AA4449 /* BigPlanets-Prefix.pch */,
+				A9A4E40716A06B0C00AA4449 /* Default.png */,
+				A9A4E40916A06B0C00AA4449 /* Default@2x.png */,
+				A9A4E40B16A06B0C00AA4449 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A9A4E44C16A0C0D400AA4449 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A983206E16D7DADE00D2F5DC /* Icon-72.png */,
+				A983206F16D7DADE00D2F5DC /* Icon-72@2x.png */,
+				A983207016D7DADE00D2F5DC /* Icon.png */,
+				A983207116D7DADE00D2F5DC /* Icon@2x.png */,
+				A9A4E44D16A0C0E400AA4449 /* sol.xml */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		A9A4E99616A89CE900AA4449 /* TBXML */ = {
+			isa = PBXGroup;
+			children = (
+				A9A4E99716A89CEA00AA4449 /* NSDataAdditions.h */,
+				A9A4E99816A89CEA00AA4449 /* NSDataAdditions.m */,
+				A9A4E99916A89CEA00AA4449 /* TBXML.h */,
+				A9A4E99A16A89CEA00AA4449 /* TBXML.m */,
+			);
+			path = TBXML;
+			sourceTree = "<group>";
+		};
+		A9A4E9B416A9D8A100AA4449 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				F0919AB61721A5FD00159219 /* Galaxy_Star.h */,
+				F0919AB71721A5FD00159219 /* Galaxy_Star.mm */,
+				F0919AB81721A5FD00159219 /* Galaxy_StarBase.h */,
+				F0919AB91721A5FD00159219 /* Galaxy_StarBase.mm */,
+				A9A4E9B516A9D8A200AA4449 /* Galaxy_AstronomicalObject.h */,
+				A9A4E9B616A9D8A200AA4449 /* Galaxy_AstronomicalObject.mm */,
+				A9A4E9B716A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.h */,
+				A9A4E9B816A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.mm */,
+				A9A4E9B916A9D8A200AA4449 /* Galaxy_Moon.h */,
+				A9A4E9BA16A9D8A200AA4449 /* Galaxy_Moon.mm */,
+				A9A4E9BB16A9D8A200AA4449 /* Galaxy_MoonBase.h */,
+				A9A4E9BC16A9D8A200AA4449 /* Galaxy_MoonBase.mm */,
+				A9A4E9BD16A9D8A200AA4449 /* Galaxy_Planet.h */,
+				A9A4E9BE16A9D8A200AA4449 /* Galaxy_Planet.mm */,
+				A9A4E9BF16A9D8A200AA4449 /* Galaxy_PlanetBase.h */,
+				A9A4E9C016A9D8A200AA4449 /* Galaxy_PlanetBase.mm */,
+				A9A4E9C116A9D8A200AA4449 /* Galaxy_StarSystem.h */,
+				A9A4E9C216A9D8A200AA4449 /* Galaxy_StarSystem.mm */,
+				A9A4E9C316A9D8A200AA4449 /* Galaxy_StarSystemBase.h */,
+				A9A4E9C416A9D8A200AA4449 /* Galaxy_StarSystemBase.mm */,
+				A9A4E9C516A9D8A200AA4449 /* Galaxy_XMLConstants.h */,
+				A9A4E9C616A9D8A200AA4449 /* Galaxy_XMLLoader.h */,
+				A9A4E9C716A9D8A200AA4449 /* Galaxy_XMLLoader.mm */,
+				C4D947F11940026A00A0065E /* AstronomicalObject.swift */,
+				C4D947F01940026900A0065E /* BigPlanets-Bridging-Header.h */,
+			);
+			path = Generated;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A9A4E3F016A06B0C00AA4449 /* BigPlanets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9A4E41B16A06B0C00AA4449 /* Build configuration list for PBXNativeTarget "BigPlanets" */;
+			buildPhases = (
+				A9A4E42A16A0B3B000AA4449 /* ShellScript */,
+				A9A4E3ED16A06B0C00AA4449 /* Sources */,
+				A9A4E3EE16A06B0C00AA4449 /* Frameworks */,
+				A9A4E3EF16A06B0C00AA4449 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C43DA97D19488D2700BFE6C0 /* PBXTargetDependency */,
+			);
+			name = BigPlanets;
+			productName = BigPlanets;
+			productReference = A9A4E3F116A06B0C00AA4449 /* BigPlanets.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A9A4E3E816A06B0C00AA4449 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = SP;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Small Planet Digital";
+			};
+			buildConfigurationList = A9A4E3EB16A06B0C00AA4449 /* Build configuration list for PBXProject "BigPlanets" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A9A4E3E616A06B0C00AA4449;
+			productRefGroup = A9A4E3F216A06B0C00AA4449 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A9A4E3F016A06B0C00AA4449 /* BigPlanets */,
+				A9A4E42B16A0B3D200AA4449 /* make gaxb */,
+				A9A4E43016A0B4B100AA4449 /* gaxb generate */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A9A4E3EF16A06B0C00AA4449 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9A4E40016A06B0C00AA4449 /* InfoPlist.strings in Resources */,
+				A9A4E40816A06B0C00AA4449 /* Default.png in Resources */,
+				A9A4E40A16A06B0C00AA4449 /* Default@2x.png in Resources */,
+				A9A4E40C16A06B0C00AA4449 /* Default-568h@2x.png in Resources */,
+				A9A4E40F16A06B0C00AA4449 /* MainStoryboard_iPhone.storyboard in Resources */,
+				A9A4E41216A06B0C00AA4449 /* MainStoryboard_iPad.storyboard in Resources */,
+				A9A4E44E16A0C0E400AA4449 /* sol.xml in Resources */,
+				A983207216D7DADE00D2F5DC /* Icon-72.png in Resources */,
+				A983207316D7DADE00D2F5DC /* Icon-72@2x.png in Resources */,
+				A983207416D7DADE00D2F5DC /* Icon.png in Resources */,
+				A983207516D7DADE00D2F5DC /* Icon@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A9A4E42A16A0B3B000AA4449 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+		};
+		A9A4E42F16A0B3D800AA4449 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "GAXB_DIR=\"$PROJECT_DIR/../..\"\n\nSDKROOT=\"\"\nSDK_NAME=\"\"\nSDK_NAME=\"\"\nmkdir -p \"$GAXB_DIR//build\"\ncd \"$GAXB_DIR/build\"\ncmake ..\nmake";
+		};
+		A9A4E43116A0B4B100AA4449 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"$PROJECT_DIR/Generated\"\nGAXB_ROOT=\"$PROJECT_DIR/../..\"\n\nfor xsd_path in $(find \"$PROJECT_DIR/XMLSchema\" -name \"*.xsd\" -print );\ndo\n    mkdir -p \"$PROJECT_DIR/generated/\";\n    \"$GAXB_ROOT/build/gaxb\" swift \"$xsd_path\" -t \"$GAXB_ROOT/templates\" -o \"$PROJECT_DIR/Generated\"\ndone\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A9A4E3ED16A06B0C00AA4449 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9A4E40216A06B0C00AA4449 /* main.m in Sources */,
+				A9A4E40616A06B0C00AA4449 /* SPAppDelegate.m in Sources */,
+				A9A4E41516A06B0C00AA4449 /* SPMasterViewController.m in Sources */,
+				A9A4E41816A06B0C00AA4449 /* SPDetailViewController.m in Sources */,
+				A9A4E99B16A89CEA00AA4449 /* NSDataAdditions.m in Sources */,
+				A9A4E99C16A89CEA00AA4449 /* TBXML.m in Sources */,
+				C4D947F21940026A00A0065E /* AstronomicalObject.swift in Sources */,
+				A9A4E9C816A9D8A200AA4449 /* Galaxy_AstronomicalObject.mm in Sources */,
+				A9A4E9C916A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.mm in Sources */,
+				A9A4E9CA16A9D8A200AA4449 /* Galaxy_Moon.mm in Sources */,
+				A9A4E9CB16A9D8A200AA4449 /* Galaxy_MoonBase.mm in Sources */,
+				A9A4E9CC16A9D8A200AA4449 /* Galaxy_Planet.mm in Sources */,
+				A9A4E9CD16A9D8A200AA4449 /* Galaxy_PlanetBase.mm in Sources */,
+				A9A4E9CE16A9D8A200AA4449 /* Galaxy_StarSystem.mm in Sources */,
+				A9A4E9CF16A9D8A200AA4449 /* Galaxy_StarSystemBase.mm in Sources */,
+				A9A4E9D016A9D8A200AA4449 /* Galaxy_XMLLoader.mm in Sources */,
+				F0919ABA1721A5FD00159219 /* Galaxy_Star.mm in Sources */,
+				F0919ABB1721A5FD00159219 /* Galaxy_StarBase.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C43DA97D19488D2700BFE6C0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9A4E43016A0B4B100AA4449 /* gaxb generate */;
+			targetProxy = C43DA97C19488D2700BFE6C0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A9A4E3FE16A06B0C00AA4449 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9A4E3FF16A06B0C00AA4449 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A9A4E40D16A06B0C00AA4449 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9A4E40E16A06B0C00AA4449 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		A9A4E41016A06B0C00AA4449 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9A4E41116A06B0C00AA4449 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A9A4E41916A06B0C00AA4449 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A9A4E41A16A06B0C00AA4449 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A9A4E41C16A06B0C00AA4449 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BigPlanets/BigPlanets-Prefix.pch";
+				INFOPLIST_FILE = "BigPlanets/BigPlanets-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Generated/BigPlanets-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		A9A4E41D16A06B0C00AA4449 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BigPlanets/BigPlanets-Prefix.pch";
+				INFOPLIST_FILE = "BigPlanets/BigPlanets-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Generated/BigPlanets-Bridging-Header.h";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		A9A4E42D16A0B3D200AA4449 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A9A4E42E16A0B3D200AA4449 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A9A4E43316A0B4B100AA4449 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "make gaxb copy";
+			};
+			name = Debug;
+		};
+		A9A4E43416A0B4B100AA4449 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "make gaxb copy";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A9A4E3EB16A06B0C00AA4449 /* Build configuration list for PBXProject "BigPlanets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9A4E41916A06B0C00AA4449 /* Debug */,
+				A9A4E41A16A06B0C00AA4449 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9A4E41B16A06B0C00AA4449 /* Build configuration list for PBXNativeTarget "BigPlanets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9A4E41C16A06B0C00AA4449 /* Debug */,
+				A9A4E41D16A06B0C00AA4449 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9A4E42C16A0B3D200AA4449 /* Build configuration list for PBXAggregateTarget "make gaxb" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9A4E42D16A0B3D200AA4449 /* Debug */,
+				A9A4E42E16A0B3D200AA4449 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9A4E43216A0B4B100AA4449 /* Build configuration list for PBXAggregateTarget "gaxb generate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9A4E43316A0B4B100AA4449 /* Debug */,
+				A9A4E43416A0B4B100AA4449 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A9A4E3E816A06B0C00AA4449 /* Project object */;
+}
