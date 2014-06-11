@@ -1,43 +1,43 @@
 
 TYPEMAP = {};
-TYPEMAP["boolean"] = "BOOL";
-TYPEMAP["short"] = "short";
-TYPEMAP["int"] = "int";
-TYPEMAP["nonNegativeInteger"] = "int";
-TYPEMAP["positiveInteger"] = "int";
-TYPEMAP["enum"] = "int";
+TYPEMAP["boolean"] = "Bool";
+TYPEMAP["short"] = "Int";
+TYPEMAP["int"] = "Int";
+TYPEMAP["nonNegativeInteger"] = "Int";
+TYPEMAP["positiveInteger"] = "Int";
+TYPEMAP["enum"] = "Int";
 TYPEMAP["long"] = "long";
-TYPEMAP["string"] = "NSString *";
-TYPEMAP["base64Binary"] = "NSData *";
-TYPEMAP["string"] = "NSString *";
-TYPEMAP["decimal"] = "float";
-TYPEMAP["float"] = "float";
-TYPEMAP["double"] = "double";
-TYPEMAP["byte"] = "char";
-TYPEMAP["date"] = "NSDate *";
-TYPEMAP["dateTime"] = "NSDate *";
+TYPEMAP["string"] = "String";
+TYPEMAP["base64Binary"] = "Data";
+TYPEMAP["string"] = "String";
+TYPEMAP["decimal"] = "Float";
+TYPEMAP["float"] = "Float";
+TYPEMAP["double"] = "Double";
+TYPEMAP["byte"] = "Character";
+TYPEMAP["date"] = "Date";
+TYPEMAP["dateTime"] = "Date";
 
 
 OBJECTMAP = {};
-OBJECTMAP["BOOL"] = "NSNumber *";
-OBJECTMAP["boolean"] = "NSNumber *";
-OBJECTMAP["short"] = "NSNumber *";
-OBJECTMAP["int"] = "NSNumber *";
-OBJECTMAP["nonNegativeInteger"] = "NSNumber *";
-OBJECTMAP["positiveInteger"] = "NSNumber *";
-OBJECTMAP["enum"] = "NSNumber *";
-OBJECTMAP["ENUM_MASK"] = "NSNumber *";
-OBJECTMAP["named_enum"] = "NSNumber *";
-OBJECTMAP["long"] = "NSNumber *";
-OBJECTMAP["string"] = "NSString *";
-OBJECTMAP["base64Binary"] = "NSData *";
-OBJECTMAP["string"] = "NSString *";
-OBJECTMAP["decimal"] = "NSNumber *";
-OBJECTMAP["float"] = "NSNumber *";
-OBJECTMAP["double"] = "NSNumber *";
-OBJECTMAP["byte"] = "NSNumber *";
-OBJECTMAP["date"] = "NSDate *";
-OBJECTMAP["dateTime"] = "NSDate *";
+OBJECTMAP["BOOL"] = "Bool ";
+OBJECTMAP["boolean"] = "Bool ";
+OBJECTMAP["short"] = "Int ";
+OBJECTMAP["int"] = "Int ";
+OBJECTMAP["nonNegativeInteger"] = "Int ";
+OBJECTMAP["positiveInteger"] = "Int ";
+OBJECTMAP["enum"] = "Enum ";
+--OBJECTMAP["ENUM_MASK"] = "Int"; -- ??
+--OBJECTMAP["named_enum"] = "NSNumber *";
+OBJECTMAP["long"] = "Int ";
+OBJECTMAP["string"] = "String ";
+OBJECTMAP["base64Binary"] = "Data ";
+OBJECTMAP["string"] = "String ";
+OBJECTMAP["decimal"] = "Int ";
+OBJECTMAP["float"] = "Float ";
+OBJECTMAP["double"] = "Double ";
+OBJECTMAP["byte"] = "Byte ";
+OBJECTMAP["date"] = "Date ";
+OBJECTMAP["dateTime"] = "Date ";
 
 
 function printAllKeys(t)

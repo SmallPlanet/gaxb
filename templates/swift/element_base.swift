@@ -7,215 +7,41 @@ FULL_NAME_CAMEL = capitalizedString(this.namespace).."_"..capitalizedString(this
 //
 
 
-Class <%= CAP_NAME %>
+class <%= CAP_NAME %> {
 <% if (hasSuperclass(this) == false) then %>
-  var xmlns: String = "<%= this.namespaceURL %>"
-	var parent: <%= CAP_NAME %>?
-  var originalValues = Dictionary<String, String> ()
-//@synthesize uid;
+    var xmlns: String = "<%= this.namespaceURL %>"
+    var parent: <%= CAP_NAME %>?
+    var originalValues = Dictionary<String, String> ()
 
-  func gaxbValueWillChange(name:String) { }
-  func gaxbValueDidChange(name:String) { }
-<% end %>
+    func gaxbValueWillChange(name:String) { }
+    func gaxbValueDidChange(name:String) { }
 
-<%
+<% end
+
 for k,v in pairs(this.sequences) do
 	if(isPlural(v)) then %>
-	var <%= pluralName(v.name) %>: Array<<% capitalizedString(v.name)%>>
+    var <%= pluralName(v.name) %>: Array<<% capitalizedString(v.name)%>>
 <%
   else %>
-	var <%= v.name %>: <%= capitalizedString(v.name) %>?
+    var <%= v.name %>: <%= capitalizedString(v.name) %>?
 <%
 	end
 end
 
 for k,v in pairs(this.attributes) do %>
 	var <%= v.name %>: <%= typeForItem(v) %><%
-	if (v.default ~= nil) then %> = <%= v.default %>
-[self set<%= capitalizedString(v.name) %>WithString: @"<%= v.default %>"]; <%
-	end
-end
-
-	for k,v in pairs(this.attributes) do
-		local capName = capitalizedString(v.name);
-%>
-@synthesize <%= v.name %>;
-@synthesize <%= v.name %>Exists;<%
-if (isObject(v)) then  %>
-- (void) set<%= capName %>:(<% if (v.type == "string") then gaxb_print("NSString *") else gaxb_print(typeForItem(v)) end %>)v
-{<% if (typeForItem(v) ~= "NSString *") then %>
-	if([v isKindOfClass:[NSString class]])
-		return [self set<%= capName %>WithString:(NSString *)v];
-	<% end %>
-
-	<%= v.name %>Exists=YES; <%
-	if  (v.type == "string") then %>
-	if ([v isKindOfClass:[NSString class]] == NO)
-	{
-		v = [v description];
-	} <%
+	if (v.default == nil) then %>?<%
 	end %>
-	[self gaxb_valueWillChange:@"<%= v.name %>"];
-	[self willChangeValueForKey:@"<%= v.name %>AsString"];
-	<%= v.name %> = v;
-	[self didChangeValueForKey:@"<%= v.name %>AsString"];
-	[self gaxb_valueDidChange:@"<%= v.name %>"];
-}<%
-else %>
-- (void) set<%= capName %>:(<%= typeForItem(v) %>)v
-{
-	<%= v.name %>Exists=YES;
-	[self gaxb_valueWillChange:@"<%= v.name %>"];
-	[self willChangeValueForKey:@"<%= v.name %>AsString"];
-	<%= v.name %> = v;
-	[self didChangeValueForKey:@"<%= v.name %>AsString"];
-	[self gaxb_valueDidChange:@"<%= v.name %>"];
-}
-<%if (isEnumForItem(v) == false) then%>
-- (void) set<%= capName %>WithObject:(<%= OBJECTMAP[typeNameForItem(v)] %>)v
-{
-<%	if (typeNameForItem(v)=="BOOL") then %>
-	<%= v.name %>Exists=YES;
-	[self gaxb_valueWillChange:@"<%= v.name %>"];
-	[self willChangeValueForKey:@"<%= v.name %>AsString"];
-	<%= v.name %> = [v boolValue];
-	[self didChangeValueForKey:@"<%= v.name %>AsString"];
-	[self gaxb_valueDidChange:@"<%= v.name %>"];
-<% elseif (typeNameForItem(v)=="float") then %>
-	<%= v.name %>Exists=YES;
-	[self gaxb_valueWillChange:@"<%= v.name %>"];
-	[self willChangeValueForKey:@"<%= v.name %>AsString"];
-	<%= v.name %> = [v floatValue];
-	[self didChangeValueForKey:@"<%= v.name %>AsString"];
-	[self gaxb_valueDidChange:@"<%= v.name %>"];
-<% elseif (typeNameForItem(v)=="short") then %>
-	<%= v.name %>Exists=YES;
-	[self gaxb_valueWillChange:@"<%= v.name %>"];
-	[self willChangeValueForKey:@"<%= v.name %>AsString"];
-	<%= v.name %> = [v shortValue];
-	[self didChangeValueForKey:@"<%= v.name %>AsString"];
-	[self gaxb_valueDidChange:@"<%= v.name %>"];
-<% elseif (typeNameForItem(v)=="int") then %>
-	<%= v.name %>Exists=YES;
-	[self gaxb_valueWillChange:@"<%= v.name %>"];
-	[self willChangeValueForKey:@"<%= v.name %>AsString"];
-	<%= v.name %> = [v intValue];
-	[self didChangeValueForKey:@"<%= v.name %>AsString"];
-	[self gaxb_valueDidChange:@"<%= v.name %>"];
-<% elseif (typeNameForItem(v)=="long") then %>
-	<%= v.name %>Exists=YES;
-	[self gaxb_valueWillChange:@"<%= v.name %>"];
-	[self willChangeValueForKey:@"<%= v.name %>AsString"];
-	<%= v.name %> = [v intValue];
-	[self didChangeValueForKey:@"<%= v.name %>AsString"];
-	[self gaxb_valueDidChange:@"<%= v.name %>"];
-<% elseif (typeNameForItem(v)=="double") then %>
-	<%= v.name %>Exists=YES;
-	[self gaxb_valueWillChange:@"<%= v.name %>"];
-	[self willChangeValueForKey:@"<%= v.name %>AsString"];
-	<%= v.name %> = [v doubleValue];
-	[self didChangeValueForKey:@"<%= v.name %>AsString"];
-	[self gaxb_valueDidChange:@"<%= v.name %>"];
-<% elseif (typeNameForItem(v)=="char") then %>
-	<%= v.name %>Exists=YES;
-	[self gaxb_valueWillChange:@"<%= v.name %>"];
-	[self willChangeValueForKey:@"<%= v.name %>AsString"];
-	<%= v.name %> = [v intValue];
-	[self didChangeValueForKey:@"<%= v.name %>AsString"];
-	[self gaxb_valueDidChange:@"<%= v.name %>"];
-<% elseif (isEnumForItem(v)) then %>
-	<%= v.name %>Exists=YES;
-	[self gaxb_valueWillChange:@"<%= v.name %>"];
-	[self willChangeValueForKey:@"<%= v.name %>AsString"];
-	<%= v.name %> = [v intValue];
-	[self didChangeValueForKey:@"<%= v.name %>AsString"];
-	[self gaxb_valueDidChange:@"<%= v.name %>"];
+    var <%= v.name %>Exists: Bool {
+        return <%= v.name %> != nil
+    }
+    func <%= v.name %>AsString() -> String {<%
+ if (v.type=="string") then %>
+        return <%= v.name %><% if (v.default == nil) then %>!<% end %>
 <% else %>
-	// bleh
-<% end %>
-}
-- (id) <%= v.name %>AsObject
-{
-<%	if (typeNameForItem(v)=="BOOL") then %>
-	return [NSNumber numberWithBool:<%= v.name %>];
-<% elseif (typeNameForItem(v)=="float") then %>
-	return [NSNumber numberWithFloat:<%= v.name %>];
-<% elseif (typeNameForItem(v)=="short") then %>
-	return [NSNumber numberWithShort:<%= v.name %>];
-<% elseif (typeNameForItem(v)=="int") then %>
-	return [NSNumber numberWithInt:<%= v.name %>];
-<% elseif (typeNameForItem(v)=="long") then %>
-	return [NSNumber numberWithLong:<%= v.name %>];
-<% elseif (typeNameForItem(v)=="double") then %>
-	return [NSNumber numberWithFloat:<%= v.name %>];
-<% elseif (typeNameForItem(v)=="char") then %>
-	return [NSNumber numberWithInt:<%= v.name %>];
-<% elseif (isEnumForItem(v)) then %>
-	return [NSNumber numberWithInt:<%= v.name %>];
-<% else %>
-	// bleh
-<% end %>
-}<% end %><%
-end %>
-- (NSString *) <%= v.name %>AsString {<%
-if (typeNameForItem(v)=="BOOL") then
-	%> return ((<%= v.name %>Exists) ? (<%= v.name %> ? @"true" : @"false") : nil); <%
-elseif (typeNameForItem(v)=="float") then
-	%> return ((<%= v.name %>Exists) ? [[NSNumber numberWithFloat:<%= v.name %>] stringValue] : nil); <%
-elseif (typeNameForItem(v)=="short") then
-	%> return ((<%= v.name %>Exists) ? [[NSNumber numberWithShort:<%= v.name %>] stringValue] : nil); <%
-elseif (typeNameForItem(v)=="int" or isEnumForItem(v)) then
-	%> return ((<%= v.name %>Exists) ? [[NSNumber numberWithInt:<%= v.name %>] stringValue] : nil); <%
-elseif (typeNameForItem(v)=="long") then
-	%> return ((<%= v.name %>Exists) ? [[NSNumber numberWithLong:<%= v.name %>] stringValue] : nil); <%
-elseif (typeNameForItem(v)=="double") then
-	%> return ((<%= v.name %>Exists) ? [[NSNumber numberWithDouble:<%= v.name %>] stringValue] : nil); <%
-elseif (typeNameForItem(v)=="char") then
-	%> return ((<%= v.name %>Exists) ? [[NSNumber numberWithChar:<%= v.name %>] stringValue] : nil); <%
-elseif (typeNameForItem(v)=="date") then
-	%> return [self dateStringFromSchema:<%= v.name %>]; <%
-elseif (typeNameForItem(v)=="dateTime") then
-	%> return [self dateTimeStringFromSchema:<%= v.name %>]; <%
-elseif (typeNameForItem(v)=="base64Binary") then
-	%> return [<%= v.name %> base64Encoding]; <%
-else
-	%> return [<%= v.name %> description]; <%
-end %>}
-- (void) set<%= capName %>WithString:(NSString *)string
-{
-	<%= v.name %>Exists=YES; <%
-if (typeNameForItem(v)=="BOOL") then %>
-	[self set<%= capName %>:([string isEqualToString:@"true"] ? YES : NO)];
-<% elseif (typeNameForItem(v)=="float") then %>
-	[self set<%= capName %>:[string floatValue]];
-<% elseif (typeNameForItem(v)=="short") then %>
-	[self set<%= capName %>:[string shortValue]];
-<% elseif (typeNameForItem(v)=="int") then %>
-	[self set<%= capName %>:[string intValue]];
-<% elseif (typeNameForItem(v)=="long") then %>
-	[self set<%= capName %>:[string intValue]];
-<% elseif (typeNameForItem(v)=="double") then %>
-	[self set<%= capName %>:[string doubleValue]];
-<% elseif (typeNameForItem(v)=="char") then %>
-	[self set<%= capName %>:[string intValue];
-<% elseif (v.type=="date") then %>
-	[self set<%= capName %>:[self schemaDateFromString:string]];
-<% elseif (v.type=="dateTime") then %>
-	[self set<%= capName %>:[self schemaDateTimeFromString:string]];
-<% elseif (v.type=="base64Binary") then %>
-	[self set<%= capName %>:[NSData decode:string]];
-<% elseif (v.type=="string") then %>
-	[self set<%= capName %>:string];
-<% elseif (isEnumForItem(v)) then %>
-	[self set<%= capName %>:(<%= v.type.name %>)([[string stringByTrimmingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]] length] == 0 ?
-		[string intValue] : [[<%= capitalizedString(v.type.namespace).."_XMLLoader arrayForEnum"..capitalizedString(v.type.name) %>] indexOfObject:string])];
-<% elseif (isObject(v)) then %>
-	[self set<%= capName %>:[[NSClassFromString(@"<%= typeNameForItem(v) %>") alloc] initWithString:string]];
-<% else %>
-	// bleh
+        return <%= v.name %>.description // <%= typeNameForItem(v) %> / <%= v.type %>
 <% end
-%>}
-
+%>    }
 <%
 	end
 	if (this.mixedContent) then %>
@@ -270,84 +96,54 @@ if (typeNameForItem(v)=="BOOL") then %>
 	end
 %>
 
-- (void) appendXMLAttributesForSubclass:(NSMutableString *)xml
-{
-	[self appendXMLAttributesForSubclass:xml useOriginalValues:false];
-}
-
-
-- (void) appendXMLAttributesForSubclass:(NSMutableString *)xml useOriginalValues:(BOOL)useOriginalValues
-{
-<% if (hasSuperclass(this)) then %>	[super appendXMLAttributesForSubclass:xml useOriginalValues:useOriginalValues];
+    func attributesXML(useOriginalValues:Bool? = false) -> String {
+        var xml = ""
+        if parent {
+            xml += parent!.attributesXML(useOriginalValues:useOriginalValues)
+        }
+        if useOriginalValues! {
+            for (key, value) in originalValues {
+                xml += " \\(key)='\\(value)'"
+            }
+        } else {
+<% for k,v in pairs(this.attributes) do
+%>            if <%= v.name %>Exists {
+                xml += " <%= v.name %>='\\(<%= v.name %>AsString())'"
+            }
 <% end
-for k,v in pairs(this.attributes) do
-	if (typeNameForItem(v) == "BOOL") then
-%>	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%@'", SAFESTRING(((<%= v.name %>Exists || <%= v.name %> ) ? (<%= v.name %> ? @"true" : @"false") : NULL))]; }
-<% elseif (typeNameForItem(v)=="short") then %>
-	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%hi'", <%= v.name %>]; }
-<% elseif (typeNameForItem(v)=="int" or isEnumForItem(v)) then %>
-	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%i'", <%= v.name %>]; }
-<% elseif (typeNameForItem(v)=="long") then %>
-	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%ld'", <%= v.name %>]; }
-<% elseif (typeNameForItem(v)=="char") then %>
-	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%i'", <%= v.name %>]; }
-<% elseif (typeNameForItem(v)=="float" or typeNameForItem(v)=="double") then %>
-	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> ))
-	{
-		NSString *s = [[NSString stringWithFormat:@"%0.2f", <%= v.name %>] stringByReplacingOccurrencesOfString:@".00" withString:@""];
-		[xml appendFormat:@" <%= v.name %>='%@'", s];
-	}
-<% elseif (v.type=="date") then %>
-	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%@'", [self dateStringFromSchema:<%= v.name %>]]; }
-<% elseif (v.type=="dateTime") then %>
-	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%@'", [self dateTimeStringFromSchema:<%= v.name %>]]; }
-<% elseif (v.type=="base64Binary") then %>
-	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%@'", [<%= v.name %> base64Encoding]]; }
-<% elseif (v.type=="string") then %>
-	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %> )) { [xml appendFormat:@" <%= v.name %>='%@'", SAFESTRING(<%= v.name %>)]; }
-<% 	else %>	if (!useOriginalValues && (<%= v.name %>Exists || <%= v.name %>)) { [xml appendFormat:@" <%= v.name %>='%@'", SAFESTRING([<%= v.name %> description])]; }
-<%	end %>
-	else if([[self valueForKey:@"originalValues"] valueForKey:@"<%= v.name %>"]) { [xml appendFormat:@" <%= v.name %>='%@'", SAFESTRING([[[self valueForKey:@"originalValues"] valueForKey:@"<%= v.name %>"] description])]; }
-
-<%end
-%>
-
-}
-
+%>        }
+        return xml
+    }
 
     func sequencesXML(useOriginalValues:Bool? = false) -> String {
         var xml = ""
-				if (parent) {
-						xml += parent.sequencesXML()
-				}
+        if parent {
+            xml += parent!.sequencesXML(useOriginalValues: useOriginalValues)
+        }
 <%    for k,v in pairs(this.sequences) do
       if (isPlural(v)) then %>
         for <%= v.name %> in <%= pluralName(v.name) %> {
             xml += <%= v.name %>.toXML()
         }
 <% else %>    xml += <%= v.name %>.toXML()<% end
-    end %>
-
-        return xml
+    end
+%>        return xml
     }
 
     func toXML(useOriginalValues:Bool? = false) -> String {
 
         var xml = "<<%= CAP_NAME %>"
-        if (parent) {
+        if parent {
             if parent!.xmlns != xmlns {
-                xml += " xmlns='" + xmlns +"'"
+                xml += " xmlns='\\(xmlns)'"
             }
         }
 
         xml += attributesXML(useOriginalValues: useOriginalValues)
 
         var sXML = sequencesXML(useOriginalValues: useOriginalValues)
-        if sXML == "" {
-            xml += "/>"
-        } else {
-            xml += ">\n" + sXML + "</AstronomicalObject>"
-        }
+        xml += sXML == "" ? "/>" : ">\\n\\(sXML)</AstronomicalObject>"
+
         return xml
     }
 

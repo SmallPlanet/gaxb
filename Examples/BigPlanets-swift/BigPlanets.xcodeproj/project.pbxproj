@@ -53,18 +53,21 @@
 		A9A4E99B16A89CEA00AA4449 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E99816A89CEA00AA4449 /* NSDataAdditions.m */; };
 		A9A4E99C16A89CEA00AA4449 /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E99A16A89CEA00AA4449 /* TBXML.m */; };
 		A9A4E99E16A89D2600AA4449 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A4E99D16A89D2600AA4449 /* libz.1.2.5.dylib */; };
-		A9A4E9C816A9D8A200AA4449 /* Galaxy_AstronomicalObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9B616A9D8A200AA4449 /* Galaxy_AstronomicalObject.mm */; };
-		A9A4E9C916A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9B816A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.mm */; };
-		A9A4E9CA16A9D8A200AA4449 /* Galaxy_Moon.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9BA16A9D8A200AA4449 /* Galaxy_Moon.mm */; };
-		A9A4E9CB16A9D8A200AA4449 /* Galaxy_MoonBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9BC16A9D8A200AA4449 /* Galaxy_MoonBase.mm */; };
-		A9A4E9CC16A9D8A200AA4449 /* Galaxy_Planet.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9BE16A9D8A200AA4449 /* Galaxy_Planet.mm */; };
-		A9A4E9CD16A9D8A200AA4449 /* Galaxy_PlanetBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C016A9D8A200AA4449 /* Galaxy_PlanetBase.mm */; };
-		A9A4E9CE16A9D8A200AA4449 /* Galaxy_StarSystem.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C216A9D8A200AA4449 /* Galaxy_StarSystem.mm */; };
-		A9A4E9CF16A9D8A200AA4449 /* Galaxy_StarSystemBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C416A9D8A200AA4449 /* Galaxy_StarSystemBase.mm */; };
-		A9A4E9D016A9D8A200AA4449 /* Galaxy_XMLLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = A9A4E9C716A9D8A200AA4449 /* Galaxy_XMLLoader.mm */; };
-		C4D947F21940026A00A0065E /* AstronomicalObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D947F11940026A00A0065E /* AstronomicalObject.swift */; };
-		F0919ABA1721A5FD00159219 /* Galaxy_Star.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0919AB71721A5FD00159219 /* Galaxy_Star.mm */; };
-		F0919ABB1721A5FD00159219 /* Galaxy_StarBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0919AB91721A5FD00159219 /* Galaxy_StarBase.mm */; };
+		A9ACB6321948AB550064EB5B /* AstronomicalObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB6231948AB550064EB5B /* AstronomicalObject.swift */; };
+		A9ACB6331948AB550064EB5B /* AstronomicalObjectBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB6241948AB550064EB5B /* AstronomicalObjectBase.swift */; };
+		A9ACB6341948AB550064EB5B /* Galaxy_AstronomicalObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB6251948AB550064EB5B /* Galaxy_AstronomicalObject.swift */; };
+		A9ACB6351948AB550064EB5B /* Galaxy_Moon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB6261948AB550064EB5B /* Galaxy_Moon.swift */; };
+		A9ACB6361948AB550064EB5B /* Galaxy_Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB6271948AB550064EB5B /* Galaxy_Planet.swift */; };
+		A9ACB6371948AB550064EB5B /* Galaxy_Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB6281948AB550064EB5B /* Galaxy_Star.swift */; };
+		A9ACB6381948AB550064EB5B /* Galaxy_StarSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB6291948AB550064EB5B /* Galaxy_StarSystem.swift */; };
+		A9ACB6391948AB550064EB5B /* Moon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB62A1948AB550064EB5B /* Moon.swift */; };
+		A9ACB63A1948AB550064EB5B /* MoonBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB62B1948AB550064EB5B /* MoonBase.swift */; };
+		A9ACB63B1948AB550064EB5B /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB62C1948AB550064EB5B /* Planet.swift */; };
+		A9ACB63C1948AB550064EB5B /* PlanetBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB62D1948AB550064EB5B /* PlanetBase.swift */; };
+		A9ACB63D1948AB550064EB5B /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB62E1948AB550064EB5B /* Star.swift */; };
+		A9ACB63E1948AB550064EB5B /* StarBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB62F1948AB550064EB5B /* StarBase.swift */; };
+		A9ACB63F1948AB550064EB5B /* StarSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB6301948AB550064EB5B /* StarSystem.swift */; };
+		A9ACB6401948AB550064EB5B /* StarSystemBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ACB6311948AB550064EB5B /* StarSystemBase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,31 +110,21 @@
 		A9A4E99916A89CEA00AA4449 /* TBXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBXML.h; sourceTree = "<group>"; };
 		A9A4E99A16A89CEA00AA4449 /* TBXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBXML.m; sourceTree = "<group>"; };
 		A9A4E99D16A89D2600AA4449 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
-		A9A4E9B516A9D8A200AA4449 /* Galaxy_AstronomicalObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_AstronomicalObject.h; sourceTree = "<group>"; };
-		A9A4E9B616A9D8A200AA4449 /* Galaxy_AstronomicalObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_AstronomicalObject.mm; sourceTree = "<group>"; };
-		A9A4E9B716A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_AstronomicalObjectBase.h; sourceTree = "<group>"; };
-		A9A4E9B816A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_AstronomicalObjectBase.mm; sourceTree = "<group>"; };
-		A9A4E9B916A9D8A200AA4449 /* Galaxy_Moon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_Moon.h; sourceTree = "<group>"; };
-		A9A4E9BA16A9D8A200AA4449 /* Galaxy_Moon.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_Moon.mm; sourceTree = "<group>"; };
-		A9A4E9BB16A9D8A200AA4449 /* Galaxy_MoonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_MoonBase.h; sourceTree = "<group>"; };
-		A9A4E9BC16A9D8A200AA4449 /* Galaxy_MoonBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_MoonBase.mm; sourceTree = "<group>"; };
-		A9A4E9BD16A9D8A200AA4449 /* Galaxy_Planet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_Planet.h; sourceTree = "<group>"; };
-		A9A4E9BE16A9D8A200AA4449 /* Galaxy_Planet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_Planet.mm; sourceTree = "<group>"; };
-		A9A4E9BF16A9D8A200AA4449 /* Galaxy_PlanetBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_PlanetBase.h; sourceTree = "<group>"; };
-		A9A4E9C016A9D8A200AA4449 /* Galaxy_PlanetBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_PlanetBase.mm; sourceTree = "<group>"; };
-		A9A4E9C116A9D8A200AA4449 /* Galaxy_StarSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_StarSystem.h; sourceTree = "<group>"; };
-		A9A4E9C216A9D8A200AA4449 /* Galaxy_StarSystem.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_StarSystem.mm; sourceTree = "<group>"; };
-		A9A4E9C316A9D8A200AA4449 /* Galaxy_StarSystemBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_StarSystemBase.h; sourceTree = "<group>"; };
-		A9A4E9C416A9D8A200AA4449 /* Galaxy_StarSystemBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_StarSystemBase.mm; sourceTree = "<group>"; };
-		A9A4E9C516A9D8A200AA4449 /* Galaxy_XMLConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_XMLConstants.h; sourceTree = "<group>"; };
-		A9A4E9C616A9D8A200AA4449 /* Galaxy_XMLLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_XMLLoader.h; sourceTree = "<group>"; };
-		A9A4E9C716A9D8A200AA4449 /* Galaxy_XMLLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_XMLLoader.mm; sourceTree = "<group>"; };
-		C4D947F01940026900A0065E /* BigPlanets-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BigPlanets-Bridging-Header.h"; sourceTree = "<group>"; };
-		C4D947F11940026A00A0065E /* AstronomicalObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AstronomicalObject.swift; sourceTree = "<group>"; };
-		F0919AB61721A5FD00159219 /* Galaxy_Star.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_Star.h; sourceTree = "<group>"; };
-		F0919AB71721A5FD00159219 /* Galaxy_Star.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_Star.mm; sourceTree = "<group>"; };
-		F0919AB81721A5FD00159219 /* Galaxy_StarBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galaxy_StarBase.h; sourceTree = "<group>"; };
-		F0919AB91721A5FD00159219 /* Galaxy_StarBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Galaxy_StarBase.mm; sourceTree = "<group>"; };
+		A9ACB6231948AB550064EB5B /* AstronomicalObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AstronomicalObject.swift; sourceTree = "<group>"; };
+		A9ACB6241948AB550064EB5B /* AstronomicalObjectBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AstronomicalObjectBase.swift; sourceTree = "<group>"; };
+		A9ACB6251948AB550064EB5B /* Galaxy_AstronomicalObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Galaxy_AstronomicalObject.swift; sourceTree = "<group>"; };
+		A9ACB6261948AB550064EB5B /* Galaxy_Moon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Galaxy_Moon.swift; sourceTree = "<group>"; };
+		A9ACB6271948AB550064EB5B /* Galaxy_Planet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Galaxy_Planet.swift; sourceTree = "<group>"; };
+		A9ACB6281948AB550064EB5B /* Galaxy_Star.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Galaxy_Star.swift; sourceTree = "<group>"; };
+		A9ACB6291948AB550064EB5B /* Galaxy_StarSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Galaxy_StarSystem.swift; sourceTree = "<group>"; };
+		A9ACB62A1948AB550064EB5B /* Moon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Moon.swift; sourceTree = "<group>"; };
+		A9ACB62B1948AB550064EB5B /* MoonBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoonBase.swift; sourceTree = "<group>"; };
+		A9ACB62C1948AB550064EB5B /* Planet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
+		A9ACB62D1948AB550064EB5B /* PlanetBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetBase.swift; sourceTree = "<group>"; };
+		A9ACB62E1948AB550064EB5B /* Star.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
+		A9ACB62F1948AB550064EB5B /* StarBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarBase.swift; sourceTree = "<group>"; };
+		A9ACB6301948AB550064EB5B /* StarSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarSystem.swift; sourceTree = "<group>"; };
+		A9ACB6311948AB550064EB5B /* StarSystemBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarSystemBase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,31 +229,21 @@
 		A9A4E9B416A9D8A100AA4449 /* Generated */ = {
 			isa = PBXGroup;
 			children = (
-				F0919AB61721A5FD00159219 /* Galaxy_Star.h */,
-				F0919AB71721A5FD00159219 /* Galaxy_Star.mm */,
-				F0919AB81721A5FD00159219 /* Galaxy_StarBase.h */,
-				F0919AB91721A5FD00159219 /* Galaxy_StarBase.mm */,
-				A9A4E9B516A9D8A200AA4449 /* Galaxy_AstronomicalObject.h */,
-				A9A4E9B616A9D8A200AA4449 /* Galaxy_AstronomicalObject.mm */,
-				A9A4E9B716A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.h */,
-				A9A4E9B816A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.mm */,
-				A9A4E9B916A9D8A200AA4449 /* Galaxy_Moon.h */,
-				A9A4E9BA16A9D8A200AA4449 /* Galaxy_Moon.mm */,
-				A9A4E9BB16A9D8A200AA4449 /* Galaxy_MoonBase.h */,
-				A9A4E9BC16A9D8A200AA4449 /* Galaxy_MoonBase.mm */,
-				A9A4E9BD16A9D8A200AA4449 /* Galaxy_Planet.h */,
-				A9A4E9BE16A9D8A200AA4449 /* Galaxy_Planet.mm */,
-				A9A4E9BF16A9D8A200AA4449 /* Galaxy_PlanetBase.h */,
-				A9A4E9C016A9D8A200AA4449 /* Galaxy_PlanetBase.mm */,
-				A9A4E9C116A9D8A200AA4449 /* Galaxy_StarSystem.h */,
-				A9A4E9C216A9D8A200AA4449 /* Galaxy_StarSystem.mm */,
-				A9A4E9C316A9D8A200AA4449 /* Galaxy_StarSystemBase.h */,
-				A9A4E9C416A9D8A200AA4449 /* Galaxy_StarSystemBase.mm */,
-				A9A4E9C516A9D8A200AA4449 /* Galaxy_XMLConstants.h */,
-				A9A4E9C616A9D8A200AA4449 /* Galaxy_XMLLoader.h */,
-				A9A4E9C716A9D8A200AA4449 /* Galaxy_XMLLoader.mm */,
-				C4D947F11940026A00A0065E /* AstronomicalObject.swift */,
-				C4D947F01940026900A0065E /* BigPlanets-Bridging-Header.h */,
+				A9ACB6231948AB550064EB5B /* AstronomicalObject.swift */,
+				A9ACB6241948AB550064EB5B /* AstronomicalObjectBase.swift */,
+				A9ACB6251948AB550064EB5B /* Galaxy_AstronomicalObject.swift */,
+				A9ACB6261948AB550064EB5B /* Galaxy_Moon.swift */,
+				A9ACB6271948AB550064EB5B /* Galaxy_Planet.swift */,
+				A9ACB6281948AB550064EB5B /* Galaxy_Star.swift */,
+				A9ACB6291948AB550064EB5B /* Galaxy_StarSystem.swift */,
+				A9ACB62A1948AB550064EB5B /* Moon.swift */,
+				A9ACB62B1948AB550064EB5B /* MoonBase.swift */,
+				A9ACB62C1948AB550064EB5B /* Planet.swift */,
+				A9ACB62D1948AB550064EB5B /* PlanetBase.swift */,
+				A9ACB62E1948AB550064EB5B /* Star.swift */,
+				A9ACB62F1948AB550064EB5B /* StarBase.swift */,
+				A9ACB6301948AB550064EB5B /* StarSystem.swift */,
+				A9ACB6311948AB550064EB5B /* StarSystemBase.swift */,
 			);
 			path = Generated;
 			sourceTree = SOURCE_ROOT;
@@ -384,24 +367,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9ACB6351948AB550064EB5B /* Galaxy_Moon.swift in Sources */,
+				A9ACB63A1948AB550064EB5B /* MoonBase.swift in Sources */,
 				A9A4E40216A06B0C00AA4449 /* main.m in Sources */,
+				A9ACB63C1948AB550064EB5B /* PlanetBase.swift in Sources */,
+				A9ACB6361948AB550064EB5B /* Galaxy_Planet.swift in Sources */,
+				A9ACB63E1948AB550064EB5B /* StarBase.swift in Sources */,
 				A9A4E40616A06B0C00AA4449 /* SPAppDelegate.m in Sources */,
 				A9A4E41516A06B0C00AA4449 /* SPMasterViewController.m in Sources */,
 				A9A4E41816A06B0C00AA4449 /* SPDetailViewController.m in Sources */,
+				A9ACB6321948AB550064EB5B /* AstronomicalObject.swift in Sources */,
+				A9ACB63D1948AB550064EB5B /* Star.swift in Sources */,
+				A9ACB6381948AB550064EB5B /* Galaxy_StarSystem.swift in Sources */,
+				A9ACB6391948AB550064EB5B /* Moon.swift in Sources */,
+				A9ACB6341948AB550064EB5B /* Galaxy_AstronomicalObject.swift in Sources */,
+				A9ACB6401948AB550064EB5B /* StarSystemBase.swift in Sources */,
+				A9ACB63B1948AB550064EB5B /* Planet.swift in Sources */,
+				A9ACB6331948AB550064EB5B /* AstronomicalObjectBase.swift in Sources */,
 				A9A4E99B16A89CEA00AA4449 /* NSDataAdditions.m in Sources */,
 				A9A4E99C16A89CEA00AA4449 /* TBXML.m in Sources */,
-				C4D947F21940026A00A0065E /* AstronomicalObject.swift in Sources */,
-				A9A4E9C816A9D8A200AA4449 /* Galaxy_AstronomicalObject.mm in Sources */,
-				A9A4E9C916A9D8A200AA4449 /* Galaxy_AstronomicalObjectBase.mm in Sources */,
-				A9A4E9CA16A9D8A200AA4449 /* Galaxy_Moon.mm in Sources */,
-				A9A4E9CB16A9D8A200AA4449 /* Galaxy_MoonBase.mm in Sources */,
-				A9A4E9CC16A9D8A200AA4449 /* Galaxy_Planet.mm in Sources */,
-				A9A4E9CD16A9D8A200AA4449 /* Galaxy_PlanetBase.mm in Sources */,
-				A9A4E9CE16A9D8A200AA4449 /* Galaxy_StarSystem.mm in Sources */,
-				A9A4E9CF16A9D8A200AA4449 /* Galaxy_StarSystemBase.mm in Sources */,
-				A9A4E9D016A9D8A200AA4449 /* Galaxy_XMLLoader.mm in Sources */,
-				F0919ABA1721A5FD00159219 /* Galaxy_Star.mm in Sources */,
-				F0919ABB1721A5FD00159219 /* Galaxy_StarBase.mm in Sources */,
+				A9ACB63F1948AB550064EB5B /* StarSystem.swift in Sources */,
+				A9ACB6371948AB550064EB5B /* Galaxy_Star.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
