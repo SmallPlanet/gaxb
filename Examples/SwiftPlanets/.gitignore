@@ -18,6 +18,5 @@ DerivedData
 .idea/
 *.hmap
 build
-Generated/*Base.*
-Generated/*_XMLLoader.*
-Generated/*_XMLConstants.h
+Generated/*Base.swift
+Generated/*_XMLLoader.swift

@@ -150,7 +150,7 @@ function superclassForItem(v)
 	if(v.extension ~= nil) then
 		return className(v.extension)
 	end
-	return "NSObject"
+	return ""
 end
 
 function hasSuperclass(v)
@@ -161,7 +161,7 @@ function classNameFromRef(t)
 	local r = t.ref;
 	local parts = string.split(r,":");
 	if (#parts == 2) then
-		return capitalizedString(t.namespace).."_"..capitalizedString(parts[2]);
+		return capitalizedString(parts[2]);
 	else
 		return "UNKNOWN_REF"
 	end

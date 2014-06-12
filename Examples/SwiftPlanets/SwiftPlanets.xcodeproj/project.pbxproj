@@ -1,0 +1,486 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A9EF85941949F5FF00C13EEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85931949F5FF00C13EEA /* AppDelegate.swift */; };
+		A9EF85961949F5FF00C13EEA /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85951949F5FF00C13EEA /* MasterViewController.swift */; };
+		A9EF85981949F5FF00C13EEA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85971949F5FF00C13EEA /* DetailViewController.swift */; };
+		A9EF859B1949F5FF00C13EEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9EF85991949F5FF00C13EEA /* Main.storyboard */; };
+		A9EF859D1949F5FF00C13EEA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9EF859C1949F5FF00C13EEA /* Images.xcassets */; };
+		A9EF85A91949F5FF00C13EEA /* SwiftPlanetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85A81949F5FF00C13EEA /* SwiftPlanetsTests.swift */; };
+		A9EF85D21949F94600C13EEA /* AstronomicalObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85C81949F94600C13EEA /* AstronomicalObject.swift */; };
+		A9EF85D31949F94600C13EEA /* AstronomicalObjectBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85C91949F94600C13EEA /* AstronomicalObjectBase.swift */; };
+		A9EF85D41949F94600C13EEA /* Moon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85CA1949F94600C13EEA /* Moon.swift */; };
+		A9EF85D51949F94600C13EEA /* MoonBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85CB1949F94600C13EEA /* MoonBase.swift */; };
+		A9EF85D61949F94600C13EEA /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85CC1949F94600C13EEA /* Planet.swift */; };
+		A9EF85D71949F94600C13EEA /* PlanetBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85CD1949F94600C13EEA /* PlanetBase.swift */; };
+		A9EF85D81949F94600C13EEA /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85CE1949F94600C13EEA /* Star.swift */; };
+		A9EF85D91949F94600C13EEA /* StarBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85CF1949F94600C13EEA /* StarBase.swift */; };
+		A9EF85DA1949F94600C13EEA /* StarSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85D01949F94600C13EEA /* StarSystem.swift */; };
+		A9EF85DB1949F94600C13EEA /* StarSystemBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85D11949F94600C13EEA /* StarSystemBase.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A9EF85A31949F5FF00C13EEA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EF85861949F5FE00C13EEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9EF858D1949F5FE00C13EEA;
+			remoteInfo = SwiftPlanets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A9EF858E1949F5FF00C13EEA /* SwiftPlanets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftPlanets.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9EF85921949F5FF00C13EEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9EF85931949F5FF00C13EEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A9EF85951949F5FF00C13EEA /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		A9EF85971949F5FF00C13EEA /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		A9EF859A1949F5FF00C13EEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A9EF859C1949F5FF00C13EEA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A9EF85A21949F5FF00C13EEA /* SwiftPlanetsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftPlanetsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9EF85A71949F5FF00C13EEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9EF85A81949F5FF00C13EEA /* SwiftPlanetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftPlanetsTests.swift; sourceTree = "<group>"; };
+		A9EF85C81949F94600C13EEA /* AstronomicalObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AstronomicalObject.swift; sourceTree = "<group>"; };
+		A9EF85C91949F94600C13EEA /* AstronomicalObjectBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AstronomicalObjectBase.swift; sourceTree = "<group>"; };
+		A9EF85CA1949F94600C13EEA /* Moon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Moon.swift; sourceTree = "<group>"; };
+		A9EF85CB1949F94600C13EEA /* MoonBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoonBase.swift; sourceTree = "<group>"; };
+		A9EF85CC1949F94600C13EEA /* Planet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
+		A9EF85CD1949F94600C13EEA /* PlanetBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetBase.swift; sourceTree = "<group>"; };
+		A9EF85CE1949F94600C13EEA /* Star.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
+		A9EF85CF1949F94600C13EEA /* StarBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarBase.swift; sourceTree = "<group>"; };
+		A9EF85D01949F94600C13EEA /* StarSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarSystem.swift; sourceTree = "<group>"; };
+		A9EF85D11949F94600C13EEA /* StarSystemBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarSystemBase.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A9EF858B1949F5FE00C13EEA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9EF859F1949F5FF00C13EEA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A9EF85851949F5FE00C13EEA = {
+			isa = PBXGroup;
+			children = (
+				A9EF85C71949F94600C13EEA /* Generated */,
+				A9EF85901949F5FF00C13EEA /* SwiftPlanets */,
+				A9EF85A51949F5FF00C13EEA /* SwiftPlanetsTests */,
+				A9EF858F1949F5FF00C13EEA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A9EF858F1949F5FF00C13EEA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A9EF858E1949F5FF00C13EEA /* SwiftPlanets.app */,
+				A9EF85A21949F5FF00C13EEA /* SwiftPlanetsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A9EF85901949F5FF00C13EEA /* SwiftPlanets */ = {
+			isa = PBXGroup;
+			children = (
+				A9EF85931949F5FF00C13EEA /* AppDelegate.swift */,
+				A9EF85951949F5FF00C13EEA /* MasterViewController.swift */,
+				A9EF85971949F5FF00C13EEA /* DetailViewController.swift */,
+				A9EF85991949F5FF00C13EEA /* Main.storyboard */,
+				A9EF859C1949F5FF00C13EEA /* Images.xcassets */,
+				A9EF85911949F5FF00C13EEA /* Supporting Files */,
+			);
+			path = SwiftPlanets;
+			sourceTree = "<group>";
+		};
+		A9EF85911949F5FF00C13EEA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A9EF85921949F5FF00C13EEA /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A9EF85A51949F5FF00C13EEA /* SwiftPlanetsTests */ = {
+			isa = PBXGroup;
+			children = (
+				A9EF85A81949F5FF00C13EEA /* SwiftPlanetsTests.swift */,
+				A9EF85A61949F5FF00C13EEA /* Supporting Files */,
+			);
+			path = SwiftPlanetsTests;
+			sourceTree = "<group>";
+		};
+		A9EF85A61949F5FF00C13EEA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A9EF85A71949F5FF00C13EEA /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A9EF85C71949F94600C13EEA /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				A9EF85C81949F94600C13EEA /* AstronomicalObject.swift */,
+				A9EF85C91949F94600C13EEA /* AstronomicalObjectBase.swift */,
+				A9EF85CA1949F94600C13EEA /* Moon.swift */,
+				A9EF85CB1949F94600C13EEA /* MoonBase.swift */,
+				A9EF85CC1949F94600C13EEA /* Planet.swift */,
+				A9EF85CD1949F94600C13EEA /* PlanetBase.swift */,
+				A9EF85CE1949F94600C13EEA /* Star.swift */,
+				A9EF85CF1949F94600C13EEA /* StarBase.swift */,
+				A9EF85D01949F94600C13EEA /* StarSystem.swift */,
+				A9EF85D11949F94600C13EEA /* StarSystemBase.swift */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A9EF858D1949F5FE00C13EEA /* SwiftPlanets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9EF85AC1949F5FF00C13EEA /* Build configuration list for PBXNativeTarget "SwiftPlanets" */;
+			buildPhases = (
+				A9EF85B21949F7C300C13EEA /* ShellScript */,
+				A9EF858A1949F5FE00C13EEA /* Sources */,
+				A9EF858B1949F5FE00C13EEA /* Frameworks */,
+				A9EF858C1949F5FE00C13EEA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftPlanets;
+			productName = SwiftPlanets;
+			productReference = A9EF858E1949F5FF00C13EEA /* SwiftPlanets.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A9EF85A11949F5FF00C13EEA /* SwiftPlanetsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9EF85AF1949F5FF00C13EEA /* Build configuration list for PBXNativeTarget "SwiftPlanetsTests" */;
+			buildPhases = (
+				A9EF859E1949F5FF00C13EEA /* Sources */,
+				A9EF859F1949F5FF00C13EEA /* Frameworks */,
+				A9EF85A01949F5FF00C13EEA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A9EF85A41949F5FF00C13EEA /* PBXTargetDependency */,
+			);
+			name = SwiftPlanetsTests;
+			productName = SwiftPlanetsTests;
+			productReference = A9EF85A21949F5FF00C13EEA /* SwiftPlanetsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A9EF85861949F5FE00C13EEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = "Small Planet";
+				TargetAttributes = {
+					A9EF858D1949F5FE00C13EEA = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					A9EF85A11949F5FF00C13EEA = {
+						CreatedOnToolsVersion = 6.0;
+						TestTargetID = A9EF858D1949F5FE00C13EEA;
+					};
+				};
+			};
+			buildConfigurationList = A9EF85891949F5FE00C13EEA /* Build configuration list for PBXProject "SwiftPlanets" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A9EF85851949F5FE00C13EEA;
+			productRefGroup = A9EF858F1949F5FF00C13EEA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A9EF858D1949F5FE00C13EEA /* SwiftPlanets */,
+				A9EF85A11949F5FF00C13EEA /* SwiftPlanetsTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A9EF858C1949F5FE00C13EEA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9EF859B1949F5FF00C13EEA /* Main.storyboard in Resources */,
+				A9EF859D1949F5FF00C13EEA /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9EF85A01949F5FF00C13EEA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A9EF85B21949F7C300C13EEA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"$PROJECT_DIR/Generated\"\nGAXB_ROOT=\"$PROJECT_DIR/../..\"\n\nfor xsd_path in $(find \"$PROJECT_DIR/XMLSchema\" -name \"*.xsd\" -print );\ndo\n#\"$GAXB_ROOT/build/gaxb\" swift \"$xsd_path\" -t \"$GAXB_ROOT/templates\" -o \"$PROJECT_DIR/Generated\"\ngaxb swift \"$xsd_path\" -t \"$GAXB_ROOT/templates\" -o \"$PROJECT_DIR/Generated\"\ndone";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A9EF858A1949F5FE00C13EEA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9EF85981949F5FF00C13EEA /* DetailViewController.swift in Sources */,
+				A9EF85D91949F94600C13EEA /* StarBase.swift in Sources */,
+				A9EF85D31949F94600C13EEA /* AstronomicalObjectBase.swift in Sources */,
+				A9EF85D71949F94600C13EEA /* PlanetBase.swift in Sources */,
+				A9EF85D81949F94600C13EEA /* Star.swift in Sources */,
+				A9EF85DB1949F94600C13EEA /* StarSystemBase.swift in Sources */,
+				A9EF85961949F5FF00C13EEA /* MasterViewController.swift in Sources */,
+				A9EF85DA1949F94600C13EEA /* StarSystem.swift in Sources */,
+				A9EF85D61949F94600C13EEA /* Planet.swift in Sources */,
+				A9EF85D21949F94600C13EEA /* AstronomicalObject.swift in Sources */,
+				A9EF85D41949F94600C13EEA /* Moon.swift in Sources */,
+				A9EF85D51949F94600C13EEA /* MoonBase.swift in Sources */,
+				A9EF85941949F5FF00C13EEA /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9EF859E1949F5FF00C13EEA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9EF85A91949F5FF00C13EEA /* SwiftPlanetsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A9EF85A41949F5FF00C13EEA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9EF858D1949F5FE00C13EEA /* SwiftPlanets */;
+			targetProxy = A9EF85A31949F5FF00C13EEA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A9EF85991949F5FF00C13EEA /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A9EF859A1949F5FF00C13EEA /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A9EF85AA1949F5FF00C13EEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				METAL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A9EF85AB1949F5FF00C13EEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				METAL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A9EF85AD1949F5FF00C13EEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = SwiftPlanets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A9EF85AE1949F5FF00C13EEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = SwiftPlanets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A9EF85B01949F5FF00C13EEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SwiftPlanets.app/SwiftPlanets";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SwiftPlanetsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Debug;
+		};
+		A9EF85B11949F5FF00C13EEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SwiftPlanets.app/SwiftPlanets";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SwiftPlanetsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A9EF85891949F5FE00C13EEA /* Build configuration list for PBXProject "SwiftPlanets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9EF85AA1949F5FF00C13EEA /* Debug */,
+				A9EF85AB1949F5FF00C13EEA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9EF85AC1949F5FF00C13EEA /* Build configuration list for PBXNativeTarget "SwiftPlanets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9EF85AD1949F5FF00C13EEA /* Debug */,
+				A9EF85AE1949F5FF00C13EEA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9EF85AF1949F5FF00C13EEA /* Build configuration list for PBXNativeTarget "SwiftPlanetsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9EF85B01949F5FF00C13EEA /* Debug */,
+				A9EF85B11949F5FF00C13EEA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A9EF85861949F5FE00C13EEA /* Project object */;
+}
