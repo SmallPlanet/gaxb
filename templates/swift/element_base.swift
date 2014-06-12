@@ -16,7 +16,6 @@ class <%= CAP_NAME %><% if (hasSuperclass(this)) then %> : <%= superclassForItem
 
     func gaxbValueWillChange(name:String) { }
     func gaxbValueDidChange(name:String) { }
-
 <% end
 
 for k,v in pairs(this.sequences) do
@@ -31,9 +30,12 @@ end
 
 for k,v in pairs(this.attributes) do %>
 	var <%= v.name %>: <%= typeForItem(v) %><%
--- setting default values needs a lot of work...
+-- setting default values needs a lot of work...  could be done in init()?
 	if (v.default == nil) then %>?<% else %> = <%= v.default %><%
-	end %>
+	end %> {
+        willSet { gaxbValueWillChange("<%= v.name %>") }
+        didSet { gaxbValueDidChange("<%= v.name %>") }
+    }
     var <%= v.name %>Exists: Bool {
         return <%= v.name %> != nil
     }
@@ -46,6 +48,7 @@ for k,v in pairs(this.attributes) do %>
 %>    }
 <%
 	end
+-- MixedContent is a big todo
 	if (this.mixedContent) then %>
 @synthesize MixedContent;
 @synthesize MixedContentExists;
