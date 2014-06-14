@@ -257,7 +257,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$PROJECT_DIR/Generated\"\nGAXB_ROOT=\"$PROJECT_DIR/../..\"\n\nfor xsd_path in $(find \"$PROJECT_DIR/XMLSchema\" -name \"*.xsd\" -print );\ndo\n#\"$GAXB_ROOT/build/gaxb\" swift \"$xsd_path\" -t \"$GAXB_ROOT/templates\" -o \"$PROJECT_DIR/Generated\"\ngaxb swift \"$xsd_path\" -t \"$GAXB_ROOT/templates\" -o \"$PROJECT_DIR/Generated\"\ndone";
+			shellScript = "mkdir -p \"$PROJECT_DIR/Generated\"\nGAXB_ROOT=\"$PROJECT_DIR/../..\"\n\nfor xsd_path in $(find \"$PROJECT_DIR/XMLSchema\" -name \"*.xsd\" -print );\ndo\n\"$GAXB_ROOT/build/gaxb\" swift \"$xsd_path\" -t \"$GAXB_ROOT/templates\" -o \"$PROJECT_DIR/Generated\"\ndone";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

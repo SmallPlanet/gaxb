@@ -16,6 +16,8 @@ class <%= CAP_NAME %><% if (hasSuperclass(this)) then %> : <%= superclassForItem
 
     func gaxbValueWillChange(name:String) { }
     func gaxbValueDidChange(name:String) { }
+
+    init() { }
 <% end
 
 for k,v in pairs(this.sequences) do
@@ -46,6 +48,19 @@ for k,v in pairs(this.attributes) do %>
         return <%= v.name %>.description // <%= typeNameForItem(v) %> / <%= v.type %>
 <% end
 %>    }
+    func set<%= capitalizedString(v.name) %>WithString(value: String) {
+<%	if (typeNameForItem(v)=="Bool") then
+%>        self.<%= v.name %> = value == "true"<%
+    elseif (typeNameForItem(v)=="Int") then
+%>        self.<%= v.name %> = value.toInt()!<%
+elseif (typeNameForItem(v)=="Float") then
+%>        self.<%= v.name %> = value.bridgeToObjectiveC().floatValue<%
+elseif (typeNameForItem(v)=="Double") then
+%>        self.<%= v.name %> = value.bridgeToObjectiveC().doubleValue<%
+elseif (typeNameForItem(v)=="String") then
+%>        self.<%= v.name %> = value<%
+end %>
+    }
 <%
 	end
 -- MixedContent is a big todo
