@@ -23,6 +23,10 @@
 		A9EF85D91949F94600C13EEA /* StarBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85CF1949F94600C13EEA /* StarBase.swift */; };
 		A9EF85DA1949F94600C13EEA /* StarSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85D01949F94600C13EEA /* StarSystem.swift */; };
 		A9EF85DB1949F94600C13EEA /* StarSystemBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85D11949F94600C13EEA /* StarSystemBase.swift */; };
+		C48C4193194D3ED7009F226E /* Galaxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48C4192194D3ED6009F226E /* Galaxy.swift */; };
+		C48C419E194D674F009F226E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C48C419D194D674F009F226E /* libxml2.dylib */; };
+		C48C41A9194D6AFA009F226E /* libRaptureXML.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C48C41A6194D6AE4009F226E /* libRaptureXML.a */; };
+		C48C41AB194DDE3E009F226E /* sol.xml in Resources */ = {isa = PBXBuildFile; fileRef = C48C41AA194DDE3E009F226E /* sol.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +36,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = A9EF858D1949F5FE00C13EEA;
 			remoteInfo = SwiftPlanets;
+		};
+		C48C41A5194D6AE4009F226E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C48C419F194D6AE4009F226E /* RaptureXML.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0DEB8EB41467EC9B00024989;
+			remoteInfo = RaptureXML;
+		};
+		C48C41A7194D6AE4009F226E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C48C419F194D6AE4009F226E /* RaptureXML.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0252B2DD142ADFC60018B75D;
+			remoteInfo = RaptureXMLTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -56,6 +74,11 @@
 		A9EF85CF1949F94600C13EEA /* StarBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarBase.swift; sourceTree = "<group>"; };
 		A9EF85D01949F94600C13EEA /* StarSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarSystem.swift; sourceTree = "<group>"; };
 		A9EF85D11949F94600C13EEA /* StarSystemBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarSystemBase.swift; sourceTree = "<group>"; };
+		C48C4192194D3ED6009F226E /* Galaxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Galaxy.swift; sourceTree = "<group>"; };
+		C48C4197194D5B8E009F226E /* SwiftPlanets-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftPlanets-Bridging-Header.h"; sourceTree = "<group>"; };
+		C48C419D194D674F009F226E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		C48C419F194D6AE4009F226E /* RaptureXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RaptureXML.xcodeproj; path = RaptureXML/RaptureXML.xcodeproj; sourceTree = "<group>"; };
+		C48C41AA194DDE3E009F226E /* sol.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sol.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +86,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C48C41A9194D6AFA009F226E /* libRaptureXML.a in Frameworks */,
+				C48C419E194D674F009F226E /* libxml2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +104,8 @@
 		A9EF85851949F5FE00C13EEA = {
 			isa = PBXGroup;
 			children = (
+				C48C419D194D674F009F226E /* libxml2.dylib */,
+				C48C419F194D6AE4009F226E /* RaptureXML.xcodeproj */,
 				A9EF85C71949F94600C13EEA /* Generated */,
 				A9EF85901949F5FF00C13EEA /* SwiftPlanets */,
 				A9EF85A51949F5FF00C13EEA /* SwiftPlanetsTests */,
@@ -104,6 +131,7 @@
 				A9EF85991949F5FF00C13EEA /* Main.storyboard */,
 				A9EF859C1949F5FF00C13EEA /* Images.xcassets */,
 				A9EF85911949F5FF00C13EEA /* Supporting Files */,
+				C48C4197194D5B8E009F226E /* SwiftPlanets-Bridging-Header.h */,
 			);
 			path = SwiftPlanets;
 			sourceTree = "<group>";
@@ -111,6 +139,7 @@
 		A9EF85911949F5FF00C13EEA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C48C41AA194DDE3E009F226E /* sol.xml */,
 				A9EF85921949F5FF00C13EEA /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -146,8 +175,18 @@
 				A9EF85CF1949F94600C13EEA /* StarBase.swift */,
 				A9EF85D01949F94600C13EEA /* StarSystem.swift */,
 				A9EF85D11949F94600C13EEA /* StarSystemBase.swift */,
+				C48C4192194D3ED6009F226E /* Galaxy.swift */,
 			);
 			path = Generated;
+			sourceTree = "<group>";
+		};
+		C48C41A0194D6AE4009F226E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C48C41A6194D6AE4009F226E /* libRaptureXML.a */,
+				C48C41A8194D6AE4009F226E /* RaptureXMLTests.octest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,6 +257,12 @@
 			mainGroup = A9EF85851949F5FE00C13EEA;
 			productRefGroup = A9EF858F1949F5FF00C13EEA /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C48C41A0194D6AE4009F226E /* Products */;
+					ProjectRef = C48C419F194D6AE4009F226E /* RaptureXML.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				A9EF858D1949F5FE00C13EEA /* SwiftPlanets */,
@@ -226,11 +271,29 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		C48C41A6194D6AE4009F226E /* libRaptureXML.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRaptureXML.a;
+			remoteRef = C48C41A5194D6AE4009F226E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C48C41A8194D6AE4009F226E /* RaptureXMLTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RaptureXMLTests.octest;
+			remoteRef = C48C41A7194D6AE4009F226E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		A9EF858C1949F5FE00C13EEA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C48C41AB194DDE3E009F226E /* sol.xml in Resources */,
 				A9EF859B1949F5FF00C13EEA /* Main.storyboard in Resources */,
 				A9EF859D1949F5FF00C13EEA /* Images.xcassets in Resources */,
 			);
@@ -268,6 +331,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9EF85981949F5FF00C13EEA /* DetailViewController.swift in Sources */,
+				C48C4193194D3ED7009F226E /* Galaxy.swift in Sources */,
 				A9EF85D91949F94600C13EEA /* StarBase.swift in Sources */,
 				A9EF85D31949F94600C13EEA /* AstronomicalObjectBase.swift in Sources */,
 				A9EF85D71949F94600C13EEA /* PlanetBase.swift in Sources */,
@@ -395,22 +459,35 @@
 		A9EF85AD1949F5FF00C13EEA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SwiftPlanets/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "SwiftPlanets/SwiftPlanets-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USER_HEADER_SEARCH_PATHS = "\"$(SDK_DIR)\"/usr/include/libxml2 \"$(PROJECT_DIR)/RaptureXML/**";
 			};
 			name = Debug;
 		};
 		A9EF85AE1949F5FF00C13EEA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SwiftPlanets/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "SwiftPlanets/SwiftPlanets-Bridging-Header.h";
+				USER_HEADER_SEARCH_PATHS = "\"$(SDK_DIR)\"/usr/include/libxml2 \"$(PROJECT_DIR)/RaptureXML/**";
 			};
 			name = Release;
 		};

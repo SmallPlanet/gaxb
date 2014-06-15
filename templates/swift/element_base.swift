@@ -22,10 +22,10 @@ class <%= CAP_NAME %><% if (hasSuperclass(this)) then %> : <%= superclassForItem
 
 for k,v in pairs(this.sequences) do
 	if(isPlural(v)) then %>
-    var <%= pluralName(v.name) %>: Array<<%= simpleTypeForItem(v) %>> = []
+    var <%= lowercasedString(pluralName(v.name)) %>: Array<<%= simpleTypeForItem(v) %>> = []
 <%
   else %>
-    var <%= v.name %>: <%= simpleTypeForItem(v) %>?
+    var <%= lowercasedString(v.name) %>: <%= simpleTypeForItem(v) %>?
 <%
 	end
 end
@@ -48,7 +48,7 @@ for k,v in pairs(this.attributes) do %>
         return <%= v.name %>.description // <%= typeNameForItem(v) %> / <%= v.type %>
 <% end
 %>    }
-    func set<%= capitalizedString(v.name) %>WithString(value: String) {
+    func set<%= capitalizedString(v.name) %>(value: String) {
 <%	if (typeNameForItem(v)=="Bool") then
 %>        self.<%= v.name %> = value == "true"<%
     elseif (typeNameForItem(v)=="Int") then
@@ -62,7 +62,17 @@ elseif (typeNameForItem(v)=="String") then
 end %>
     }
 <%
-	end
+	end %>
+    <%= SUPERCLASS_OVERRIDE %>func setAttribute(value: String, key:String) {
+        switch key {
+<% for k,v in pairs(this.attributes) do
+%>            case "<%= v.name %>":
+                set<%= capitalizedString(v.name) %>(value)
+<% end
+%>            default:
+                println("<%= CAP_NAME %>: unknown key: " + key)
+        }
+    }<%
 -- MixedContent is a big todo
 	if (this.mixedContent) then %>
 @synthesize MixedContent;
@@ -110,13 +120,12 @@ end %>
     }
 
     <%= SUPERCLASS_OVERRIDE %>func sequencesXML(useOriginalValues:Bool? = false) -> String {
-        var xml = ""
-<%    for k,v in pairs(this.sequences) do
+        var xml = ""<%
+    for k,v in pairs(this.sequences) do
       if (isPlural(v)) then %>
-        for <%= v.name %> in <%= pluralName(v.name) %> {
-            xml += <%= v.name %>.toXML()
-        }
-<% else %>    xml += <%= v.name %>.toXML()<% end
+        for <%= lowercasedString(v.name) %> in <%= lowercasedString(pluralName(v.name)) %> {
+            xml += <%= lowercasedString(v.name) %>.toXML()
+        }<% else %>    xml += <%= lowercasedString(v.name) %>.toXML()<% end
     end
  if (hasSuperclass(this)) then %>
         xml += super.sequencesXML(useOriginalValues:useOriginalValues)
