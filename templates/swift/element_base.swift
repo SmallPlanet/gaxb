@@ -8,7 +8,7 @@ SUPERCLASS_OVERRIDE = ""; if (hasSuperclass(this)) then SUPERCLASS_OVERRIDE="ove
 //
 
 
-class <%= CAP_NAME %><% if (hasSuperclass(this)) then %> : <%= superclassForItem(this) %><% end %> {
+class <%= CAP_NAME %><% if (hasSuperclass(this)) then %> : <%= superclassForItem(this) %><% else %> : GaxbElement<% end %> {
 <% if (hasSuperclass(this) == false) then %>
     var xmlns: String = "<%= this.namespaceURL %>"
     var parent: <%= CAP_NAME %>?
@@ -20,7 +20,9 @@ class <%= CAP_NAME %><% if (hasSuperclass(this)) then %> : <%= superclassForItem
     init() { }
 <% end
 
+local sequencesCount = 0;
 for k,v in pairs(this.sequences) do
+  sequencesCount = sequencesCount + 1;
 	if(isPlural(v)) then %>
     var <%= lowercasedString(pluralName(v.name)) %>: Array<<%= simpleTypeForItem(v) %>> = []
 <%
@@ -30,6 +32,24 @@ for k,v in pairs(this.sequences) do
 	end
 end
 
+%>    <%= SUPERCLASS_OVERRIDE %>func setElement(element: GaxbElement, key:String) {
+<% if (hasSuperclass(this)) then %>        super.setElement(element, key:key)
+<% end
+   if (sequencesCount > 0) then %>
+        switch key {
+<%for k,v in pairs(this.sequences) do
+%>        case "<%= capitalizedString(v.name) %>":
+            if let e = element as? <%= capitalizedString(v.name) %> {
+<% if (isPlural(v)) then %>                <%= lowercasedString(pluralName(v.name)) %> += e
+<% else %>                <%= lowercasedString(v.name) %> = e
+<% end
+%>            }
+<% end %>        default:
+            println("<%= CAP_NAME %>: unknown element: " + key)
+        } <%
+end %>
+    }
+<%
 for k,v in pairs(this.attributes) do %>
 	var <%= v.name %>: <%= typeForItem(v) %><%
 -- setting default values needs a lot of work...  could be done in init()?
@@ -64,7 +84,8 @@ end %>
 <%
 	end %>
     <%= SUPERCLASS_OVERRIDE %>func setAttribute(value: String, key:String) {
-        switch key {
+<% if (hasSuperclass(this)) then %>        super.setAttribute(value, key:key)
+<% end %>        switch key {
 <% for k,v in pairs(this.attributes) do
 %>            case "<%= v.name %>":
                 set<%= capitalizedString(v.name) %>(value)

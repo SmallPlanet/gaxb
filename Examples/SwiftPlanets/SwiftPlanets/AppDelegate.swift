@@ -11,14 +11,18 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
                             
-    var window: UIWindow?
-
+    var window: UIWindow?    
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         // Override point for customization after application launch.
         let splitViewController = self.window!.rootViewController as UISplitViewController
         let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.endIndex-1] as UINavigationController
         splitViewController.delegate = navigationController.topViewController as DetailViewController
+        
+        var sol : GaxbElement? = Galaxy.readFromFile("sol.xml")
+        println(sol)
+
+        
         return true
     }
 
