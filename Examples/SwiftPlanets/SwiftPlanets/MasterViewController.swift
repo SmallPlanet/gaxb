@@ -12,7 +12,7 @@ class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
     var objects = NSMutableArray()
-
+    var sol = Galaxy.readFromFile("sol.xml") as StarSystem?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,6 +33,7 @@ class MasterViewController: UITableViewController {
             let controllers = split.viewControllers
             self.detailViewController = controllers[controllers.endIndex-1].topViewController as? DetailViewController
         }
+        println(sol?.toXML())
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,7 +55,7 @@ class MasterViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             let indexPath = self.tableView.indexPathForSelectedRow()
-            let object = objects[indexPath.row] as NSDate
+            let object = sol!.planets[indexPath.row] as Planet
             ((segue.destinationViewController as UINavigationController).topViewController as DetailViewController).detailItem = object
         }
     }
@@ -66,14 +67,13 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return objects.count
+        return sol!.planets.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
 
-        let object = objects[indexPath.row] as NSDate
-        cell.textLabel.text = object.description
+        cell.textLabel.text = sol!.planets[indexPath.row].name
         return cell
     }
 
@@ -93,8 +93,7 @@ class MasterViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-            let object = objects[indexPath.row] as NSDate
-            self.detailViewController!.detailItem = object
+            self.detailViewController!.detailItem = sol!.planets[indexPath.row]
         }
     }
 

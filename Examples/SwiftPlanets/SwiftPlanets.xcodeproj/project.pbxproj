@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A92D41CF194F401200DAD8FB /* Galaxy.xsd in Resources */ = {isa = PBXBuildFile; fileRef = A92D41CE194F401200DAD8FB /* Galaxy.xsd */; };
 		A9EF85941949F5FF00C13EEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85931949F5FF00C13EEA /* AppDelegate.swift */; };
 		A9EF85961949F5FF00C13EEA /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85951949F5FF00C13EEA /* MasterViewController.swift */; };
 		A9EF85981949F5FF00C13EEA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85971949F5FF00C13EEA /* DetailViewController.swift */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A92D41CE194F401200DAD8FB /* Galaxy.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Galaxy.xsd; path = XMLSchema/Galaxy.xsd; sourceTree = SOURCE_ROOT; };
 		A9EF858E1949F5FF00C13EEA /* SwiftPlanets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftPlanets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9EF85921949F5FF00C13EEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9EF85931949F5FF00C13EEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 		A9EF85911949F5FF00C13EEA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A92D41CE194F401200DAD8FB /* Galaxy.xsd */,
 				C48C41AA194DDE3E009F226E /* sol.xml */,
 				A9EF85921949F5FF00C13EEA /* Info.plist */,
 			);
@@ -294,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C48C41AB194DDE3E009F226E /* sol.xml in Resources */,
+				A92D41CF194F401200DAD8FB /* Galaxy.xsd in Resources */,
 				A9EF859B1949F5FF00C13EEA /* Main.storyboard in Resources */,
 				A9EF859D1949F5FF00C13EEA /* Images.xcassets in Resources */,
 			);
@@ -320,7 +324,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$PROJECT_DIR/Generated\"\nGAXB_ROOT=\"$PROJECT_DIR/../..\"\n\nfor xsd_path in $(find \"$PROJECT_DIR/XMLSchema\" -name \"*.xsd\" -print );\ndo\n\"$GAXB_ROOT/build/gaxb\" swift \"$xsd_path\" -t \"$GAXB_ROOT/templates\" -o \"$PROJECT_DIR/Generated\"\ndone";
+			shellScript = "mkdir -p \"$PROJECT_DIR/Generated\"\nGAXB_ROOT=\"$PROJECT_DIR/../..\"\n\nfor xsd_path in $(find \"$PROJECT_DIR/XMLSchema\" -name \"*.xsd\" -print );\ndo\n\"$GAXB_ROOT/build/gaxb\" swift \"$xsd_path\" -t \"$GAXB_ROOT/templates\" -o \"$PROJECT_DIR/Generated\"\n#gaxb swift \"$xsd_path\" -t \"$GAXB_ROOT/templates\" -o \"$PROJECT_DIR/Generated\"\ndone";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
