@@ -11,7 +11,7 @@ SUPERCLASS_OVERRIDE = ""; if (hasSuperclass(this)) then SUPERCLASS_OVERRIDE="ove
 class <%= CAP_NAME %><% if (hasSuperclass(this)) then %> : <%= superclassForItem(this) %><% else %> : GaxbElement<% end %> {
 <% if (hasSuperclass(this) == false) then %>
     var xmlns: String = "<%= this.namespaceURL %>"
-    var parent: <%= CAP_NAME %>?
+    var parent: GaxbElement?
     var originalValues = Dictionary<String, String> ()
 
     func gaxbValueWillChange(name:String) { }
@@ -42,6 +42,7 @@ end
             if let e = element as? <%= capitalizedString(v.name) %> {
 <% if (isPlural(v)) then %>                <%= lowercasedString(pluralName(v.name)) %> += e
 <% else %>                <%= lowercasedString(v.name) %> = e
+                  e.parent = self
 <% end
 %>            }
 <% end %>        default:
@@ -137,6 +138,7 @@ end %>
 <% if (hasSuperclass(this)) then %>
         xml += super.attributesXML(useOriginalValues:useOriginalValues)
 <% end %>
+// todo: super
         return xml
     }
 
@@ -151,25 +153,21 @@ end %>
  if (hasSuperclass(this)) then %>
         xml += super.sequencesXML(useOriginalValues:useOriginalValues)
 <% end %>
+// todo: super
         return xml
     }
 
     <%= SUPERCLASS_OVERRIDE %>func toXML(useOriginalValues:Bool? = false) -> String {
 
         var xml = "<<%= CAP_NAME %>"
-        if parent {
-            if parent!.xmlns != xmlns {
-                xml += " xmlns='\\(xmlns)'"
-            }
+        if parent?.xmlns != xmlns {
+            xml += " xmlns='\\(xmlns)'"
         }
 
         xml += attributesXML(useOriginalValues: useOriginalValues)
 
         var sXML = sequencesXML(useOriginalValues: useOriginalValues)
-        xml += sXML == "" ? "/>" : ">\\n\\(sXML)</AstronomicalObject>"
-<% if (hasSuperclass(this)) then %>
-        xml += super.toXML(useOriginalValues:useOriginalValues)
-<% end %>
+        xml += sXML == "" ? "/>" : ">\\n\\(sXML)</<%= CAP_NAME %>>"
         return xml
     }
 

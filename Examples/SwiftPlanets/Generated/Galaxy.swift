@@ -7,6 +7,8 @@
 //
 
 protocol GaxbElement {
+    var parent: GaxbElement? { get }
+    var xmlns: String { get }
     func setElement(element: GaxbElement, key:String)
     func setAttribute(value: String, key:String)
 }
