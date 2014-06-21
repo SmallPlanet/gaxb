@@ -41,8 +41,9 @@ end
 %>        case "<%= capitalizedString(v.name) %>":
             if let e = element as? <%= capitalizedString(v.name) %> {
 <% if (isPlural(v)) then %>                <%= lowercasedString(pluralName(v.name)) %> += e
+                e.parent = self
 <% else %>                <%= lowercasedString(v.name) %> = e
-                  e.parent = self
+                e.parent = self
 <% end
 %>            }
 <% end %>        default:
@@ -138,7 +139,6 @@ end %>
 <% if (hasSuperclass(this)) then %>
         xml += super.attributesXML(useOriginalValues:useOriginalValues)
 <% end %>
-// todo: super
         return xml
     }
 
@@ -153,14 +153,13 @@ end %>
  if (hasSuperclass(this)) then %>
         xml += super.sequencesXML(useOriginalValues:useOriginalValues)
 <% end %>
-// todo: super
         return xml
     }
 
     <%= SUPERCLASS_OVERRIDE %>func toXML(useOriginalValues:Bool? = false) -> String {
 
         var xml = "<<%= CAP_NAME %>"
-        if parent?.xmlns != xmlns {
+        if parent? == nil || parent?.xmlns != xmlns {
             xml += " xmlns='\\(xmlns)'"
         }
 

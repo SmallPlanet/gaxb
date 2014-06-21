@@ -12,7 +12,7 @@
 	</Planet>
 	<Planet name="Mars" mass="0.107" equatorialRadius="0.53226" meanOrbitalDistance="1.52366231" orbitalPeriod="1.8808476" equatorialGravity="3.71" />
 	<Planet name="Jupiter" mass="318" equatorialRadius="11.209" meanOrbitalDistance="5.20336301" orbitalPeriod="11.862615" equatorialGravity="23.12" hasRings="true" >
-		<Moon name="Io"/>
+		<Moon name="Io" mass="0.015" equatorialRadius="0.286"/>
 		<Moon name="Europa"/>
 		<Moon name="Ganymede"/>
 		<Moon name="Callisto"/>
