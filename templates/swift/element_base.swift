@@ -20,9 +20,13 @@ class <%= CAP_NAME %><% if (hasSuperclass(this)) then %> : <%= superclassForItem
 <% end
 
 local sequencesCount = 0;
+local hasAnys = false;
 for k,v in pairs(this.sequences) do
   sequencesCount = sequencesCount + 1;
-	if(isPlural(v)) then
+  if (v.name == "any") then
+    gaxb_print("\tvar anys: Array<GaxbElement> = []\n");
+    hasAnys = true;
+	elseif (isPlural(v)) then
   %>    var <%= lowercasedString(pluralName(v.name)) %>: Array<<%= simpleTypeForItem(v) %>> = []
 <%
   else
@@ -39,6 +43,7 @@ end
    if (sequencesCount > 0) then
    %>        switch key {
 <%for k,v in pairs(this.sequences) do
+  if (v.name ~= "any") then
 %>            case "<%= capitalizedString(v.name) %>":
                 if let e = element as? <%= capitalizedString(v.name) %> {
 <% if (isPlural(v)) then %>                    <%= lowercasedString(pluralName(v.name)) %> += e
@@ -47,7 +52,8 @@ end
                     e.parent = self
 <% end
 %>                }
-<% end %>            default:<%
+<% end
+  end %>            default:<%
   if (hasSuperclass(this)) then %>
                 super.setElement(element, key:key)<%
   else %>
@@ -128,9 +134,9 @@ end %>
 	end
 %>
 
-    <%= SUPERCLASS_OVERRIDE %>func attributesXML(useOriginalValues:Bool? = false) -> String {
+    <%= SUPERCLASS_OVERRIDE %>func attributesXML(useOriginalValues:Bool) -> String {
         var xml = ""
-        if useOriginalValues! {
+        if useOriginalValues {
             for (key, value) in originalValues {
                 xml += " \\(key)='\\(value)'"
             }
@@ -142,12 +148,12 @@ end %>
 <% end
 %>        }
 <% if (hasSuperclass(this)) then %>
-        xml += super.attributesXML(useOriginalValues:useOriginalValues)
+        xml += super.attributesXML(useOriginalValues)
 <% end %>
         return xml
     }
 
-    <%= SUPERCLASS_OVERRIDE %>func sequencesXML(useOriginalValues:Bool? = false) -> String {
+    <%= SUPERCLASS_OVERRIDE %>func sequencesXML(useOriginalValues:Bool) -> String {
         var xml = ""<%
     for k,v in pairs(this.sequences) do
       if (isPlural(v)) then %>
@@ -156,26 +162,30 @@ end %>
         }<% else %>    xml += <%= lowercasedString(v.name) %>.toXML()<% end
     end
  if (hasSuperclass(this)) then %>
-        xml += super.sequencesXML(useOriginalValues:useOriginalValues)
+        xml += super.sequencesXML(useOriginalValues)
 <% end %>
         return xml
     }
 
-    <%= SUPERCLASS_OVERRIDE %>func toXML(useOriginalValues:Bool? = false) -> String {
+    <%= SUPERCLASS_OVERRIDE %>func toXML(useOriginalValues:Bool) -> String {
         var xml = "<<%= CAP_NAME %>"
         if parent? == nil || parent?.xmlns != xmlns {
             xml += " xmlns='\\(xmlns)'"
         }
 
-        xml += attributesXML(useOriginalValues: useOriginalValues)
+        xml += attributesXML(useOriginalValues)
 
-        var sXML = sequencesXML(useOriginalValues: useOriginalValues)
+        var sXML = sequencesXML(useOriginalValues)
         xml += sXML == "" ? "/>" : ">\\n\\(sXML)</<%= CAP_NAME %>>"
         return xml
     }
 
+    <%= SUPERCLASS_OVERRIDE %>func toXML() -> String {
+        return toXML(false)
+    }
+
     <%= SUPERCLASS_OVERRIDE %>func description() -> String {
-        return toXML(useOriginalValues: false)
+        return toXML()
     }
 
 }

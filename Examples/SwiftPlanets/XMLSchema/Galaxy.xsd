@@ -36,6 +36,7 @@
 			<extension base="ga:AstronomicalObject">
 				<sequence>
 					<element ref="ga:Moon" minOccurs="0" maxOccurs="unbounded"/>
+                    <any minOccurs="0" maxOccurs="unbounded" />
 				</sequence>
 				<attribute name="hasRings" type="boolean" default="false"/>
 			</extension>

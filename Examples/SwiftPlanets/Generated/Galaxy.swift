@@ -11,6 +11,10 @@ protocol GaxbElement {
     var xmlns: String { get }
     func setElement(element: GaxbElement, key:String)
     func setAttribute(value: String, key:String)
+    func attributesXML(useOriginalValues:Bool) -> String
+    func sequencesXML(useOriginalValues:Bool) -> String
+    func toXML(useOriginalValues:Bool) -> String
+    func toXML() -> String
 }
 
 class Galaxy {
@@ -43,7 +47,6 @@ class Galaxy {
     class func parseElement(element: RXMLElement) -> GaxbElement? {
         println("element = " + element.tag)
         if let entity : GaxbElement = Galaxy.classWithName(element.tag) {
-            println("aaa")
             let names = element.attributeNames() as String[]
             for name in names {
                 let value = element.attribute(name) as String
