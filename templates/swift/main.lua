@@ -405,8 +405,7 @@ end
 
 -- Create a gobal header which includes all of the definition stuff (such as enums)
 print("Generating global header file...")
---gaxb_template("global.h", schema.namespace.."_XMLLoader.h", schema);
---gaxb_template("global.mm", schema.namespace.."_XMLLoader.mm", schema);
+gaxb_template("global.swift", schema.namespace..".swift", schema);
 
 for k,v in pairs(schema.simpleTypes) do
 	if (schema.namespace == v.namespace) then
@@ -436,7 +435,7 @@ for k,v in pairs(schema.elements) do
 			v1.name = cleanedName(v1.name);
 		end
 		print("Generating class file "..className(v).."...")
-		gaxb_template("element.swift", className(v)..".swift", v);
+		gaxb_template("element.swift", className(v)..".swift", v, false);
 		gaxb_template("element_base.swift", className(v).."Base.swift", v);
 
 		--gaxb_template("structures.swift", "structures.swift", v, false);

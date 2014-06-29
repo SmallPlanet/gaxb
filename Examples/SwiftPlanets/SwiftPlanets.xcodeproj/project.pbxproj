@@ -24,6 +24,7 @@
 		A9EF85D91949F94600C13EEA /* StarBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85CF1949F94600C13EEA /* StarBase.swift */; };
 		A9EF85DA1949F94600C13EEA /* StarSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85D01949F94600C13EEA /* StarSystem.swift */; };
 		A9EF85DB1949F94600C13EEA /* StarSystemBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF85D11949F94600C13EEA /* StarSystemBase.swift */; };
+		C4118B441960A24E00C5D701 /* Gaxb.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4118B431960A24E00C5D701 /* Gaxb.swift */; };
 		C48C4193194D3ED7009F226E /* Galaxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48C4192194D3ED6009F226E /* Galaxy.swift */; };
 		C48C419E194D674F009F226E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C48C419D194D674F009F226E /* libxml2.dylib */; };
 		C48C41A9194D6AFA009F226E /* libRaptureXML.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C48C41A6194D6AE4009F226E /* libRaptureXML.a */; };
@@ -76,6 +77,7 @@
 		A9EF85CF1949F94600C13EEA /* StarBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarBase.swift; sourceTree = "<group>"; };
 		A9EF85D01949F94600C13EEA /* StarSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarSystem.swift; sourceTree = "<group>"; };
 		A9EF85D11949F94600C13EEA /* StarSystemBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarSystemBase.swift; sourceTree = "<group>"; };
+		C4118B431960A24E00C5D701 /* Gaxb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gaxb.swift; sourceTree = "<group>"; };
 		C48C4192194D3ED6009F226E /* Galaxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Galaxy.swift; sourceTree = "<group>"; };
 		C48C4197194D5B8E009F226E /* SwiftPlanets-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftPlanets-Bridging-Header.h"; sourceTree = "<group>"; };
 		C48C419D194D674F009F226E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -134,6 +136,7 @@
 				A9EF859C1949F5FF00C13EEA /* Images.xcassets */,
 				A9EF85911949F5FF00C13EEA /* Supporting Files */,
 				C48C4197194D5B8E009F226E /* SwiftPlanets-Bridging-Header.h */,
+				C4118B431960A24E00C5D701 /* Gaxb.swift */,
 			);
 			path = SwiftPlanets;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4118B441960A24E00C5D701 /* Gaxb.swift in Sources */,
 				A9EF85981949F5FF00C13EEA /* DetailViewController.swift in Sources */,
 				C48C4193194D3ED7009F226E /* Galaxy.swift in Sources */,
 				A9EF85D91949F94600C13EEA /* StarBase.swift in Sources */,

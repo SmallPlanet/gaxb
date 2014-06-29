@@ -56,9 +56,9 @@
 			<appinfo>NAMED_ENUM</appinfo>
 		</annotation>
 		<restriction base="string">
-			<enumeration value="Iron core"/>
-			<enumeration value="Ice giant"/>
-			<enumeration value="Gas giant"/>
+			<enumeration value="IronCore"/>
+			<enumeration value="IceGiant"/>
+			<enumeration value="GasGiant"/>
 		</restriction>
 	</simpleType>
 
