@@ -39,6 +39,7 @@
                     <any minOccurs="0" maxOccurs="unbounded" />
 				</sequence>
 				<attribute name="hasRings" type="boolean" default="false"/>
+                <attribute name="type" type="ga:PlanetType"/>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -52,7 +53,7 @@
 
 	<simpleType name="PlanetType">
 		<annotation>
-			<appinfo>TYPEDEF</appinfo>
+			<appinfo>NAMED_ENUM</appinfo>
 		</annotation>
 		<restriction base="string">
 			<enumeration value="Iron core"/>

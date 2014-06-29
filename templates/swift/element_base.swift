@@ -35,8 +35,7 @@ for k,v in pairs(this.sequences) do
 	end
 end
 
-%>    <%= SUPERCLASS_OVERRIDE %>
-    func setElement(element: GaxbElement, key:String) {
+%>    <%= SUPERCLASS_OVERRIDE %>func setElement(element: GaxbElement, key:String) {
 <% if (hasSuperclass(this)) then %>        super.setElement(element, key:key)
 <%
   end
@@ -77,6 +76,8 @@ for k,v in pairs(this.attributes) do %>
     func <%= v.name %>AsString() -> String {<%
  if (v.type=="string") then %>
         return <%= v.name %><% if (v.default == nil) then %>!<% end %>
+<% elseif (isEnumForItem(v)) then %>
+        return <%= v.name %><% if (v.default == nil) then %>!<% end %>.toRaw()
 <% else %>
         return <%= v.name %>.description // <%= typeNameForItem(v) %> / <%= v.type %>
 <% end
@@ -92,6 +93,8 @@ elseif (typeNameForItem(v)=="Double") then
 %>        self.<%= v.name %> = value.bridgeToObjectiveC().doubleValue<%
 elseif (typeNameForItem(v)=="String") then
 %>        self.<%= v.name %> = value<%
+elseif (isEnumForItem(v)) then
+%>        type = <%= typeForItem(v) %>.fromRaw(value)!<%
 end %>
     }
 <%

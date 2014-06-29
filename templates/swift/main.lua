@@ -208,7 +208,7 @@ function isEnumForItem(v)
 			-- if ENUM, then this is an int
 			-- if ENUM_MASK, then this is an int
 			-- if NAMED_ENUM, then this is the enum name
-			-- if TYPEDEF, then this is a NSString *
+			-- if TYPEDEF, then this is a String
 			local appinfo = gaxb_xpath(t.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
 			if(appinfo ~= nil) then
 				appinfo = appinfo[1].content;
@@ -255,7 +255,7 @@ function typeForItem(v)
 				return t.name;
 			end
 			if(appinfo == "TYPEDEF") then
-				return "NSString *"
+				return "String"
 			end
 
 			-- If there is an appinfo, use that
