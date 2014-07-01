@@ -7,11 +7,11 @@
     <!-- Sol's Planets -->
 	<Planet name="Mercury" mass="0.055" equatorialRadius="0.3825" meanOrbitalDistance="0.38709893" orbitalPeriod="0.2408467" equatorialGravity="3.70" />
 	<Planet name="Venus" mass="0.815" equatorialRadius="0.9488" meanOrbitalDistance="0.72333199" orbitalPeriod="0.61519726" equatorialGravity="8.87" />
-	<Planet name="Earth" mass="1" equatorialRadius="1" meanOrbitalDistance="1.00000011" orbitalPeriod="1.0000174" equatorialGravity="9.81" >
+	<Planet name="Earth" mass="1" equatorialRadius="1" meanOrbitalDistance="1.00000011" orbitalPeriod="1.0000174" equatorialGravity="9.81" type="IronCore">
 		<Moon name="Moon" mass="0.0123" equatorialRadius="0.273" />
 	</Planet>
 	<Planet name="Mars" mass="0.107" equatorialRadius="0.53226" meanOrbitalDistance="1.52366231" orbitalPeriod="1.8808476" equatorialGravity="3.71" />
-	<Planet name="Jupiter" mass="318" equatorialRadius="11.209" meanOrbitalDistance="5.20336301" orbitalPeriod="11.862615" equatorialGravity="23.12" hasRings="true" >
+    <Planet name="Jupiter" mass="318" equatorialRadius="11.209" meanOrbitalDistance="5.20336301" orbitalPeriod="11.862615" equatorialGravity="23.12" hasRings="true" type="GasGiant" >
 		<Moon name="Io" mass="0.015" equatorialRadius="0.286"/>
 		<Moon name="Europa"/>
 		<Moon name="Ganymede"/>
