@@ -33,7 +33,7 @@ end %>
 
 		class func parseElement(element: RXMLElement) -> GaxbElement? {
 				println("element = " + element.tag)
-				if let entity : GaxbElement = Galaxy.classWithName(element.tag) {
+				if let entity : GaxbElement = <%= FULL_NAME_CAMEL %>.classWithName(element.tag) {
 						let names = element.attributeNames() as String[]
 						for name in names {
 								let value = element.attribute(name) as String
@@ -41,7 +41,7 @@ end %>
 						}
 
 						let block: (element: RXMLElement!) -> Void = { element in
-								if let subEntity : GaxbElement? = Galaxy.parseElement(element) {
+								if let subEntity : GaxbElement? = <%= FULL_NAME_CAMEL %>.parseElement(element) {
 										entity.setElement(subEntity!, key: element.tag!)
 										println("element.tag = " + element.tag )
 								}
