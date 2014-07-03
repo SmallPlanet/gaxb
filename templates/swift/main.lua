@@ -27,7 +27,7 @@ OBJECTMAP["nonNegativeInteger"] = "Int ";
 OBJECTMAP["positiveInteger"] = "Int ";
 OBJECTMAP["enum"] = "Enum ";
 --OBJECTMAP["ENUM_MASK"] = "Int"; -- ??
---OBJECTMAP["named_enum"] = "NSNumber *";
+--OBJECTMAP["named_enum"] = "NSNumber";
 OBJECTMAP["long"] = "Int ";
 OBJECTMAP["string"] = "String ";
 OBJECTMAP["base64Binary"] = "Data ";
@@ -222,6 +222,33 @@ function isEnumForItem(v)
 	return false;
 end
 
+function isGaxbTypeForItem(v)
+	local t = TYPEMAP[v.type];
+	if (t == nil) then
+		t = v;
+		-- If type is a function, then this is a reference to another type.  Call the function to dereference the other type
+		if(type(t.type) == "table") then
+			t = t.type;
+		end
+		if(t.type == "simple") then
+			-- if ENUM, then this is an int
+			-- if ENUM_MASK, then this is an int
+			-- if NAMED_ENUM, then this is the enum name
+			-- if TYPEDEF, then this is a String
+			local appinfo = gaxb_xpath(t.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
+			if(appinfo ~= nil) then
+				appinfo = appinfo[1].content;
+			end
+
+			if(appinfo == "ENUM" or appinfo == "ENUM_MASK" or appinfo == "NAMED_ENUM") then
+				return false;
+			end
+			return true;
+		end
+	end
+	return false;
+end
+
 function typeForItem(v)
 	local t = TYPEMAP[v.type];
 	if(t == nil) then
@@ -234,7 +261,7 @@ function typeForItem(v)
 		end
 
 		if(t.ref ~= nil) then
-			return classNameFromRef(t).." *";
+			return classNameFromRef(t).."";
 		end
 
 		if(t.type == "element") then
@@ -267,7 +294,7 @@ function typeForItem(v)
 				appinfo = appinfo[1].content;
 				local type = TYPEMAP[appinfo];
 				if(type == nil) then
-					return appinfo.." *";
+					return appinfo;
 				else
 					return type;
 				end
@@ -290,13 +317,7 @@ function typeForItem(v)
 end
 
 function typeNameForItem(v)
-	-- return just the classname without " *" or the type name
 	local t = typeForItem(v);
-	if (string.sub(t,-2) == " *") then
-		return string.sub(t,1,-3);
-	elseif (string.sub(t,-1) == "*") then
-		return string.sub(t,1,-2);
-	end
 	return t;
 end
 
@@ -304,12 +325,8 @@ function isObject(v)
 	-- return true if v represents an NSObject descendant, false otherwise (ie should we retain this guy)
 	local t = TYPEMAP[v.type];
 	if (t ~= nil) then
-		-- t is not nil so we know the type already.  Check to see if it ends in *
-		if (string.sub(t,-1) == "*") then
-			return true;
-		else
-			return false;
-		end
+		-- t is not nil so we know the type already.
+		return true;
 	else
 		-- if t is nil then this is not a simple schema type.  We need to handle all possibilities here:
 		t = v;

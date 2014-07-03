@@ -58,33 +58,35 @@ end %>
 	-- simpleType definitions, such as enums
 	for k,v in pairs(schema.simpleTypes) do
 		-- only include defintions from this schema's namespace
-		if (schema.namespace == v.namespace) then
+		if (isEnumForItem(v)) then
+			if (schema.namespace == v.namespace) then
 
-			gaxb_print("enum "..v.name..": String {\n");
+				gaxb_print("enum "..v.name..": String {\n");
 
-						local appinfo = gaxb_xpath(v.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
-			local enums = gaxb_xpath(v.xml, "./XMLSchema:restriction/XMLSchema:enumeration");
+							local appinfo = gaxb_xpath(v.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
+				local enums = gaxb_xpath(v.xml, "./XMLSchema:restriction/XMLSchema:enumeration");
 
-			if(appinfo ~= nil) then
-				appinfo = appinfo[1].content;
-			end
-
-			if(appinfo == "ENUM" or appinfo == "NAMED_ENUM") then
-				for k,v in pairs(enums) do
-					gaxb_print("\tcase "..v.attributes.value.." = \""..v.attributes.value.."\"\n")
+				if(appinfo ~= nil) then
+					appinfo = appinfo[1].content;
 				end
-			end
-	--		if(appinfo == "ENUM_MASK") then
-	--			local i = 1
-	--			gaxb_print("enum\n{\n")
-	--			for k,v in pairs(enums) do
-	--				gaxb_print("\t"..v.attributes.value.." = "..i..",\n")
-	--				i = i * 2;
-	--			end
-	--			gaxb_print("};\n")
-	--		end
 
-			gaxb_print("}");
+				if(appinfo == "ENUM" or appinfo == "NAMED_ENUM") then
+					for k,v in pairs(enums) do
+						gaxb_print("\tcase "..v.attributes.value.." = \""..v.attributes.value.."\"\n")
+					end
+				end
+		--		if(appinfo == "ENUM_MASK") then
+		--			local i = 1
+		--			gaxb_print("enum\n{\n")
+		--			for k,v in pairs(enums) do
+		--				gaxb_print("\t"..v.attributes.value.." = "..i..",\n")
+		--				i = i * 2;
+		--			end
+		--			gaxb_print("};\n")
+		--		end
+
+				gaxb_print("}");
+			end
 		end
 	end
 %>
