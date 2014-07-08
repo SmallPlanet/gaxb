@@ -172,7 +172,7 @@ end %>
 
     <%= SUPERCLASS_OVERRIDE %>func toXML(useOriginalValues:Bool) -> String {
         var xml = "<<%= CAP_NAME %>"
-        if parent? == nil || parent?.xmlns != xmlns {
+        if !parent || parent?.xmlns != xmlns {
             xml += " xmlns='\\(xmlns)'"
         }
 
