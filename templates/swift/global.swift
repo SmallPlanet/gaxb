@@ -8,49 +8,49 @@ FULL_NAME_CAMEL = capitalizedString(this.namespace)
 
 class <%= FULL_NAME_CAMEL %> {
 
-		class func classWithName(name : String) -> GaxbElement? {
-				switch name {<%
+	class func classWithName(name : String) -> GaxbElement? {
+		switch name {<%
 for k,v in pairs(schema.elements) do
-	-- if not in the schema namespace, skip
-	if (schema.namespace == v.namespace) then
-		v.name = cleanedName(v.name);%>
-				case "<%= v.name %>":
-						return <%= v.name %>()<%
-	end
+-- if not in the schema namespace, skip
+if (schema.namespace == v.namespace) then
+	v.name = cleanedName(v.name);%>
+		case "<%= v.name %>":
+			return <%= v.name %>()<%
+end
 end %>
-				default:
-						return nil
-				}
+		default:
+			return nil
 		}
+	}
 
-		class func readFromFile(filepath : String) -> GaxbElement? {
-				let rootXML: AnyObject! = RXMLElement.elementFromXMLFile(filepath)
-				if rootXML as? RXMLElement {
-						return <%= FULL_NAME_CAMEL %>.parseElement(rootXML as RXMLElement)
-				}
-				return nil
+	class func readFromFile(filepath : String) -> GaxbElement? {
+		let rootXML: AnyObject! = RXMLElement.elementFromXMLFile(filepath)
+		if rootXML as? RXMLElement != nil {
+			return <%= FULL_NAME_CAMEL %>.parseElement(rootXML as RXMLElement)
 		}
+		return nil
+	}
 
-		class func parseElement(element: RXMLElement) -> GaxbElement? {
-				println("element = " + element.tag)
-				if let entity : GaxbElement = <%= FULL_NAME_CAMEL %>.classWithName(element.tag) {
-						let names = element.attributeNames() as [String]
-						for name in names {
-								let value = element.attribute(name) as String
-								entity.setAttribute(value, key: name)
-						}
+	class func parseElement(element: RXMLElement) -> GaxbElement? {
+		println("element = " + element.tag)
+		if let entity : GaxbElement = <%= FULL_NAME_CAMEL %>.classWithName(element.tag) {
+			let names = element.attributeNames() as [String]
+			for name in names {
+				let value = element.attribute(name) as String
+				entity.setAttribute(value, key: name)
+			}
 
-						let block: (element: RXMLElement!) -> Void = { element in
-								if let subEntity : GaxbElement? = <%= FULL_NAME_CAMEL %>.parseElement(element) {
-										entity.setElement(subEntity!, key: element.tag!)
-										println("element.tag = " + element.tag )
-								}
-						}
-						element.iterate("*", usingBlock:block)
-						return entity
+			let block: (element: RXMLElement!) -> Void = { element in
+				if let subEntity : GaxbElement? = <%= FULL_NAME_CAMEL %>.parseElement(element) {
+					entity.setElement(subEntity!, key: element.tag!)
+					println("element.tag = " + element.tag )
 				}
-				return nil
+			}
+			element.iterate("*", usingBlock:block)
+			return entity
 		}
+		return nil
+	}
 
 }
 
@@ -63,7 +63,7 @@ end %>
 
 				gaxb_print("enum "..v.name..": String {\n");
 
-							local appinfo = gaxb_xpath(v.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
+				local appinfo = gaxb_xpath(v.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
 				local enums = gaxb_xpath(v.xml, "./XMLSchema:restriction/XMLSchema:enumeration");
 
 				if(appinfo ~= nil) then

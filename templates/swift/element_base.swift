@@ -47,7 +47,7 @@ end
   if (v.name ~= "any") then
 %>            case "<%= capitalizedString(v.name) %>":
                 if let e = element as? <%= capitalizedString(v.name) %> {
-<% if (isPlural(v)) then %>                    <%= lowercasedString(pluralName(v.name)) %> += e
+<% if (isPlural(v)) then %>                    <%= lowercasedString(pluralName(v.name)) %>.append(e)
                     e.parent = self
 <% else %>                    <%= lowercasedString(v.name) %> = e
                     e.parent = self
@@ -100,7 +100,7 @@ elseif (typeNameForItem(v)=="String") then
 elseif (isEnumForItem(v)) then
 %>        type = <%= typeForItem(v) %>.fromRaw(value)!<%
 elseif (isGaxbTypeForItem(v)) then
-%>        <%= v.name %> =  <%= typeForItem(v) %>(GaxbString: value)<%
+%>        <%= v.name %> =  <%= typeForItem(v) %>(gaxbString: value)<%
 end %>
     }
 <%
@@ -178,7 +178,7 @@ end %>
 
     <%= SUPERCLASS_OVERRIDE %>func toXML(useOriginalValues:Bool) -> String {
         var xml = "<<%= CAP_NAME %>"
-        if !parent || parent?.xmlns != xmlns {
+        if parent == nil  || parent?.xmlns != xmlns {
             xml += " xmlns='\\(xmlns)'"
         }
 
