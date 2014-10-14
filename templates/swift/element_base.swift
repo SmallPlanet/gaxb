@@ -87,9 +87,7 @@ for k,v in pairs(this.attributes) do %>
 <% end
 %>    }
     func set<%= capitalizedString(v.name) %>(value: String) {
-<%	if (typeNameForItem(v)=="Bool") then
-%>        self.<%= v.name %> = value == "true"<%
-    elseif (typeNameForItem(v)=="Int") then
+<%	if (typeNameForItem(v)=="Int") then
 %>        self.<%= v.name %> = value.toInt()!<%
 elseif (typeNameForItem(v)=="Float") then
 %>        self.<%= v.name %> = value.bridgeToObjectiveC().floatValue<%
