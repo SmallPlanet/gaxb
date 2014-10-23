@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>801EB724-844D-46F0-AA6E-53706EFE2C7F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>gaxb</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>4A1A39F7-B1F2-45BA-8275-FB4AF28564B9</key>
+		<string>https://github.com/SmallPlanet/gaxb.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>XCode/gaxb/gaxb.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>4A1A39F7-B1F2-45BA-8275-FB4AF28564B9</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/SmallPlanet/gaxb.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>4A1A39F7-B1F2-45BA-8275-FB4AF28564B9</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4A1A39F7-B1F2-45BA-8275-FB4AF28564B9</string>
+			<key>IDESourceControlWCCName</key>
+			<string>gaxb</string>
+		</dict>
+	</array>
+</dict>
+</plist>
