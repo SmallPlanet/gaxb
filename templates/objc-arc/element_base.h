@@ -35,12 +35,12 @@ local classes = {}
 for k,v in pairs(this.attributes) do
 	--print("ATTRIBUTE "..table.tostring(v))
 	if(type(v.type) == "table") then
-		
+
 		--print("table "..v.type.type)
-		
+
 		if (v.type.type == "simple") then
 			-- table.insertIfNotPresent(classes,v.type.namespace..":"..v.type.name);
-	
+
 			local appinfo = gaxb_xpath(v.type.xml, "./XMLSchema:annotation/XMLSchema:appinfo/XMLSchema:objc");
 			if(appinfo == nil) then
 				appinfo = gaxb_xpath(v.type.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
@@ -48,8 +48,8 @@ for k,v in pairs(this.attributes) do
 			-- If the appinfo indicates it's not an enum or is a simple type, it's a class
 			if(appinfo ~= nil and appinfo[1].content ~= "NAMED_ENUM" and not TYPEMAP[appinfo[1].content]) then
 				table.insertIfNotPresent(classes,appinfo[1].content);
-			end	
-			
+			end
+
 			-- local appinfo = gaxb_xpath(v.type.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
 			-- if(appinfo ~= nil) then
 			-- 	print("appinfo XYZ = "..table.tostring(appinfo))
@@ -66,7 +66,11 @@ end
 for k,v in pairs(this.sequences) do
 	if (isObject(v)) then
 		if (v.namespace == this.namespace) then
-			gaxb_print('#import "'..typeNameForItem(v)..'.h"\n');
+			if (v ~= superclassForItem(this)) then
+				table.insertIfNotPresent(classes,typeNameForItem(v));
+			else
+				gaxb_print('#import "'..typeNameForItem(v)..'.h"\n');
+			end
 		else
 			table.insertIfNotPresent(classes,typeNameForItem(v));
 		end
@@ -94,12 +98,12 @@ end
 @interface <%= FULL_NAME_CAMEL %> : <%= superclassForItem(this) %>
 {<% if ( not hasSuperclass(this) ) then %>
 	__weak id parent;
-	NSNumber * uid; 
+	NSNumber * uid;
 	NSMutableDictionary * originalValues;
 	BOOL gaxb_init_called;
 	BOOL gaxb_dealloc_called;
-	
-<% end %>	
+
+<% end %>
 	// Attributes
 <%
 	for k,v in pairs(this.attributes) do
@@ -164,11 +168,11 @@ end
 			gaxb_print("@property (nonatomic"..(isObject(v)==true and ", strong" or "")..") "..typeForItem(v).." "..v.name..";\n")
 			gaxb_print("@property (nonatomic) BOOL "..v.name.."Exists;\n")
 		end
-	end 
+	end
 %>
 <%
 	for k,v in pairs(this.attributes) do
-		gaxb_print("- (NSString *) ".. v.name .."AsString;\n"); 
+		gaxb_print("- (NSString *) ".. v.name .."AsString;\n");
 		gaxb_print("- (void) set"..capitalizedString(v.name).."WithString:(NSString *)string;\n")
 	end
 	for k,v in pairs(this.sequences) do
