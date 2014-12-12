@@ -9,10 +9,10 @@ SUPERCLASS_OVERRIDE = ""; if (hasSuperclass(this)) then SUPERCLASS_OVERRIDE="ove
 
 import UIKit
 
-class <%= CAP_NAME %>Base<% if (hasSuperclass(this)) then %> : <%= superclassForItem(this) %><% else %> : GaxbElement<% end %> {
+public class <%= CAP_NAME %>Base<% if (hasSuperclass(this)) then %> : <%= superclassForItem(this) %><% else %> : GaxbElement<% end %> {
 <% if (hasSuperclass(this) == false) then %>
-    var xmlns: String = "<%= this.namespaceURL %>"
-    var parent: GaxbElement?
+    public var xmlns: String = "<%= this.namespaceURL %>"
+    public var parent: GaxbElement?
     var originalValues = Dictionary<String, String> ()
 
     func gaxbValueWillChange(name:String) { }
@@ -26,7 +26,7 @@ local hasAnys = false;
 for k,v in pairs(this.sequences) do
   sequencesCount = sequencesCount + 1;
   if (v.name == "any") then
-    gaxb_print("\tvar anys: Array<GaxbElement> = []\n");
+    gaxb_print("\tpublic var anys: Array<GaxbElement> = []\n");
     hasAnys = true;
 	elseif (isPlural(v)) then
   %>    var <%= lowercasedString(pluralName(v.name)) %>: Array<<%= simpleTypeForItem(v) %>> = []
@@ -37,7 +37,7 @@ for k,v in pairs(this.sequences) do
 	end
 end
 
-%>    <%= SUPERCLASS_OVERRIDE %>func setElement(element: GaxbElement, key:String) {
+%>    <%= SUPERCLASS_OVERRIDE %>public func setElement(element: GaxbElement, key:String) {
 <% if (hasSuperclass(this)) then %>        super.setElement(element, key:key)
 <%
   end
@@ -65,14 +65,14 @@ end %>
     }
 <%
 for k,v in pairs(this.attributes) do %>
-	var <%= v.name %>: <%= typeForItem(v) %><%
+	public var <%= v.name %>: <%= typeForItem(v) %><%
 -- setting default values needs a lot of work...  could be done in init()?
 	if (v.default == nil) then %>?<% else %> = <%= v.default %><%
 	end %> {
         willSet { gaxbValueWillChange("<%= v.name %>") }
         didSet { gaxbValueDidChange("<%= v.name %>") }
     }
-    var <%= v.name %>Exists: Bool {
+    public var <%= v.name %>Exists: Bool {
         return <%= v.name %> != nil
     }
     func <%= v.name %>AsString() -> String {<%
@@ -86,8 +86,10 @@ for k,v in pairs(this.attributes) do %>
         return <%= v.name %>.description // <%= typeNameForItem(v) %> / <%= v.type %>
 <% end
 %>    }
-    func set<%= capitalizedString(v.name) %>(value: String) {
-<%	if (typeNameForItem(v)=="Int") then
+    public func set<%= capitalizedString(v.name) %>(value: String) {
+<%	if (typeNameForItem(v)=="Bool") then
+%>        self.<%= v.name %> = value == "true"<%
+    elseif (typeNameForItem(v)=="Int") then
 %>        self.<%= v.name %> = value.toInt()!<%
 elseif (typeNameForItem(v)=="Float") then
 %>        self.<%= v.name %> = value.bridgeToObjectiveC().floatValue<%
@@ -103,7 +105,7 @@ end %>
     }
 <%
 	end %>
-    <%= SUPERCLASS_OVERRIDE %>func setAttribute(value: String, key:String) {
+    <%= SUPERCLASS_OVERRIDE %>public func setAttribute(value: String, key:String) {
 <% if (hasSuperclass(this)) then %>        super.setAttribute(value, key:key)
 <% end %>        switch key {
 <% for k,v in pairs(this.attributes) do
@@ -141,7 +143,7 @@ end %>
 	end
 %>
 
-    <%= SUPERCLASS_OVERRIDE %>func attributesXML(useOriginalValues:Bool) -> String {
+    <%= SUPERCLASS_OVERRIDE %>public func attributesXML(useOriginalValues:Bool) -> String {
         var xml = ""
         if useOriginalValues {
             for (key, value) in originalValues {
@@ -160,7 +162,7 @@ end %>
         return xml
     }
 
-    <%= SUPERCLASS_OVERRIDE %>func sequencesXML(useOriginalValues:Bool) -> String {
+    <%= SUPERCLASS_OVERRIDE %>public func sequencesXML(useOriginalValues:Bool) -> String {
         var xml = ""<%
     for k,v in pairs(this.sequences) do
       if (isPlural(v)) then %>
@@ -174,9 +176,9 @@ end %>
         return xml
     }
 
-    <%= SUPERCLASS_OVERRIDE %>func toXML(useOriginalValues:Bool) -> String {
+    <%= SUPERCLASS_OVERRIDE %>public func toXML(useOriginalValues:Bool) -> String {
         var xml = "<<%= CAP_NAME %>"
-        if parent == nil  || parent?.xmlns != xmlns {
+        if (parent == nil || parent?.xmlns != xmlns) {
             xml += " xmlns='\\(xmlns)'"
         }
 
@@ -187,11 +189,11 @@ end %>
         return xml
     }
 
-    <%= SUPERCLASS_OVERRIDE %>func toXML() -> String {
+    <%= SUPERCLASS_OVERRIDE %>public func toXML() -> String {
         return toXML(false)
     }
 
-    <%= SUPERCLASS_OVERRIDE %>func description() -> String {
+    <%= SUPERCLASS_OVERRIDE %>public func description() -> String {
         return toXML()
     }
 
