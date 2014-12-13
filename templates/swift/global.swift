@@ -34,20 +34,15 @@ end %>
 	}
 
 	public class func parseElement(element: AEXMLElement) -> GaxbElement? {
-		println("element = " + element.name)
 		if let entity : GaxbElement = <%= FULL_NAME_CAMEL %>.classWithName(element.name) {
 			for (attribute, value) in element.attributes {
 				entity.setAttribute(value as String, key: attribute as String)
 			}
-
 			for child in element.children {
-				if let subEntity = <%= FULL_NAME_CAMEL %>.classWithName(child.name) {
-					PlanetSwift.parseElement(child)
+				if let subEntity = <%= FULL_NAME_CAMEL %>.parseElement(child) {
 					entity.setElement(subEntity, key: child.name)
-					println("child name = " + child.name);
 				}
 			}
-
 			return entity
 		}
 		return nil
