@@ -423,7 +423,7 @@ end
 -- Create a gobal header which includes all of the definition stuff (such as enums)
 print("Generating global header file...")
 gaxb_template("global_base.swift", schema.namespace.."Base.swift", schema);
-gaxb_template("global.swift", schema.namespace..".swift", schema);
+gaxb_template("global.swift", schema.namespace..".swift", schema, false);
 
 for k,v in pairs(schema.simpleTypes) do
 	if (schema.namespace == v.namespace) then
