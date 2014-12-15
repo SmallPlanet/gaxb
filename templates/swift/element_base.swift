@@ -83,7 +83,7 @@ for k,v in pairs(this.attributes) do %>
 <% elseif (isGaxbTypeForItem(v)) then %>
         return <%= v.name %><% if (v.default == nil) then %>!<% end %>.toGaxbString()
 <% else %>
-        return <%= v.name %>.description // <%= typeNameForItem(v) %> / <%= v.type %>
+        return <%= v.name %><% if (v.default == nil) then %>!<% end %>.toGaxbString()
 <% end
 %>    }
     public func set<%= capitalizedString(v.name) %>(value: String) {
