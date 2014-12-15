@@ -92,9 +92,9 @@ for k,v in pairs(this.attributes) do %>
     elseif (typeNameForItem(v)=="Int") then
 %>        self.<%= v.name %> = value.toInt()!<%
 elseif (typeNameForItem(v)=="Float") then
-%>        self.<%= v.name %> = value.bridgeToObjectiveC().floatValue<%
+%>        self.<%= v.name %> = (value as NSString).floatValue<%
 elseif (typeNameForItem(v)=="Double") then
-%>        self.<%= v.name %> = value.bridgeToObjectiveC().doubleValue<%
+%>        self.<%= v.name %> = (value as NSString).doubleValue<%
 elseif (typeNameForItem(v)=="String") then
 %>        self.<%= v.name %> = value<%
 elseif (isEnumForItem(v)) then
