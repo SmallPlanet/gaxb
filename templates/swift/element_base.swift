@@ -19,6 +19,14 @@ public class <%= CAP_NAME %>Base<% if (hasSuperclass(this)) then %> : <%= superc
     func gaxbValueDidChange(name:String) { }
 
     init() { }
+<% else %>
+    override public init() {
+        super.init()
+<% for k,v in pairs(this.attributes) do
+     if (v.default ~= nil) then
+%>        self.gaxbValueDidChange("<%= v.name %>")
+<%     end
+   end %>    }
 <% end
 
 local sequencesCount = 0;
@@ -38,13 +46,12 @@ for k,v in pairs(this.sequences) do
 end
 
 %>    <%= SUPERCLASS_OVERRIDE %>public func setElement(element: GaxbElement, key:String) {
-<% if (hasSuperclass(this)) then %>        super.setElement(element, key:key)
-<%
+<% if (hasSuperclass(this)) then %>        super.setElement(element, key:key)<%
   end
    if (sequencesCount > 0) then
       for k,v in pairs(this.sequences) do
-        if (v.name ~= "any") then
-%>        if let e = element as? <%= capitalizedString(v.name) %> {
+        if (v.name ~= "any") then %>
+        if let e = element as? <%= capitalizedString(v.name) %> {
 <% if (isPlural(v)) then %>           <%= lowercasedString(pluralName(v.name)) %>.append(e)
             e.parent = self
 <% else %>        <%= lowercasedString(v.name) %> = e
@@ -57,7 +64,6 @@ end
 <%
 for k,v in pairs(this.attributes) do %>
 	public var <%= v.name %>: <%= typeForItem(v) %><%
--- setting default values needs a lot of work...  could be done in init()?
 	if (v.default == nil) then %>?<% else %> = <%= v.default %><%
 	end %> {
         willSet { gaxbValueWillChange("<%= v.name %>") }
