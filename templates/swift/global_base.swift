@@ -27,7 +27,17 @@ end %>
 		if let xmlData = NSData(contentsOfFile: filepath) {
 			var error: NSError?
 			if let xmlDoc = AEXMLDocument(xmlData: xmlData, error: &error) {
-				return PlanetSwift.parseElement(xmlDoc.rootElement as AEXMLElement)
+				return <%= FULL_NAME_CAMEL %>.parseElement(xmlDoc.rootElement as AEXMLElement)
+			}
+		}
+		return nil
+	}
+
+	public class func readFromString(string : String) -> GaxbElement? {
+		if let xmlData = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+			var error: NSError?
+			if let xmlDoc = AEXMLDocument(xmlData: xmlData, error: &error) {
+				return <%= FULL_NAME_CAMEL %>.parseElement(xmlDoc.rootElement as AEXMLElement)
 			}
 		}
 		return nil
