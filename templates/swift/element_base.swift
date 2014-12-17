@@ -63,7 +63,7 @@ end
     }
 <%
 for k,v in pairs(this.attributes) do %>
-	public var <%= v.name %>: <%= typeForItem(v) %><%
+	public var <%= v.name %>: <%if (isEnumForItem(v)) then %><%= capitalizedString(this.namespace) %>.<% end %><%= typeForItem(v) %><%
 	if (v.default == nil) then %>?<% else %> = <%= v.default %><%
 	end %> {
         willSet { gaxbValueWillChange("<%= v.name %>") }
@@ -76,7 +76,7 @@ for k,v in pairs(this.attributes) do %>
  if (v.type=="string") then %>
         return <%= v.name %><% if (v.default == nil) then %>!<% end %>
 <% elseif (isEnumForItem(v)) then %>
-        return <%= v.name %><% if (v.default == nil) then %>!<% end %>.toRaw()
+        return <%= v.name %><% if (v.default == nil) then %>!<% end %>.rawValue
 <% elseif (isGaxbTypeForItem(v)) then %>
         return <%= v.name %><% if (v.default == nil) then %>!<% end %>.toGaxbString()
 <% else %>
@@ -95,7 +95,9 @@ elseif (typeNameForItem(v)=="Double") then
 elseif (typeNameForItem(v)=="String") then
 %>        self.<%= v.name %> = value<%
 elseif (isEnumForItem(v)) then
-%>        type = <%= typeForItem(v) %>.fromRaw(value)!<%
+%>        if let tmp = <%= capitalizedString(this.namespace) %>.<%= typeForItem(v) %>(rawValue: value) {
+            <%= v.name %> = tmp
+        }<%
 elseif (isGaxbTypeForItem(v)) then
 %>        <%= v.name %> =  <%= typeForItem(v) %>(gaxbString: value)<%
 end %>
