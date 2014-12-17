@@ -42,26 +42,17 @@ end
 <%
   end
    if (sequencesCount > 0) then
-   %>        switch key {
-<%for k,v in pairs(this.sequences) do
-  if (v.name ~= "any") then
-%>            case "<%= capitalizedString(v.name) %>":
-                if let e = element as? <%= capitalizedString(v.name) %> {
-<% if (isPlural(v)) then %>                    <%= lowercasedString(pluralName(v.name)) %>.append(e)
-                    e.parent = self
-<% else %>                    <%= lowercasedString(v.name) %> = e
-                    e.parent = self
-<% end
-%>                }
-<% end
-  end %>            default:<%
-  if (hasSuperclass(this)) then %>
-                super.setElement(element, key:key)<%
-  else %>
-                break<%
-  end %>
-        } <%
-end %>
+      for k,v in pairs(this.sequences) do
+        if (v.name ~= "any") then
+%>        if let e = element as? <%= capitalizedString(v.name) %> {
+<% if (isPlural(v)) then %>           <%= lowercasedString(pluralName(v.name)) %>.append(e)
+            e.parent = self
+<% else %>        <%= lowercasedString(v.name) %> = e
+            e.parent = self
+<%   end %>        }<%
+      end
+    end
+ end %>
     }
 <%
 for k,v in pairs(this.attributes) do %>
@@ -73,7 +64,7 @@ for k,v in pairs(this.attributes) do %>
         didSet { gaxbValueDidChange("<%= v.name %>") }
     }
     public var <%= v.name %>Exists: Bool {
-        return <%= v.name %> != nil
+        return <% if (v.default == nil) then %><%= v.name %> != nil<% else %> true<% end %>
     }
     func <%= v.name %>AsString() -> String {<%
  if (v.type=="string") then %>
