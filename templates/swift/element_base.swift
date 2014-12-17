@@ -29,10 +29,10 @@ for k,v in pairs(this.sequences) do
     gaxb_print("\tpublic var anys: Array<GaxbElement> = []\n");
     hasAnys = true;
 	elseif (isPlural(v)) then
-  %>    var <%= lowercasedString(pluralName(v.name)) %>: Array<<%= simpleTypeForItem(v) %>> = []
+  %>    public var <%= lowercasedString(pluralName(v.name)) %>: Array<<%= simpleTypeForItem(v) %>> = []
 <%
   else
-  %>    var <%= lowercasedString(v.name) %>: <%= simpleTypeForItem(v) %>?
+  %>    public var <%= lowercasedString(v.name) %>: <%= simpleTypeForItem(v) %>?
 <%
 	end
 end
