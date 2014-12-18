@@ -58,8 +58,6 @@ end %>
 		return nil
 	}
 
-}
-
 <%
 	-- simpleType definitions, such as enums
 	for k,v in pairs(schema.simpleTypes) do
@@ -67,9 +65,9 @@ end %>
 		if (isEnumForItem(v)) then
 			if (schema.namespace == v.namespace) then
 
-				gaxb_print("enum "..v.name..": String {\n");
+				gaxb_print("\tpublic enum "..v.name..": String {\n");
 
-							local appinfo = gaxb_xpath(v.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
+				local appinfo = gaxb_xpath(v.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
 				local enums = gaxb_xpath(v.xml, "./XMLSchema:restriction/XMLSchema:enumeration");
 
 				if(appinfo ~= nil) then
@@ -78,24 +76,26 @@ end %>
 
 				if(appinfo == "ENUM" or appinfo == "NAMED_ENUM") then
 					for k,v in pairs(enums) do
-						gaxb_print("\tcase "..v.attributes.value.." = \""..v.attributes.value.."\"\n")
+						gaxb_print("\t\tcase "..v.attributes.value.." = \""..v.attributes.value.."\"\n")
 					end
 				end
 		--		if(appinfo == "ENUM_MASK") then
 		--			local i = 1
-		--			gaxb_print("enum\n{\n")
+		--			gaxb_print("\tpublic enum\n{\n")
 		--			for k,v in pairs(enums) do
-		--				gaxb_print("\t"..v.attributes.value.." = "..i..",\n")
+		--				gaxb_print("\t\t"..v.attributes.value.." = "..i..",\n")
 		--				i = i * 2;
 		--			end
-		--			gaxb_print("};\n")
+		--			gaxb_print("\t};\n")
 		--		end
 
-				gaxb_print("}");
+				gaxb_print("\t}");
 			end
 		end
 	end
 %>
+
+}
 
 
 //+ (id) readFromData:(NSData *)data withParent:(id)p AndMemoryLite:(BOOL)memLite
