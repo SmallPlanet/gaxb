@@ -8,21 +8,6 @@ FULL_NAME_CAMEL = capitalizedString(this.namespace)
 
 public class <%= FULL_NAME_CAMEL %> {
 
-	public class func classWithName(name : String) -> GaxbElement? {
-		switch name {<%
-for k,v in pairs(schema.elements) do
-	-- if not in the schema namespace, skip
-	if (schema.namespace == v.namespace) then
-		v.name = cleanedName(v.name);%>
-		case "<%= v.name %>":
-			return <%= v.name %>()<%
-	end
-end %>
-		default:
-			return nil
-		}
-	}
-
 	public class func readFromFile(filepath : String) -> GaxbElement? {
 		if let xmlData = NSData(contentsOfFile: filepath) {
 			var error: NSError?
@@ -44,7 +29,7 @@ end %>
 	}
 
 	public class func parseElement(element: AEXMLElement) -> GaxbElement? {
-		if let entity : GaxbElement = <%= FULL_NAME_CAMEL %>.classWithName(element.name) {
+		if let entity : GaxbElement = GaxbFactory.element("<%= FULL_NAME_CAMEL %>", name:element.name) {
 			for (attribute, value) in element.attributes {
 				entity.setAttribute(value as String, key: attribute as String)
 			}
@@ -95,6 +80,23 @@ end %>
 	end
 %>
 
+}
+
+@objc(<%= FULL_NAME_CAMEL %>GaxbFactory) public class <%= FULL_NAME_CAMEL %>GaxbFactory : GaxbFactory {
+	public override func classWithName(name : String) -> GaxbElement? {
+		switch name {<%
+for k,v in pairs(schema.elements) do
+	-- if not in the schema namespace, skip
+	if (schema.namespace == v.namespace) then
+		v.name = cleanedName(v.name);%>
+		case "<%= v.name %>":
+			return <%= v.name %>()<%
+	end
+end %>
+		default:
+			return nil
+		}
+	}
 }
 
 
