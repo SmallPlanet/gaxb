@@ -13,7 +13,7 @@ public class <%= FULL_NAME_CAMEL %> {
 	public class func readFromFile(filepath : String) -> GaxbElement? {
 		if let xmlData = NSData(contentsOfFile: filepath) {
 			var error: NSError?
-			if let xmlDoc = AEXMLDocument(xmlData: xmlData, error: &error) {
+			if let xmlDoc = AEXMLDocument(xmlData: xmlData, processNamespaces: true, error: &error) {
 				return <%= FULL_NAME_CAMEL %>.parseElement(xmlDoc.rootElement as AEXMLElement)
 			}
 		}
@@ -30,8 +30,16 @@ public class <%= FULL_NAME_CAMEL %> {
 		return nil
 	}
 
+	public class func namespaceForElement(element: AEXMLElement) -> String {
+		if let namespace = element.namespaceURI?.lastPathComponent {
+			return namespace
+		}
+		return "<%= FULL_NAME_CAMEL %>"
+	}
+
 	public class func parseElement(element: AEXMLElement) -> GaxbElement? {
-		if let entity : GaxbElement = GaxbFactory.element("<%= FULL_NAME_CAMEL %>", name:element.name) {
+		let namespace = self.namespaceForElement(element)
+		if let entity : GaxbElement = GaxbFactory.element(namespace, name:element.name) {
 			for (attribute, value) in element.attributes {
 				entity.setAttribute(value as String, key: attribute as String)
 			}
