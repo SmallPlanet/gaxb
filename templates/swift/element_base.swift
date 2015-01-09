@@ -47,22 +47,33 @@ for k,v in pairs(this.sequences) do
 end
 
 %>    <%= SUPERCLASS_OVERRIDE %>public func setElement(element: GaxbElement, key:String) {
-<% if (hasSuperclass(this)) then %>        super.setElement(element, key:key)<%
-  end
+<% if (hasSuperclass(this)) then %>        super.setElement(element, key:key)
+<%  end
    if (sequencesCount > 0) then
+%>        switch key {<%
       for k,v in pairs(this.sequences) do
         if (v.name ~= "any") then %>
-        if let e = element as? <%= capitalizedString(v.name) %> {
-<% if (isPlural(v)) then %>           <%= lowercasedString(pluralName(v.name)) %>.append(e)
-            e.parent = self
-<% else %>        <%= lowercasedString(v.name) %> = e
-            e.parent = self
-<%   end %>        }<%
-      end
-    end
- end %>
+            case "<%= capitalizedString(v.name) %>":
+                if let e = element as? <%= capitalizedString(v.name) %> {
+<% if (isPlural(v)) then %>                    <%= lowercasedString(pluralName(v.name)) %>.append(e)
+                    e.setParent(self)
+<% else %>                <%= lowercasedString(v.name) %> = e
+                    e.setParent(self)
+<%   end %>                }<%
+    end %>
+            default:<%    end
+    if (hasAnys) then %>
+                anys.append(element)
+                element.setParent(self)
+<% else %>
+                break
+<% end %>        }
+<%  end %>    }
+<% if (hasSuperclass(this) == false) then %>
+    public func setParent(parent: GaxbElement) {
+        self.parent = parent
     }
-<%
+<% end
 for k,v in pairs(this.attributes) do %>
 	public var <%= v.name %>: <%if (isEnumForItem(v)) then %><%= capitalizedString(this.namespace) %>.<% end %><%= typeForItem(v) %><%
 	if (v.default == nil) then %>?<% else %> = <%= v.default %><%
