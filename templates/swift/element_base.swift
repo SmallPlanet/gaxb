@@ -73,8 +73,19 @@ end
     public func setParent(parent: GaxbElement) {
         self.parent = parent
     }
+<% end %>
+    <%= SUPERCLASS_OVERRIDE %> public func isKindOfClass(className: String) -> Bool {
+        if className == "<%= CAP_NAME %>" {
+            return true
+        }
+<% if (hasSuperclass(this)) then
+%>        return super.isKindOfClass(className)
+<% else
+%>        return false
 <% end
-for k,v in pairs(this.attributes) do %>
+%>    }
+<%
+  for k,v in pairs(this.attributes) do %>
 	public var <%= v.name %>: <%if (isEnumForItem(v)) then %><%= capitalizedString(this.namespace) %>.<% end %><%= typeForItem(v) %><%
 	if (v.default == nil) then %>?<% else %> = <%= v.default %><%
 	end %> {
