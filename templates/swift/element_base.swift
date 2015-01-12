@@ -20,6 +20,8 @@ public class <%= CAP_NAME %>Base<% if (hasSuperclass(this)) then %> : <%= superc
     func gaxbValueDidChange(name:String) { }
 
     init() { }
+    public func gaxbInit() { }
+    
 <% else %>
     override public init() {
         super.init()

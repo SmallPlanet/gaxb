@@ -48,6 +48,7 @@ public class <%= FULL_NAME_CAMEL %> {
 					entity.setElement(subEntity, key: child.name)
 				}
 			}
+			entity.gaxbInit()
 			return entity
 		}
 		return nil
