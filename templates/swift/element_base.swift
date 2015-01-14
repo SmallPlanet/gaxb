@@ -18,6 +18,8 @@ public class <%= CAP_NAME %>Base<% if (hasSuperclass(this)) then %> : <%= superc
 
     func gaxbValueWillChange(name:String) { }
     func gaxbValueDidChange(name:String) { }
+    public func load(context:AnyObject?) { }
+    public func unload(context:AnyObject?) { }
 
     init() { }
     public func gaxbInit() { }
@@ -47,6 +49,40 @@ for k,v in pairs(this.sequences) do
 <%
 	end
 end
+
+%>
+	public<% if hasSuperclass(this) then %> override<% end %> func visitLoad(context:AnyObject?) {
+		<%if hasSuperclass(this) then %>super.visitLoad(context)<% else %>load(context)<% end %>
+		<%for k,v in pairs(this.sequences) do
+			if (v.name == "any") then
+		 		%>for any in anys { any.load(context) }
+		<%
+			elseif (isPlural(v)) then
+				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.load(context) }
+		<%
+			else
+		 		%><%= lowercasedString(v.name) %>.load(context)
+		<%
+			end
+		end %>
+	}
+	public<% if hasSuperclass(this) then %> override<% end %> func visitUnload(context:AnyObject?) {
+		<%for k,v in pairs(this.sequences) do
+			if (v.name == "any") then
+		 		%>for any in anys { any.unload(context) }
+		<%
+			elseif (isPlural(v)) then
+				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.unload(context) }
+		<%
+			else
+		 		%><%= lowercasedString(v.name) %>.unload(context)
+		<%
+			end
+		end
+		if hasSuperclass(this) then %>super.visitUnload(context)<% else %>load(context)<% end %>
+	}
+
+<%
 
 %>    <%= SUPERCLASS_OVERRIDE %>public func setElement(element: GaxbElement, key:String) {
 <% if (hasSuperclass(this)) then %>        super.setElement(element, key:key)
