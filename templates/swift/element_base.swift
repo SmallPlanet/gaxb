@@ -89,7 +89,7 @@ end
 <%
   for k,v in pairs(this.attributes) do %>
 	public var <%= v.name %>: <%if (isEnumForItem(v)) then %><%= capitalizedString(this.namespace) %>.<% end %><%= typeForItem(v) %><%
-	if (v.default == nil) then %>?<% else %> = <%= v.default %><%
+	if (v.default == nil) then %>?<% else %> = <%if (isEnumForItem(v)) then %>.<% end %><%= v.default %><%
 	end %> {
         willSet { gaxbValueWillChange("<%= v.name %>") }
         didSet { gaxbValueDidChange("<%= v.name %>") }

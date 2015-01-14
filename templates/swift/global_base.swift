@@ -85,13 +85,11 @@ public class <%= FULL_NAME_CAMEL %> {
 		--			gaxb_print("\t};\n")
 		--		end
 
-				gaxb_print("\t}");
+				gaxb_print("\t}\n\n");
 			end
 		end
 	end
-%>
-
-}
+%>}
 
 @objc(<%= FULL_NAME_CAMEL %>GaxbFactory) public class <%= FULL_NAME_CAMEL %>GaxbFactory : GaxbFactory {
 	public override func classWithName(name : String) -> GaxbElement? {
