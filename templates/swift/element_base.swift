@@ -45,13 +45,13 @@ end
 		<%if hasSuperclass(this) then %>super.visitLoad(context)<% else %>load(context)<% end %>
 		<%for k,v in pairs(this.sequences) do
 			if (v.name == "any") then
-		 		%>for any in anys { any.load(context) }
+		 		%>for any in anys { any.visitLoad(context) }
 		<%
 			elseif (isPlural(v)) then
-				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.load(context) }
+				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.visitLoad(context) }
 		<%
 			else
-		 		%><%= lowercasedString(v.name) %>.load(context)
+		 		%><%= lowercasedString(v.name) %>.visitLoad(context)
 		<%
 			end
 		end %>
@@ -59,13 +59,13 @@ end
 	public<% if hasSuperclass(this) then %> override<% end %> func visitUnload(context:AnyObject?) {
 		<%for k,v in pairs(this.sequences) do
 			if (v.name == "any") then
-		 		%>for any in anys { any.unload(context) }
+		 		%>for any in anys { any.visitUnload(context) }
 		<%
 			elseif (isPlural(v)) then
-				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.unload(context) }
+				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.visitUnload(context) }
 		<%
 			else
-		 		%><%= lowercasedString(v.name) %>.unload(context)
+		 		%><%= lowercasedString(v.name) %>.visitUnload(context)
 		<%
 			end
 		end
