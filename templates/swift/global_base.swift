@@ -11,11 +11,9 @@ import PlanetSwift
 public class <%= FULL_NAME_CAMEL %> {
 
 	public class func readFromFile(filepath : String) -> GaxbElement? {
-		if let xmlData = NSData(contentsOfFile: filepath) {
-			var error: NSError?
-			if let xmlDoc = AEXMLDocument(xmlData: xmlData, processNamespaces: true, error: &error) {
-				return <%= FULL_NAME_CAMEL %>.parseElement(xmlDoc.rootElement as AEXMLElement)
-			}
+		var error: NSError?
+		if let xmlString = String(contentsOfFile: filepath, encoding: NSUTF8StringEncoding, error: &error) {
+			return <%= FULL_NAME_CAMEL %>.readFromString(xmlString)
 		}
 		return nil
 	}
