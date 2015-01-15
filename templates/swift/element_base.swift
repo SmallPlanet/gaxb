@@ -23,7 +23,7 @@ public class <%= CAP_NAME %>Base<% if (hasSuperclass(this)) then %> : <%= superc
 
     init() { }
     public func gaxbInit() { }
-    
+
 <% else %>
     override public init() {
         super.init()
@@ -130,9 +130,6 @@ end
         willSet { gaxbValueWillChange("<%= v.name %>") }
         didSet { gaxbValueDidChange("<%= v.name %>") }
     }
-    public var <%= v.name %>Exists: Bool {
-        return <% if (v.default == nil) then %><%= v.name %> != nil<% else %> true<% end %>
-    }
     func <%= v.name %>AsString() -> String {<%
  if (v.type=="string") then %>
         return <%= v.name %><% if (v.default == nil) then %>!<% end %>
@@ -179,10 +176,8 @@ end %>
 -- MixedContent is a big todo
 	if (this.mixedContent) then %>
 @synthesize MixedContent;
-@synthesize MixedContentExists;
 -(void) setMixedContent:(NSString *)v
 {
-    MixedContentExists=YES;
     if([v isKindOfClass:[NSString class]] == NO)
     {
         v = [v description];
@@ -196,7 +191,6 @@ end %>
 - (NSString *) MixedContentAsString { return [MixedContent description]; }
 - (void) setMixedContentWithString:(NSString *)string
 {
-	MixedContentExists=YES;
 	[self setMixedContent:[[NSClassFromString(@"NSString") alloc] initWithString:string]];
 }
 <%
@@ -211,13 +205,14 @@ end %>
             }
         } else {
 <% for k,v in pairs(this.attributes) do
-%>            if <%= v.name %>Exists {
-                xml += " <%= v.name %>='\\(<%= v.name %>AsString())'"
-            }
+%><% if (v.default == nil) then %>            if <%= v.name %> != nil {
+    <% end %>            xml += " <%= v.name %>='\\(<%= v.name %>AsString())'"
+<% if (v.default == nil) then %>            }
+    <% end %>
 <% end
 %>        }
 <% if (hasSuperclass(this)) then %>
-        xml += super.attributesXML(useOriginalValues)
+    xml += super.attributesXML(useOriginalValues)
 <% end %>
         return xml
     }
