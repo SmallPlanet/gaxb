@@ -32,8 +32,8 @@
 		4644102519F97B1D002D09A3 /* lopcodes.c in Sources */ = {isa = PBXBuildFile; fileRef = 46440FF319F97B1D002D09A3 /* lopcodes.c */; };
 		4644102619F97B1D002D09A3 /* loslib.c in Sources */ = {isa = PBXBuildFile; fileRef = 46440FF519F97B1D002D09A3 /* loslib.c */; };
 		4644102719F97B1D002D09A3 /* lparser.c in Sources */ = {isa = PBXBuildFile; fileRef = 46440FF619F97B1D002D09A3 /* lparser.c */; };
-		4644102819F97B1D002D09A3 /* lstate.c in Sources */ = {isa = PBXBuildFile; fileRef = 46440FF819F97B1D002D09A3 /* lstate.c */; };
-		4644102919F97B1D002D09A3 /* lstring.c in Sources */ = {isa = PBXBuildFile; fileRef = 46440FFA19F97B1D002D09A3 /* lstring.c */; };
+		4644102819F97B1D002D09A3 /* lstate.c in Sources */ = {isa = PBXBuildFile; fileRef = 46440FF819F97B1D002D09A3 /* lstate.c */; settings = {COMPILER_FLAGS = "-Wno-shorten-64-to-32"; }; };
+		4644102919F97B1D002D09A3 /* lstring.c in Sources */ = {isa = PBXBuildFile; fileRef = 46440FFA19F97B1D002D09A3 /* lstring.c */; settings = {COMPILER_FLAGS = "-Wno-shorten-64-to-32"; }; };
 		4644102A19F97B1D002D09A3 /* lstrlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 46440FFC19F97B1D002D09A3 /* lstrlib.c */; };
 		4644102B19F97B1D002D09A3 /* ltable.c in Sources */ = {isa = PBXBuildFile; fileRef = 46440FFD19F97B1D002D09A3 /* ltable.c */; };
 		4644102C19F97B1D002D09A3 /* ltablib.c in Sources */ = {isa = PBXBuildFile; fileRef = 46440FFF19F97B1D002D09A3 /* ltablib.c */; };
