@@ -16,22 +16,12 @@ public class <%= CAP_NAME %>Base<% if (hasSuperclass(this)) then %> : <%= superc
     public var parent: GaxbElement?
     var originalValues = Dictionary<String, String> ()
 
-    func gaxbValueWillChange(name:String) { }
-    func gaxbValueDidChange(name:String) { }
     public func load(context:AnyObject?) { }
     public func unload(context:AnyObject?) { }
 
     init() { }
     public func gaxbInit() { }
 
-<% else %>
-    override public init() {
-        super.init()
-<% for k,v in pairs(this.attributes) do
-     if (v.default ~= nil) then
-%>        self.gaxbValueDidChange("<%= v.name %>")
-<%     end
-   end %>    }
 <% end
 
 local sequencesCount = 0;
@@ -126,10 +116,7 @@ end
   for k,v in pairs(this.attributes) do %>
 	public var <%= v.name %>: <%if (isEnumForItem(v)) then %><%= capitalizedString(this.namespace) %>.<% end %><%= typeForItem(v) %><%
 	if (v.default == nil) then %>?<% else %> = <%if (isEnumForItem(v)) then %>.<% end %><%= v.default %><%
-	end %> {
-        willSet { gaxbValueWillChange("<%= v.name %>") }
-        didSet { gaxbValueDidChange("<%= v.name %>") }
-    }
+	end %>
     func <%= v.name %>AsString() -> String {<%
  if (v.type=="string") then %>
         return <%= v.name %><% if (v.default == nil) then %>!<% end %>
@@ -182,11 +169,7 @@ end %>
     {
         v = [v description];
     }
-    [self gaxb_valueWillChange:@"MixedContent"];
-    [self willChangeValueForKey:@"MixedContentAsString"];
     MixedContent = v;
-    [self didChangeValueForKey:@"MixedContentAsString"];
-    [self gaxb_valueDidChange:@"MixedContent"];
 };
 - (NSString *) MixedContentAsString { return [MixedContent description]; }
 - (void) setMixedContentWithString:(NSString *)string
