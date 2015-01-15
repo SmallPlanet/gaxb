@@ -19,7 +19,7 @@ public class <%= FULL_NAME_CAMEL %> {
 	}
 
 	public class func readFromString(string : String) -> GaxbElement? {
-		if let xmlData = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+		if let xmlData = <%= FULL_NAME_CAMEL %>.processExpressions(string).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
 			var error: NSError?
 			if let xmlDoc = AEXMLDocument(xmlData: xmlData, error: &error) {
 				return <%= FULL_NAME_CAMEL %>.parseElement(xmlDoc.rootElement as AEXMLElement)

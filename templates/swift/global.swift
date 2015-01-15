@@ -6,4 +6,8 @@ CAP_NAME = capitalizedString(this.namespace);
 
 extension <%= CAP_NAME %> {
 
+  public class func processExpressions(string: String) -> String {
+    return string
+  }
+
 }
