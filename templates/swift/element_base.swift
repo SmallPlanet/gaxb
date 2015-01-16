@@ -157,7 +157,22 @@ end %>
 %>            default:
                 break
         }
-    }<%
+    }
+
+    <%= SUPERCLASS_OVERRIDE %>public func imprintAttributes(receiver: GaxbElement?) -> GaxbElement? {
+<% if (this.attributes) then
+%>       if let obj = receiver as? <%= CAP_NAME %> {
+<% for k,v in pairs(this.attributes) do
+if (v.default == nil) then %>            if <%= v.name %> != nil {
+    <% end
+%>            obj.<%= v.name %> = <%= v.name %>
+<% if (v.default == nil) then %>            }
+<% end
+end
+%>       }
+<% end %>       return <% if (hasSuperclass(this)) then %>super.imprintAttributes(receiver)<% else %>receiver<% end %>
+    }
+<%
 -- MixedContent is a big todo
 	if (this.mixedContent) then %>
 @synthesize MixedContent;
@@ -177,7 +192,6 @@ end %>
 <%
 	end
 %>
-
     <%= SUPERCLASS_OVERRIDE %>public func attributesXML(useOriginalValues:Bool) -> String {
         var xml = ""
         if useOriginalValues {
@@ -189,11 +203,11 @@ end %>
 %><% if (v.default == nil) then %>            if <%= v.name %> != nil {
     <% end %>            xml += " <%= v.name %>='\\(<%= v.name %>AsString())'"
 <% if (v.default == nil) then %>            }
-    <% end %>
-<% end
-%>        }
-<% if (hasSuperclass(this)) then %>
-    xml += super.attributesXML(useOriginalValues)
+    <% end
+end
+%>    }
+<% if (hasSuperclass(this)) then
+%>        xml += super.attributesXML(useOriginalValues)
 <% end %>
         return xml
     }
