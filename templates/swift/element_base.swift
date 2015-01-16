@@ -16,11 +16,9 @@ public class <%= CAP_NAME %>Base<% if (hasSuperclass(this)) then %> : <%= superc
     public var parent: GaxbElement?
     var originalValues = Dictionary<String, String> ()
 
-    public func load(context:AnyObject?) { }
-    public func unload(context:AnyObject?) { }
-
     init() { }
-    public func gaxbInit() { }
+    public func gaxbPrepare() { }
+    public func gaxbDidPrepare() { }
 
 <% end
 
@@ -41,35 +39,35 @@ for k,v in pairs(this.sequences) do
 end
 
 %>
-	public<% if hasSuperclass(this) then %> override<% end %> func visitLoad(context:AnyObject?) {
-		<%if hasSuperclass(this) then %>super.visitLoad(context)<% else %>load(context)<% end %>
+	public <%= SUPERCLASS_OVERRIDE %>func visitGaxbPrepare() {
+		<%if hasSuperclass(this) then %>super.visitGaxbPrepare()<% else %>gaxbPrepare()<% end %>
 		<%for k,v in pairs(this.sequences) do
 			if (v.name == "any") then
-		 		%>for any in anys { any.visitLoad(context) }
+		 		%>for any in anys { any.visitGaxbPrepare() }
 		<%
 			elseif (isPlural(v)) then
-				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.visitLoad(context) }
+				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.visitGaxbPrepare() }
 		<%
 			else
-		 		%><%= lowercasedString(v.name) %>.visitLoad(context)
+		 		%><%= lowercasedString(v.name) %>.visitGaxbPrepare()
 		<%
 			end
 		end %>
 	}
-	public<% if hasSuperclass(this) then %> override<% end %> func visitUnload(context:AnyObject?) {
+	public <%= SUPERCLASS_OVERRIDE %>func visitGaxbDidPrepare() {
+		<%if hasSuperclass(this) then %>super.visitGaxbDidPrepare()<% else %>gaxbDidPrepare()<% end %>
 		<%for k,v in pairs(this.sequences) do
 			if (v.name == "any") then
-		 		%>for any in anys { any.visitUnload(context) }
+		 		%>for any in anys { any.visitGaxbDidPrepare() }
 		<%
 			elseif (isPlural(v)) then
-				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.visitUnload(context) }
+				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.visitGaxbDidPrepare() }
 		<%
 			else
-		 		%><%= lowercasedString(v.name) %>.visitUnload(context)
+		 		%><%= lowercasedString(v.name) %>.visitGaxbDidPrepare()
 		<%
 			end
-		end
-		if hasSuperclass(this) then %>super.visitUnload(context)<% else %>load(context)<% end %>
+		end %>
 	}
 
 <%

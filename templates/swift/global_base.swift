@@ -22,7 +22,10 @@ public class <%= FULL_NAME_CAMEL %> {
 		if let xmlData = <%= FULL_NAME_CAMEL %>.processExpressions(string).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
 			var error: NSError?
 			if let xmlDoc = AEXMLDocument(xmlData: xmlData, error: &error) {
-				return <%= FULL_NAME_CAMEL %>.parseElement(xmlDoc.rootElement as AEXMLElement)
+				let parsedElement = <%= FULL_NAME_CAMEL %>.parseElement(xmlDoc.rootElement as AEXMLElement)
+				parsedElement?.visitGaxbPrepare()
+				//parsedElement?.visitGaxbDidPrepare()
+				return parsedElement
 			}
 		}
 		return nil
@@ -46,7 +49,6 @@ public class <%= FULL_NAME_CAMEL %> {
 					entity.setElement(subEntity, key: child.name)
 				}
 			}
-			entity.gaxbInit()
 			return entity
 		}
 		return nil
