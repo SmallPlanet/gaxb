@@ -121,9 +121,7 @@ end
 
 function cleanedName(v)
 	-- adds underscore to certain reserved names like class, id, restrict
-	if (v == "id") then
-		return "_id";
-	elseif (v == "class") then
+	if (v == "class") then
 		return "_class";
 	elseif (v == "restrict") then
 		return "_restrict";
