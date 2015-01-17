@@ -39,36 +39,21 @@ for k,v in pairs(this.sequences) do
 end
 
 %>
-	public <%= SUPERCLASS_OVERRIDE %>func visitGaxbPrepare() {
-		<%if hasSuperclass(this) then %>super.visitGaxbPrepare()<% else %>gaxbPrepare()<% end %>
-		<%for k,v in pairs(this.sequences) do
+	public <%= SUPERCLASS_OVERRIDE %>func visit(visitor: (GaxbElement) -> ()) {
+<%if hasSuperclass(this) then %>        super.visit(visitor)
+<% end %>        visitor(self)
+<%for k,v in pairs(this.sequences) do
 			if (v.name == "any") then
-		 		%>for any in anys { any.visitGaxbPrepare() }
-		<%
-			elseif (isPlural(v)) then
-				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.visitGaxbPrepare() }
-		<%
+		 		%>        for any in anys {
+            any.visit(visitor)
+        }
+<%		elseif (isPlural(v)) then
+				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.visit(visitor) }
+<%
 			else
-		 		%><%= lowercasedString(v.name) %>.visitGaxbPrepare()
-		<%
-			end
-		end %>
-	}
-	public <%= SUPERCLASS_OVERRIDE %>func visitGaxbDidPrepare() {
-		<%if hasSuperclass(this) then %>super.visitGaxbDidPrepare()<% else %>gaxbDidPrepare()<% end %>
-		<%for k,v in pairs(this.sequences) do
-			if (v.name == "any") then
-		 		%>for any in anys { any.visitGaxbDidPrepare() }
-		<%
-			elseif (isPlural(v)) then
-				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.visitGaxbDidPrepare() }
-		<%
-			else
-		 		%><%= lowercasedString(v.name) %>.visitGaxbDidPrepare()
-		<%
-			end
-		end %>
-	}
+		 		%><%= lowercasedString(v.name) %>.visit(visitor)
+<%		end
+		end %>	}
 
 <%
 

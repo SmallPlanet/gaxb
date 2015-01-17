@@ -23,8 +23,9 @@ public class <%= FULL_NAME_CAMEL %> {
 			var error: NSError?
 			if let xmlDoc = AEXMLDocument(xmlData: xmlData, error: &error) {
 				let parsedElement = <%= FULL_NAME_CAMEL %>.parseElement(xmlDoc.rootElement as AEXMLElement)
-				parsedElement?.visitGaxbPrepare()
-				//parsedElement?.visitGaxbDidPrepare()
+				parsedElement?.visit({ (element) -> () in
+					element.gaxbPrepare()
+				})
 				return parsedElement
 			}
 		}
