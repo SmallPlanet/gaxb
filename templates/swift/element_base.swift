@@ -41,7 +41,8 @@ end
 %>
 	public <%= SUPERCLASS_OVERRIDE %>func visit(visitor: (GaxbElement) -> ()) {
 <%if hasSuperclass(this) then %>        super.visit(visitor)
-<% end %>        visitor(self)
+<% else %>        visitor(self)
+<% end %>
 <%for k,v in pairs(this.sequences) do
 			if (v.name == "any") then
 		 		%>        for any in anys {
