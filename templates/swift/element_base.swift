@@ -14,7 +14,7 @@ public class <%= CAP_NAME %>Base<% if (hasSuperclass(this)) then %> : <%= superc
 <% if (hasSuperclass(this) == false) then %>
     public var xmlns: String = "<%= this.namespaceURL %>"
     public var parent: GaxbElement?
-    var originalValues = Dictionary<String, String> ()
+    public var originalValues = Dictionary<String, String> ()
 
     init() { }
     public func gaxbPrepare() { }
@@ -134,6 +134,7 @@ end %>
 	end %>
     <%= SUPERCLASS_OVERRIDE %>public func setAttribute(value: String, key:String) {
 <% if (hasSuperclass(this)) then %>        super.setAttribute(value, key:key)
+<% else %>        originalValues[key] = value
 <% end %>        switch key {
 <% for k,v in pairs(this.attributes) do
 %>            case "<%= v.name %>":
@@ -148,12 +149,10 @@ end %>
 <% if (this.attributes) then
 %>       if let obj = receiver as? <%= CAP_NAME %> {
 <% for k,v in pairs(this.attributes) do
-if (v.default == nil) then %>            if <%= v.name %> != nil {
-    <% end
-%>            obj.<%= v.name %> = <%= v.name %>
-<% if (v.default == nil) then %>            }
+%>            if <%if (v.default == nil) then %><%= v.name %> != nil && <% end %>obj.originalValues["<%= v.name %>"] == nil {
+                obj.<%= v.name %> = <%= v.name %>
+            }
 <% end
-end
 %>       }
 <% end %>       return <% if (hasSuperclass(this)) then %>super.imprintAttributes(receiver)<% else %>receiver<% end %>
     }
