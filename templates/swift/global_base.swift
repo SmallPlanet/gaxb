@@ -10,7 +10,7 @@ import PlanetSwift
 
 public class <%= FULL_NAME_CAMEL %> {
 
-	public class func readFromFile(filepath : String) -> GaxbElement? {
+	public class func readFromFile(filepath: String, prepare: Bool = true) -> GaxbElement? {
 		var error: NSError?
 		if let xmlString = String(contentsOfFile: filepath, encoding: NSUTF8StringEncoding, error: &error) {
 			return <%= FULL_NAME_CAMEL %>.readFromString(xmlString)
@@ -18,12 +18,14 @@ public class <%= FULL_NAME_CAMEL %> {
 		return nil
 	}
 
-	public class func readFromString(string : String) -> GaxbElement? {
+	public class func readFromString(string: String, prepare: Bool = true) -> GaxbElement? {
 		if let xmlData = <%= FULL_NAME_CAMEL %>.processExpressions(string).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
 			var error: NSError?
 			if let xmlDoc = AEXMLDocument(xmlData: xmlData, error: &error) {
 				let parsedElement = <%= FULL_NAME_CAMEL %>.parseElement(xmlDoc.rootElement as AEXMLElement)
-				parsedElement?.visit() { $0.gaxbPrepare() }
+				if prepare {
+					parsedElement?.visit() { $0.gaxbPrepare() }
+				}
 				return parsedElement
 			}
 		}
