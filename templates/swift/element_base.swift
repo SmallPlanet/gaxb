@@ -59,29 +59,26 @@ end
 <%
 
 %>    <%= SUPERCLASS_OVERRIDE %>public func setElement(element: GaxbElement, key:String) {
-<% if (hasSuperclass(this)) then %>        super.setElement(element, key:key)
-<%  end
-   if (sequencesCount > 0) then
-%>        switch key {<%
+<%   if (sequencesCount > 0) then
       for k,v in pairs(this.sequences) do
         if (v.name ~= "any") then %>
-            case "<%= capitalizedString(v.name) %>":
                 if let e = element as? <%= capitalizedString(v.name) %> {
 <% if (isPlural(v)) then %>                    <%= lowercasedString(pluralName(v.name)) %>.append(e)
                     e.setParent(self)
 <% else %>                <%= lowercasedString(v.name) %> = e
                     e.setParent(self)
-<%   end %>                }<%
-    end %>
-            default:<%    end
+<% end %>                   return
+                }<%
+    end
+  end
+  end
     if (hasAnys) then %>
                 anys.append(element)
                 element.setParent(self)
-<% else %>
-                break
-<% end %>        }
+<% end if (not hasAnys and hasSuperclass(this)) then %>
+        super.setElement(element, key:key)
 <%  end %>    }
-<% if (hasSuperclass(this) == false) then %>
+<% if (hasSuperclass(this) == false) then  %>
     public func setParent(parent: GaxbElement) {
         self.parent = parent
     }
@@ -220,7 +217,7 @@ end
         xml += attributesXML(useOriginalValues)
 
         var sXML = sequencesXML(useOriginalValues)
-        xml += sXML == "" ? "/>" : ">\\n\\(sXML)</<%= CAP_NAME %>>"
+        xml += sXML == "" ? "/>" : ">\\(sXML)</<%= CAP_NAME %>>"
         return xml
     }
 
