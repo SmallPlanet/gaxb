@@ -49,7 +49,7 @@ end
             any.visit(visitor)
         }
 <%		elseif (isPlural(v)) then
-				%>for child in <%= lowercasedString(pluralName(v.name)) %> { child.visit(visitor) }
+				%>        for child in <%= lowercasedString(pluralName(v.name)) %> { child.visit(visitor) }
 <%
 			else
 		 		%><%= lowercasedString(v.name) %>.visit(visitor)
@@ -58,17 +58,17 @@ end
 
 <%
 
-%>    <%= SUPERCLASS_OVERRIDE %>public func setElement(element: GaxbElement, key:String) {
-<%   if (sequencesCount > 0) then
+%>    <%= SUPERCLASS_OVERRIDE %>public func setElement(element: GaxbElement, key:String) {<%
+    if (sequencesCount > 0) then
       for k,v in pairs(this.sequences) do
         if (v.name ~= "any") then %>
-                if let e = element as? <%= capitalizedString(v.name) %> {
-<% if (isPlural(v)) then %>                    <%= lowercasedString(pluralName(v.name)) %>.append(e)
-                    e.setParent(self)
-<% else %>                <%= lowercasedString(v.name) %> = e
-                    e.setParent(self)
-<% end %>                   return
-                }<%
+        if let e = element as? <%= capitalizedString(v.name) %> {
+<% if (isPlural(v)) then %>           <%= lowercasedString(pluralName(v.name)) %>.append(e)
+           e.setParent(self)
+<% else %>           <%= lowercasedString(v.name) %> = e
+           e.setParent(self)
+<% end %>           return
+        }<%
     end
   end
   end
