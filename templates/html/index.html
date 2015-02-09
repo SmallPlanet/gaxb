@@ -68,11 +68,13 @@ for k,v in pairs(schema.elements) do
             elseif (isPlural(v1)) then
                 sequenceName = lowercasedString(pluralName(v1.name))
                 typeName = simpleTypeForItem(v1)
+                typeName = "<a href=\"#element_"..typeName.."\">"..typeName.."</a>"
             else
                 sequenceName = lowercasedString(v.name)
+                typeName = "<a href=\"#element_"..typeName.."\">"..typeName.."</a>"
             end
 %>
-            <li class="docsAttribute"><span class="docsAttributeTitle"><%=sequenceName%></span> (<span class="docsAttributeType">List of <%=typeName%> elements</span>) - <span class="docsAttributeDescription">description</span></li>
+            <li class="docsAttribute"><span class="docsAttributeTitle"><%=sequenceName%></span> (<span class="docsAttributeType">List of <%=typeName%> elements</span>)<!-- - <span class="docsAttributeDescription">description</span>--></li>
 <%
         end
         for k1,v1 in pairs(v.attributes) do
