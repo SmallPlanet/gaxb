@@ -178,6 +178,10 @@ end
 function typeNameForSimpleType(v)
 	local t = simpleTypeForItem(v)
 	local name = string.split(t, ":")[2]
+	return mappedNameForSimpleTypeName(name)
+end
+
+function mappedNameForSimpleTypeName(name)
 	local mappedName = TYPEMAP[name];
 	if (mappedName ~= nil) then
 		return mappedName
