@@ -5,13 +5,13 @@ schemaName = capitalizedString(this.namespace)
   <head>
     <meta charset="utf-8">
     <title><%=schemaName%> Reference</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <link rel="stylesheet" href="<%=schemaName%>.css">
+    <!--<script src="script.js"></script>-->
   </head>
   <body>
     <div id="index">
         <div class="indexTitle"><%=schemaName%></div><br/>
-        <div class="indexSectionHeader">Elements</div>
+        <div class="indexSectionHeader"><a href="#elements">Elements</a></div>
         <ul class="indexList">
 <%
 for k,v in pairs(schema.elements) do
@@ -24,24 +24,36 @@ end
 %>
         </ul>
 
-        <div class="indexSectionHeader">Enums</div>
+        <div class="indexSectionHeader"><a href="#enumerations">Enumerations</a></div>
         <ul class="indexList">
-            <li>lorum</li>
-            <li>ipsum</li>
-            <li>dolor</li>
-            <li>sitamet</li>
+<%
+for k,v in pairs(schema.simpleTypes) do
+    if (isEnumForItem(v)) then
+        if (schema.namespace == v.namespace) then
+%>          <li><a href="#enum_<%=v.name%>"><%=v.name%></a></li>
+<%
+        end
+    end
+end
+%>
         </ul>
-        <div class="types">Enums</div>
+        <div class="types"><a href="#simpleTypes">Simple Types</a></div>
         <ul class="indexList">
-            <li>lorum</li>
-            <li>ipsum</li>
-            <li>dolor</li>
-            <li>sitamet</li>
+<%
+for k,v in pairs(schema.simpleTypes) do
+    if (not isEnumForItem(v)) then
+        if (schema.namespace == v.namespace) then
+%>          <li><a href="#simpleType_<%=v.name%>"><%=v.name%></a></li>
+<%
+        end
+    end
+end
+%>
         </ul>
     </div>
     <div id="docs">
         <div class="docsTitle"><%=schemaName%></div><br/>
-        <div class="docsSectionHeader" name="elements">Elements</div><br/>
+        <div class="docsSectionHeader" id="elements">Elements</div><br/>
 <%
 for k,v in pairs(schema.elements) do
     -- if not in the schema namespace, skip
@@ -49,13 +61,13 @@ for k,v in pairs(schema.elements) do
 %>      <div class="docsElementName" id="element_<%=className(v)%>"><%=className(v)%></div>
         <ul class="docsList">
 <%      for k1,v1 in pairs(v.sequences) do
-            sequenceName = v.name
-            typeName = v.name
-            if (v.name == "any") then
-                typeName = "any types of"
-            elseif (isPlural(v)) then
-                sequenceName = lowercasedString(pluralName(v.name))
-                typeName = simpleTypeForItem(v)
+            local sequenceName = v1.name
+            local typeName = v1.name
+            if (typeName == "any") then
+                typeName = "any type of"
+            elseif (isPlural(v1)) then
+                sequenceName = lowercasedString(pluralName(v1.name))
+                typeName = simpleTypeForItem(v1)
             else
                 sequenceName = lowercasedString(v.name)
             end
@@ -64,13 +76,62 @@ for k,v in pairs(schema.elements) do
 <%
         end
         for k1,v1 in pairs(v.attributes) do
+            local typeName = typeForItem(v1)
+            if isEnumForItem(v1) then
+                typeName = "<a href=\"#enum_"..typeName.."\">"..typeName.."</a>"
+            elseif isGaxbTypeForItem(v1) then
+                typeName = typeNameForSimpleType(v1)
+                typeName = "<a href=\"#simpleType_"..typeName.."\">"..typeName.."</a>"
+            end
 %>
-            <li class="docsAttribute"><span class="docsAttributeTitle"><%=v1.name%></span> (<span class="docsAttributeType"><%=v1.type%></span>) - <span class="docsAttributeDescription">description</span></li>
+            <li class="docsAttribute"><span class="docsAttributeTitle"><%=v1.name%></span> (<span class="docsAttributeType"><%=typeName%></span>)<!-- - <span class="docsAttributeDescription">description</span>--></li>
 <%
         end
 %>
         </ul>
 <%
+    end
+end
+%>
+        <div class="docsSectionHeader" id="enumerations">Enumerations</div><br/>
+
+<%
+for k,v in pairs(schema.simpleTypes) do
+    if (isEnumForItem(v)) then
+        if (schema.namespace == v.namespace) then
+%>      <div class="docsElementName" id="enum_<%=v.name%>"><%=v.name%></div>
+        <ul class="docsList">
+<%
+            local appinfo = gaxb_xpath(v.xml, "./XMLSchema:annotation/XMLSchema:appinfo");
+            local enums = gaxb_xpath(v.xml, "./XMLSchema:restriction/XMLSchema:enumeration");
+
+            if(appinfo ~= nil) then
+                appinfo = appinfo[1].content;
+            end
+
+            if(appinfo == "ENUM" or appinfo == "NAMED_ENUM") then
+                for k,v in pairs(enums) do
+%>
+            <li><%=v.attributes.value%></li>
+<%
+                end
+            end
+%>
+        </ul>
+<%
+        end
+    end
+end
+%>
+
+        <div class="docsSectionHeader" id="simpleTypes">Simple Types</div><br/>
+<%
+for k,v in pairs(schema.simpleTypes) do
+    if (not isEnumForItem(v)) then
+        if (schema.namespace == v.namespace) then
+%>      <div class="docsElementName" id="simpleType_<%=v.name%>"><%=v.name%></div><br/>
+<%
+        end
     end
 end
 %>

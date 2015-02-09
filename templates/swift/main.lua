@@ -19,29 +19,6 @@ TYPEMAP["date"] = "Date";
 TYPEMAP["dateTime"] = "Date";
 
 
-OBJECTMAP = {};
-OBJECTMAP["BOOL"] = "Bool ";
-OBJECTMAP["boolean"] = "Bool ";
-OBJECTMAP["short"] = "Int ";
-OBJECTMAP["int"] = "Int ";
-OBJECTMAP["integer"] = "Int ";
-OBJECTMAP["nonNegativeInteger"] = "Int ";
-OBJECTMAP["positiveInteger"] = "Int ";
-OBJECTMAP["enum"] = "Enum ";
---OBJECTMAP["ENUM_MASK"] = "Int"; -- ??
---OBJECTMAP["named_enum"] = "NSNumber";
-OBJECTMAP["long"] = "Int ";
-OBJECTMAP["string"] = "String ";
-OBJECTMAP["base64Binary"] = "Data ";
-OBJECTMAP["string"] = "String ";
-OBJECTMAP["decimal"] = "Double ";
-OBJECTMAP["float"] = "Float ";
-OBJECTMAP["double"] = "Double ";
-OBJECTMAP["byte"] = "Byte ";
-OBJECTMAP["date"] = "Date ";
-OBJECTMAP["dateTime"] = "Date ";
-
-
 function printAllKeys(t)
 	print("===============")
 	for k,v in pairs(t) do

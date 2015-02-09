@@ -1,46 +1,25 @@
 
 TYPEMAP = {};
-TYPEMAP["boolean"] = "Bool";
-TYPEMAP["short"] = "Int";
-TYPEMAP["int"] = "Int";
-TYPEMAP["integer"] = "Int";
-TYPEMAP["nonNegativeInteger"] = "Int";
-TYPEMAP["positiveInteger"] = "Int";
-TYPEMAP["enum"] = "Int";
-TYPEMAP["long"] = "long";
-TYPEMAP["string"] = "String";
-TYPEMAP["base64Binary"] = "Data";
-TYPEMAP["string"] = "String";
-TYPEMAP["decimal"] = "Double";
-TYPEMAP["float"] = "Float";
-TYPEMAP["double"] = "Double";
-TYPEMAP["byte"] = "Character";
-TYPEMAP["date"] = "Date";
-TYPEMAP["dateTime"] = "Date";
-
-
-OBJECTMAP = {};
-OBJECTMAP["BOOL"] = "Bool ";
-OBJECTMAP["boolean"] = "Bool ";
-OBJECTMAP["short"] = "Int ";
-OBJECTMAP["int"] = "Int ";
-OBJECTMAP["integer"] = "Int ";
-OBJECTMAP["nonNegativeInteger"] = "Int ";
-OBJECTMAP["positiveInteger"] = "Int ";
-OBJECTMAP["enum"] = "Enum ";
---OBJECTMAP["ENUM_MASK"] = "Int"; -- ??
---OBJECTMAP["named_enum"] = "NSNumber";
-OBJECTMAP["long"] = "Int ";
-OBJECTMAP["string"] = "String ";
-OBJECTMAP["base64Binary"] = "Data ";
-OBJECTMAP["string"] = "String ";
-OBJECTMAP["decimal"] = "Double ";
-OBJECTMAP["float"] = "Float ";
-OBJECTMAP["double"] = "Double ";
-OBJECTMAP["byte"] = "Byte ";
-OBJECTMAP["date"] = "Date ";
-OBJECTMAP["dateTime"] = "Date ";
-
+TYPEMAP["boolean"] = "true / false";
+TYPEMAP["short"] = "whole number";
+TYPEMAP["int"] = "whole number";
+TYPEMAP["integer"] = "whole number";
+TYPEMAP["nonNegativeInteger"] = "non-negative whole number";
+TYPEMAP["positiveInteger"] = "positive whole number";
+TYPEMAP["enum"] = "whole number";
+TYPEMAP["long"] = "whole number";
+TYPEMAP["string"] = "string";
+TYPEMAP["base64Binary"] = "data";
+TYPEMAP["string"] = "string";
+TYPEMAP["decimal"] = "number";
+TYPEMAP["float"] = "number";
+TYPEMAP["double"] = "number";
+TYPEMAP["byte"] = "character";
+TYPEMAP["date"] = "date";
+TYPEMAP["dateTime"] = "date / time";
+TYPEMAP["rect"] = "rectangle";
+TYPEMAP["point"] = "point";
+TYPEMAP["color"] = "color";
 
 function printAllKeys(t)
 	print("===============")
@@ -194,6 +173,17 @@ function simpleTypeForItem(v)
 	print(table.tostring(t))
 	print(typeForItem(v))
 	return "UNDEFINEDX"
+end
+
+function typeNameForSimpleType(v)
+	local t = simpleTypeForItem(v)
+	local name = string.split(t, ":")[2]
+	local mappedName = TYPEMAP[name];
+	if (mappedName ~= nil) then
+		return mappedName
+	else
+		return name
+	end
 end
 
 function isEnumForItem(v)
@@ -435,3 +425,4 @@ end
 
 print("Generating index.html ...")
 gaxb_template("index.html", capitalizedString(schema.namespace)..".html", schema);
+gaxb_template("style.css", capitalizedString(schema.namespace)..".css", schema);
