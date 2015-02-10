@@ -1,15 +1,53 @@
 body {
     font-family: Helvetica;
+    font-size: 16px;
+    line-height: 1.33em;
+    text-decoration: none!important;
+}
+
+a {
+    color: red;
+    text-decoration: none;
+}
+
+ul {
+    margin-left: .5em!important;
+    padding-left: .5em!important;
+}
+
+h1 {
+    margin-bottom: 1em;
+}
+
+h2 {
+    margin-top: 3em;
+    text-transform: uppercase;
+}
+
+h3 {
+    margin-top: 2em;
+}
+hr {
+    width: 3em;
 }
 
 #index {
     float:left;
-    width:20%;
+    width:10%;
+    position: fixed!important;
+    top: 0;
+    left: 0;
+    padding: 2em;
+    display: block;
+    background-color: #efefef;
+    height: 100%;
 }
 
 #docs {
     float:right;
     width:80%;
+    padding: 1em;
+    display: block;
 }
 
 .indexTitle {
