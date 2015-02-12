@@ -3,6 +3,7 @@ body {
     font-size: 16px;
     line-height: 1.33em;
     text-decoration: none!important;
+    margin: 0;
 }
 
 a {
@@ -33,21 +34,18 @@ hr {
 
 #index {
     float:left;
-    width:10%;
-    position: fixed!important;
-    top: 0;
-    left: 0;
+    width:100%;
     padding: 2em;
+    margin: 0;
     display: block;
     background-color: #efefef;
-    height: 100%;
 }
 
 #docs {
-    float:right;
-    width:80%;
-    padding: 1em;
-    display: block;
+    float:left;
+    width:100;
+       padding: 2em;
+       display: block;
 }
 
 .indexTitle {
@@ -65,4 +63,31 @@ hr {
 
 .docsSectionHeader {
     font-size:18pt;
+}
+
+
+/*--------RESPONSIVENESS----------*/
+
+@media (min-width: 1024px) {
+
+#index {
+    float:left;
+    width:12em;
+    position: fixed!important;
+    top: 0;
+    left: 0;
+    padding: 2em;
+    display: block;
+    background-color: #efefef;
+    height: 100%;
+}
+
+#docs {
+    float:right;
+    width:70%;
+       padding: 1em;
+       display: block;
+}
+
+
 }
