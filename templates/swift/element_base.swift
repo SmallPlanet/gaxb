@@ -95,7 +95,7 @@ end
 <%
   for k,v in pairs(this.attributes) do %>
 	public var <%= v.name %>: <%if (isEnumForItem(v)) then %><%= capitalizedString(this.namespace) %>.<% end %><%= typeForItem(v) %><%
-	if (v.default == nil) then %>?<% else %> = <%if (isEnumForItem(v)) then %>.<% end %><%= v.default %><%
+	if (v.default == nil) then %>?<% else %> = <%if (isEnumForItem(v)) then %>.<% end %><% if (typeNameForItem(v)=="String") then %>"<% end %><%= v.default %><% if (typeNameForItem(v)=="String") then %>"<% end %><%
 	end %>
     func <%= v.name %>AsString() -> String {<%
  if (v.type=="string") then %>
