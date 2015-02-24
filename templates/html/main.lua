@@ -110,7 +110,6 @@ function cleanedName(v)
 end
 
 function className(x)
-	--printAllKeys(x)
 	return capitalizedString(x.name);
 end
 
@@ -127,9 +126,9 @@ end
 
 function superclassForItem(v)
 	if(v.extension ~= nil) then
-		return className(v.extension)
+		return v.extension
 	end
-	return ""
+	return nil
 end
 
 function hasSuperclass(v)

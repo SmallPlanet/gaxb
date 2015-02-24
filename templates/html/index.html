@@ -1,5 +1,27 @@
 <%
 schemaName = capitalizedString(this.namespace)
+
+function elementComparator(e1,e2)
+    if className(e1) < className(e2) then
+        return true
+    end
+end
+
+function simpleComparator(e1,e2)
+    if e1.name < e2.name then
+        return true
+    end
+end
+
+function enumValueComparator(e1,e2)
+    if e1.attributes.value < e2.attributes.value then
+        return true
+    end
+end
+
+table.sort(schema.elements, elementComparator)
+table.sort(schema.simpleTypes, simpleComparator)
+
 %><!DOCTYPE html>
 <html lang="en">
   <head>
@@ -60,6 +82,18 @@ for k,v in pairs(schema.elements) do
     -- if not in the schema namespace, skip
     if (schema.namespace == v.namespace) then
 %>      <h3 id="element_<%=className(v)%>"><%=className(v)%></h3>
+<%  if (superclassForItem(v) ~= nil) then %>
+        <div>(<%=className(v)%> <%
+
+            local p = superclassForItem(v)
+            while(p ~= nil) do
+                %> &#8592; <a href="#element_<%=className(p)%>"><%=className(p)%></a><%
+                p = superclassForItem(p)
+            end
+
+
+            %>)</div>
+<% end %>
 <%
         for k1,v1 in pairs(v.appinfos) do
 %>
@@ -67,7 +101,8 @@ for k,v in pairs(schema.elements) do
 <%      end
 %>
         <ul class="docsList">
-<%      for k1,v1 in pairs(v.sequences) do
+<%      table.sort(v.sequences, simpleComparator)
+        for k1,v1 in pairs(v.sequences) do
             local sequenceName = v1.name
             local typeName = v1.name
             if (typeName == "any") then
@@ -84,6 +119,7 @@ for k,v in pairs(schema.elements) do
             <li class="docsAttribute"><span class="docsAttributeTitle"><%=sequenceName%></span> (<span class="docsAttributeType">List of <%=typeName%> elements</span>)<!-- - <span class="docsAttributeDescription">description</span>--></li>
 <%
         end
+        table.sort(v.attributes, simpleComparator)
         for k1,v1 in pairs(v.attributes) do
             local typeName = typeForItem(v1)
             if isEnumForItem(v1) then
@@ -118,6 +154,7 @@ for k,v in pairs(schema.simpleTypes) do
                 appinfo = appinfo[1].content;
             end
 
+            table.sort(enums, enumValueComparator)
             if(appinfo == "ENUM" or appinfo == "NAMED_ENUM") then
                 for k,v in pairs(enums) do
 %>
