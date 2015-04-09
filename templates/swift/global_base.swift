@@ -22,7 +22,7 @@ public class <%= FULL_NAME_CAMEL %> {
 		if let xmlData = <%= FULL_NAME_CAMEL %>.processExpressions(string).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
 			var error: NSError?
 			if let xmlDoc = AEXMLDocument(xmlData: xmlData, processNamespaces: true, error: &error) {
-				let parsedElement = <%= FULL_NAME_CAMEL %>.parseElement(xmlDoc.root as AEXMLElement)
+				let parsedElement = <%= FULL_NAME_CAMEL %>.parseElement(xmlDoc.root)
 				if prepare {
 					parsedElement?.visit() { $0.gaxbPrepare() }
 				}
@@ -43,7 +43,7 @@ public class <%= FULL_NAME_CAMEL %> {
 		let namespace = self.namespaceForElement(element)
 		if let entity : GaxbElement = GaxbFactory.element(namespace, name:element.name) {
 			for (attribute, value) in element.attributes {
-				entity.setAttribute(value as String, key: attribute as String)
+				entity.setAttribute(value as! String, key: attribute as! String)
 			}
 			for child in element.children {
 				if let subEntity = <%= FULL_NAME_CAMEL %>.parseElement(child) {
