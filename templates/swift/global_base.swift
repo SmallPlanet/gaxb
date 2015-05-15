@@ -8,25 +8,39 @@ FULL_NAME_CAMEL = capitalizedString(this.namespace)
 
 import Foundation
 
+private let xmlCache = NSCache()
+
 public class <%= FULL_NAME_CAMEL %> {
 
-	public class func readFromFile(filepath: String, prepare: Bool = true) -> GaxbElement? {
+	public class func readFromFile(filePath: String, prepare: Bool = true) -> GaxbElement? {
 		var error: NSError?
-		if let xmlString = String(contentsOfFile: filepath, encoding: NSUTF8StringEncoding, error: &error) {
+		if let xmlString = String(contentsOfFile: filePath, encoding: NSUTF8StringEncoding, error: &error) {
 			return <%= FULL_NAME_CAMEL %>.readFromString(xmlString)
 		}
 		return nil
 	}
 
 	public class func readFromString(string: String, prepare: Bool = true) -> GaxbElement? {
+
+		if let cachedElement = xmlCache.objectForKey(string) as? GaxbElement {
+			let copiedCache = cachedElement.copy()
+			if prepare {
+				copiedCache.visit() { $0.gaxbPrepare() }
+			}
+			return copiedCache
+		}
+
 		if let xmlData = <%= FULL_NAME_CAMEL %>.processExpressions(string).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
 			var error: NSError?
-			if let xmlDoc = AEXMLDocument(xmlData: xmlData, processNamespaces: true, error: &error) {
-				let parsedElement = <%= FULL_NAME_CAMEL %>.parseElement(xmlDoc.root)
+			if let xmlDoc = AEXMLDocument(xmlData: xmlData, processNamespaces: true, error: &error), parsedElement = <%= FULL_NAME_CAMEL %>.parseElement(xmlDoc.root) {
+
+				xmlCache.setObject(parsedElement as! AnyObject, forKey:string)
+
+				let copiedElement = parsedElement.copy()
 				if prepare {
-					parsedElement?.visit() { $0.gaxbPrepare() }
+					copiedElement.visit() { $0.gaxbPrepare() }
 				}
-				return parsedElement
+				return copiedElement
 			}
 		}
 		return nil
@@ -108,21 +122,3 @@ end %>
 		}
 	}
 }
-
-
-//+ (id) readFromData:(NSData *)data withParent:(id)p AndMemoryLite:(BOOL)memLite
-//+ (id) readFromData:(NSData *)data withParent:(id)p
-//+ (id) readFromData:(NSData *)data
-//+ (id) readFromFile:(NSString *)path
-//+ (id) readFromString:(NSString *)xml_string
-//+ (id) readFromDataFast:(NSData *)data
-//+ (id) readFromFileFast:(NSString *)path
-//+ (id) readFromStringFast:(NSString *)xml_string
-//+ (NSString *) writeToString:(id)object
-//+ (NSString *) writeOriginalXMLToString:(id)object
-//+ (void) write:(id)object toFile:(NSString *)path
-//+ (NSData *) writeToData:(id)object
-//- (id) initWithParent:(id)p AndMemoryLite:(BOOL)m
-//static char * DecodeAllAmpersands(char * src)
-//static void SetValue(NSObject * object, NSObject * childObject, const char * elementName, const char * className)
-//static NSObject * CreateElementWithNamespace(TBXMLElement * element, const char * currentNamespace, NSMutableDictionary * namespaceMap, NSObject * parent)
