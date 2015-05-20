@@ -128,7 +128,7 @@ end
 	end %>
     func <%= v.name %>AsString() -> String {<%
  if (v.type=="string") then %>
-        return <%= v.name %><% if (v.default == nil) then %>!<% end %>
+        return <%= v.name %> ?? ""
 <% elseif (isEnumForItem(v)) then %>
         return <%= v.name %><% if (v.default == nil) then %>!<% end %>.rawValue
 <% elseif (isGaxbTypeForItem(v)) then %>
