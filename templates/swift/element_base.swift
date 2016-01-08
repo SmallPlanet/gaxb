@@ -12,7 +12,7 @@ import UIKit
 public class <%= CAP_NAME %>Base<% if (hasSuperclass(this)) then %> : <%= superclassForItem(this) %><% else %> : GaxbElement<% end %> {
 <% if (hasSuperclass(this) == false) then %>
     public var xmlns: String = "<%= this.namespaceURL %>"
-    public var parent: GaxbElement?
+    public weak var parent: GaxbElement?
     public var originalValues = Dictionary<String, String> ()
 
     public required init() { }
