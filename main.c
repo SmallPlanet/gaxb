@@ -364,7 +364,7 @@ void copyElementAppinfosToLua(xmlNode *a_node)
    {
       if (!xmlStrcmp(cur_node->name, XMLCHAR("appinfo")))
       {
-         lua_run("table.insert(TEMP.appinfos, '%s')", trimNewline((char *)cur_node->children->content));
+        lua_run("table.insert(TEMP.appinfos, [[%s]])", trimNewline((char *)cur_node->children->content));
       }
    }
 }
